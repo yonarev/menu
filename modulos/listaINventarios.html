@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combobox e Input desde Local Storage</title>
+</head>
+
+<body onload="llenaComboInventarios()">
+  <select id="ListaInventarios"></select>
+  <input type="text" id="idInventarioTrans" readonly>
+  <script>
+    function llenaComboInventarios(){
+        // Obtener los datos de local storage
+        let inventarios = JSON.parse(localStorage.getItem('inventarios'));
+        // Obtener los elementos del DOM
+        let listaInventarios = document.getElementById('ListaInventarios');
+        let idInventarioSel = document.getElementById('idInventarioTrans');
+        // Llenar el combobox con los inventarios
+        inventarios.forEach(inventario => {
+          let option = document.createElement('option');
+          option.text = inventario.inventario;
+          option.value = inventario.idInventario;
+          listaInventarios.add(option);
+        });
+        // Mostrar el idInventario del primer elemento en el input
+        idInventarioSel.value = inventarios[0].idInventario;
+        // Actualizar el idInventario en el input al seleccionar un elemento del combobox
+        listaInventarios.addEventListener('change', function() {
+          idInventarioSel.value = this.value;
+        });
+    }
+  </script>
+</body>
+
+</html>

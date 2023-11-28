@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indice apps</title>
+    <link rel="stylesheet" href="./index.css">
+  </head>
+  <style>
+    /* ---------------------- modal psw encriptada */
+    #modalPswUnica {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    #modal-container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    #modal-container h2 {
+      color: #333;
+    }
+
+    #modal-container input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #modal-container button {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #modal-container button.btnModCancel {
+      background-color: #f44336;
+    }
+  </style>
+  <body>
+    <section>
+      <div id="usuarioLog"></div>
+    </section>
+    <!--------------------------- menu nav -------------------------------->
+    <div id="navbar">
+        <a onclick="desactivaUsuarios();window.location.reload()" href="#">&#x2740</a>
+        <!-- ingreso usuarios -->
+        <div class="dropdown">
+          <button class="dropbtn">Ing.</button>
+          <div class="dropdown-content">
+              <!-- <login -->
+              <div class="destacado submenu">
+                <a onclick="desactivaUsuarios();window.location.reload()" href="#">Login</a>
+              </div>
+              <!-- logout -->
+              <div class="destacado submenu">
+                <a onclick="setInicio();desactivaMod('formLogin')" href="#">Logout</a>
+              </div>
+              <!-- admin -->
+              <div id="navLogAdm" class="destacado submenu">
+                <a onclick="desactivaMod('modCnx');activaMod('modUsu');cargaUsuarios();ocultarTablaMod('seccionTblUsu')" href="#">&#x25b8 Admin</a>
+              </div>
+              <!-- elimina local -->
+              <div id="navLogEli" class="destacado submenu">
+                <a onclick="eliminarLocal('usuarios');vaciaTabla('tablaUsuarios')" href="#">Eliminar</a>
+              </div>
+              <!-- graba json -->
+              <div id="navLogBck" class="destacado submenu">
+                <a onclick="grabaArchivoJsonUsu(event)" href="#">Bckp Json</a>
+              </div> 
+              <!-- carga json -->
+              <div id="navLogLee" class="destacado submenu">
+                <a onclick="cargarJSONenLocalStorage('usuarios');" href="#">Carga Json</a>
+              </div>
+              <!-- enkirpta usuarios -->
+              <div id="navLogEnc" class="destacado submenu">
+                <a onclick="encriptaArchivoJsonUsuarios()" href="#">Enkripta Us</a>
+              </div>
+              <!-- desencripta usuarios -->
+              <div id="navLogLec" class="destacado submenu">
+                <a onclick="cargarArchivoDesencriptadoEnLocalS('usuarios')" href="#">Carga Enk</a>
+              </div>
+          </div>
+        </div>
+        <!-- conexiones -->
+        <div class="dropdown">
+          <button class="dropbtn">Conex</button>
+          <div class="dropdown-content">
+            <!-- CONEXIONES -->
+            <div id="navCnx" class="submenu">
+              <!-- edita conexion -->
+              <div class="destacado">
+                <a onclick="cargaModalClave();limpiaInputCnx();activaMod('modCnx');event.preventDefault()" href="">&#x25b8 Edita</a>
+              </div>
+              <!-- eliminar -->
+              <div class="destacado">
+                <a onclick="eliminarConexiones()" href="#">Eliminar</a>
+              </div>
+              <!-- graba bckp json -->
+              <div class="destacado">
+                <a onclick="grabaArchivoJsonCnx(event);event.preventDefault()" href="#">Bckp Cnx json</a>
+              </div>
+              <!-- carga bckp json -->
+              <div class="destacado">
+                  <a onclick="recuperaCnx()" href="#">Carga Cnx json</a>
+              </div>
+              <!-- descarga de server -->
+              <div>
+                <a onclick="descargaArchivo('https://elkizen.000webhostapp.com/conexion/conexiones.enc')" href="#">Descarga Serv</a>
+                <!-- <!-- <a onclick="descargaArchivo('./conexiones.enc')"> -->
+              </div>
+              
+              <!-- enkripta directo de local -->
+              <!-- <div class="destacado">
+                <a onclick="encriptaArchivoJsonConexiones(event);event.preventDefault()" href="#">Enkripta cnx</a>
+              </div> -->
+              <!-- desencripta y carga -->
+              <div class="destacado">
+                <a onclick="cargarArchivoDesencriptadoEnLocalS('conexiones');event.preventDefault()" href="#">Carga Enc</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ---- aplicaciones -------->
+        <div class="dropdown">
+          <button class="dropbtn">Apps</button>
+          <div class="dropdown-content">
+            <div class="submenu">
+              <!-- CodQ -->
+              <div>
+                <!-- CARGA LOCAL -->
+                <!-- <a onclick="cargarPagina('../CodQ/index.html')" href="#">&#x25b8 Cod Q</a> -->
+                <!-- CARGA HOST -->
+                <!-- en yonarev -->
+                <a onclick="cargarPagina('https://codigoq.000webhostapp.com')" href="#">&#x25b8 Cod Q</a>
+                <!-- en elkizen -->
+                <!-- <a onclick="cargarPagina('https://elkizen.000webhostapp.com/CodQ/index.html')" href="#">&#x25b8 Cod Q</a> -->
+              </div>
+              <!-- CodLab -->
+              <div>
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/CODLAB/index.html')" href="#">&#x25b8 CodLab</a>
+              </div>
+              <!-- trans -->
+              <div>
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/TRANS/menu/index.html')" href="#">&#x25b8 Trans</a>
+              </div>
+              <!-- audioRelatos-->
+              <div>
+                <!-- LOCAL -->
+                <!-- <a onclick="cargarPagina('../audioRelatos/index.html')" href="#">&#x25b8 audioRel</a> -->
+                <!-- WEB -->
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/relatos/index.html')" href="#">&#x25b8 audioRel</a>
+              </div>
+              <!-- audioCalc -->
+              <div>
+                <!-- WEB -->
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/audiocalc/index.html')" href="#">&#x25b8 audioCalc</a>
+              </div>
+              <!-- bitacoraSql -->
+              <div>
+                <!-- local -->
+                <!-- <a onclick="cargarPagina('../bitacoraSql/index.html')" href="#">&#x25b8 bitacoraSql</a> -->
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/sql/login/index.html')" href="#">&#x25b8 bitacoraSql</a>
+              </div>
+              <!-- conexion  -->
+              <div>
+                <!-- local -->
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/conexion/index.html')" href="#">&#x25b8 Conexion</a>
+              </div>
+              <!-- neorelatos py  -->
+              <div>
+                <!-- local -->
+                <a onclick="cargarPagina('https://janveravidela.pythonanywhere.com/')" href="#">&#x25b8 NeoRelatos</a>
+              </div>
+              <div>
+                <!-- local -->
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/CODQR/')" href="#">&#x25b8 Codigo QR</a>
+              </div>
+              <div>
+                <!-- local -->
+                <a onclick="cargarPagina('https://elkizen.000webhostapp.com/lab/')" href="#">&#x25b8 Lab</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- bitacoras -->
+        <div class="dropdown">
+          <button class="dropbtn">Bits.</button>
+          <div class="dropdown-content">
+            <!-- bitacotras -->
+            <div id="navBit" class="submenu">
+              <!-- edicion -->
+                <div class="destacado">
+                  <a id="navEdiBit" onclick="cargaEdicionBit()" href="#">&#x25b8 Edita Bit</a>
+                </div>
+                <!-- eliminar -->
+                <div class="destacado">
+                  <a id="navEliBit" onclick="eliminarBitacoras('bitacoras')" href="#">Eliminar</a>
+                </div>
+                <!-- notas -->
+                <div class="destacado">
+                  <a id="navEdiNot" onclick="activaMod('modNot');cargaNotasBItacora()" href="#">&#x25b8 Notas</a>
+                </div>
+                <!-- Bckp Json -->
+                <div>
+                  <a id="navBckBit" onclick="bajarJSON('bitacoras')" href="#">Bckp Json</a>
+                </div>
+                <!-- carga json -->
+                <div>
+                  <a onclick="cargaBitacoras()" id="navLeeBit"href="#">Carga Json</a>
+                </div>
+                <div>
+                  <!-- enkripta -->
+                  <a onclick="encriptaArchivoJsonBitacoras()" id="navBckEnk" href="#">Bckp enk</a>
+                </div>
+                <!-- desenjripta y carga local -->
+                <div>
+                  <a onclick="cargarArchivoDesencriptadoEnLocalS('bitacoras');event.preventDefault()" id="navleeEnk"  href="#">Carga enk</a>
+                </div>
+            </div>
+          </div>
+        </div>
+         <!-- inventarios -->
+        <div class="dropdown">
+          <button class="dropbtn">Inv.</button>
+          <div class="dropdown-content">
+            <div class="submenu">
+              <!-- tipos -->
+              <div>
+                <a onclick="activaMod('modTipArt');setInterval(mostrarHoraActualTipo, 1000);cargaTipos()" href="#">&#x25b8 Tipos de articulo</a>
+              </div>
+              <!-- bckp tipos -->
+              <div>
+                <a onclick="guardarArchivoTipos()" href="#">Bckp Tipos Json</a>
+              </div>
+              <!-- carga tipos -->
+              <div>
+                <a onclick="cargarJSONenLocalStorage('tipos')" href="#">Lee Tipos Json</a>
+              </div>
+              <!-- articulos -->
+              <div>
+                <a onclick="activaMod('modArt');cargaArticulos()" href="#">&#x25b8 Articulos</a>
+              </div>
+              <!-- backp articulos -->
+              <div>
+                <a onclick="bajarJSON('articulos')" href="#">Bckp Articulos Json</a>
+              </div>
+              <!-- lee articulos -->
+              <div>
+                <a onclick="cargarJSONenLocalStorage('articulos')" href="#">Lee Articulos Json</a>
+              </div>
+              <!-- inventarios -->
+              <div>
+                <a onclick="activaMod('modInv');cargaInventario()" href="#">&#x25b8 Inventarios</a>
+              </div>
+              <!-- bckp inventarios -->
+              <div>
+                <a onclick="bajarJSON('inventarios')" href="#">Bckp Inventarios Json</a>
+              </div>
+              <div>
+                <a onclick="cargarJSONenLocalStorage('inventarios')" href="#">Lee Inventarios Json</a>
+              </div>
+              <!-- inventarios -->
+              <div>
+                <a onclick="activaMod('modTransInv');cargaFormTransInv()" href="#">&#x25b8 Transaccion</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- publicaciones -->
+        <div class="dropdown">
+          <button class="dropbtn">Pub.</button>
+          <div class="dropdown-content">
+            <div class="submenu">
+              <!-- crea la tabla sql publicaciones -->
+              <div>
+                <a onclick="crearTablaSqlPub()" href="#">Crea publicaciones</a>
+              </div>
+              <!-- elimina tabla publicaciones sql -->
+              <div>
+                <a onclick="eliminarTablaPub()" href="#">Elimina publicaciones</a>
+              </div>
+              <!-- edita acerca de -->
+              <div>
+                <a onclick="creaAcercaDe(event)" href="#">Edita Acerca De</a>
+              </div>
+              <!-- carga crud de publicaciones -->
+              <div>
+                <!-- <a onclick="cargarPublicaciones(event)" href="#">Crud Publicaciones</a> -->
+                <a onclick="activaElemento('modCrudPub');activaElemento('modFomPublicando');cargarPublicaciones(event);nuevoFormulario(event)" href="#">Crud Publicaciones</a>
+              </div>
+              <!-- graba tabla a archivo json -->
+              <div>
+                <a onclick="grabaTablaAjson()" href="#">Graba TablaSql a Json</a>
+              </div>
+              <!-- carga desde archivo a local s -->
+              <div>
+                <a onclick="cargaTblJsonAlocal(event)" href="#">Carga Json a localS</a>
+              </div>
+              <!-- graba desde local storage a tabla sql -->
+              <div>
+                <a onclick="grabaLocalAsql(event)" href="#">Graba LocalS a Tabla sql</a>
+              </div>
+              <!-- GRABA DESDE ARCHIVO DIRECTO A TABLA SQL -->
+              <div>
+                <a onclick="deArchivoAsql(event)" href="#">graba de archivo a Tabla sql</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- archivos -->
+        <div id="navArch" class="dropdown">
+          <button class="dropbtn">Archivos</button>
+          <div class="dropdown-content">
+            <!-- Archivos-->
+            <!-- Bckp base a json-->
+            <div class="submenu">
+              <!-- Bckp base a json-->
+                <div class="destacado">
+                  <a id="navArchBck" onclick="grabaBaseDatJson()";
+                  event.preventDefault()" href="#">Bckp BD Json</a>
+                </div>
+                <!-- carga backp base  -->
+                <div class="destacado">
+                  <a id="navArchLee" onclick="cargaBaseJson()" href="#">Lee BD Json</a>
+                </div>
+            </div>
+            <!-- Bckp base enkriptada-->
+            <!-- carga backp base  -->
+            <div class="submenu">
+              <!-- Bckp base enkriptada-->
+                <div class="destacado">
+                  <a id="navArchBckEnc" onclick="grabaDaseDatEnk()";
+                  " href="#">Bckp BD enk</a>
+                </div>
+                <!-- carga backp base  -->
+                <div class="destacado">
+                  <a id="navArchLeeEnc" onclick="cargaBaseEncriptada()");
+                  " href="#">Lee BD enk</a>
+                </div>
+            </div>
+            <!-- Elimina base local validado cn psw enc-->
+            <div class="submenu">
+                <div class="destacado">
+                  <a id="navArchBdEli" onclick="eliminaBaseTotalLocal()" href="#">Elimina Bd LocalS</a>
+                </div>
+            </div>
+            <!-- encripta archivo  -->
+            <!-- desencripta archivo -->
+            <div class="submenu">
+              <!-- encripta archivo  -->
+                <div class="destacado">
+                  <a onclick="encriptarArchivo()" href="#">Encripta Archivo</a>
+                </div>
+                <!-- desencripta archivo -->
+                <div class="destacado">
+                  <a onclick="desencriptarArchivo()" href="#">Desencripta Archivo</a>
+                </div>
+            </div>
+            <!-- crea archivo psw encriptada -->
+            <div class="submenu">
+                <div class="destacado">
+                  <a onclick="encriptaClave()" href="#">Crea Archivo psw</a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- acerca de -->
+        <div class="dropdown">
+          <button onclick="cargarAcercaDe()" class="dropbtn">?</button>
+        </div>
+        <a id="tao" onclick="cargarUsuarios(event)" href="">&#x262f</a>
+    </div>
+    <!-- mensaje ayuda -->
+    <section id="seccionMsgAyuda">
+      <div id="mensajeAyuda"></div>
+    </section>
+    <!-- ------------------------------ PARA CREAR Y ADMINISTRAR  SQL  NO BORRAR ------------- -->
+    <!-- seccion para el manejo de tablas sql publicaciones -->
+    <!-- <div class="sqlTablas">
+        <button onclick="crearTablaSqlPub()">Crea tabla 'publicaciones'</button>
+        <button onclick="eliminarTablaPub()">Elimina tabla 'publicaciones'</button>
+        <button onclick="creaAcercaDe(event)">edita publicacion js sql acerca de'</button>
+        <button onclick="encuentraPublicacionSql('15112023165551')">Presenta Acerca de </button>
+        <button onclick="cargarPublicaciones(event)">Presenta Tabla Publicaciones sql </button>
+    </div> -->
+    <!-- ---------------------------- para CFG CLAVE ENCRIPTADA --- -->
+    
+    <!---------------------------- modal ingreso palabra ------------------>
+    <div id="modalPestillo" class="modal">
+        <div class="modal-content">
+            <h2>Ingrese su palabra</h2>
+            <input type="password" id="pestillo">
+            <button onclick="pasador()">Enviar</button>
+        </div>
+    </div>
+    <!-- ------------------------- modal clave encriptada -------------- -->
+    <div id="modalPswUnica">
+      <div id="modal-container">
+        <h2>Ingresa tu contraseña</h2>
+        <input type="password" id="passwordInput" />
+        <br />
+        <button onclick="verificarContraseña()">Verificar</button>
+        <button class="btnModCancel" onclick="rechazarModalPswUnica()">Cancelar</button>
+      </div>
+    </div>
+    <!-- ------------------------conexiones --------------------------------->
+    <div id="modCnx" class="moduloInactivo">
+      <div class="tituloModulo">
+        <div class="close-icon" onclick="desactivaMod('modCnx')">&#x2716;</div>
+        <h3>Conexiones</h3>
+      </div>
+        <div class="seccionMenu">
+          <div class="seccionInput">
+              <div class="seccionFecha">
+                <div class="lineal">
+                  <input type="text" id="idCnx" required><br><br>
+                  <input type="text" id="fecha" pattern="\d{2}/\d{2}/\d{4}"><br><br>
+                  <input type="text" id="hora" readonly><br><br>
+                </div>
+              </div>
+              <div class="seccionPrincipal">
+                  <input type="password" placeholder="password" id="psw" required><br>
+                  <button id="btnCopiaP" type="button" class="plateado" type="button" onclick="copiarAlPortapapelesPswCnx()">&#x2714</button>
+                  <input type="text" placeholder="alias" id="alias" required><br>
+                  <button type="button"  class="plateado" onclick="copiarAlPortapapelesAliasCnx()">&#x2714</button>
+                  <input type="text" id="numero"placeholder='numero' required><br>
+                  <button type="button"  class="plateado" onclick="copiarAlPortapapelesNumCnx()">&#x2714</button>
+                  <br>
+              </div>
+              <div class="seccionBotones">
+                <div>
+                  <button class="btnGraba" type="button" onclick="guardarConexion()">Guardar</button>
+                  <button class="btnNuevo" type="button" onclick="limpiaInputCnx()">Nueva</button>
+                  
+                </div>
+              </div>  
+              <div class="seccionVerTabla">
+                <button onclick="mostrarTabla('tabla-conexiones');mostrarConexiones()">&#x25bc</button>
+                <button onclick="ocultarTabla('tabla-conexiones')">&#x25b2</button>
+              </div>
+          </div>
+        </div>
+        <section class="seccionTabla">
+            <table id="tabla-conexiones" border="1">
+                <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Fecha</th>
+                      <th>Hora</th>
+                      <th>psw</th>
+                      <th>Número</th>
+                      <th>Alias</th>
+                      <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <br>
+            <br>
+        </section>
+    </div>
+    <!-- --------------------------- usuarios ------------------------------- -->
+    <div id="modUsu" class="moduloInactivo">
+      <div class="tituloModulo"> 
+        <div class="close-icon" onclick="desactivaMod('modUsu')">&#x2716;</div>
+        <h3>Usuarios</h3>
+      </div>
+          <div id="formIngreso">
+            <div>
+              <!-- id -->
+              <div>
+                <label for="usuario">Id:</label>
+                <input type="text" name="idUsu" id="idUsu" disabled><br>
+              </div>
+              <!-- usuario -->
+              <div>
+                <label for="usuario">Usuario:</label>
+                <input type="text" name="usuario" id="usuario" placeholder="Introduce tu usuario" required><br>
+
+                <!-- <label for="usuario">Usuario:</label>
+                <input type="text" name="usuario" id="usuario" required><br> -->
+              </div>
+              <!-- gps -->
+              <div>
+                <label for="gps">GPS:</label>
+                <input type="text" name="gps" id="gps"><br>
+              </div>
+              <!-- psw -->
+              <div>
+                <label for="pswUsu">Password:</label>
+                <input type="password" autocomplete="current-password" name="pswUsu" id="pswUsu"><br>
+                <div>
+                  <p type="text" name="pswVer" id="pswVer"></p>
+                  <br>
+                  <button onclick="presentaPsw();event.preventDefault()">@</button>
+                </div>
+              </div>
+              <!-- obs -->
+              <div>
+                <label for="obs">Observaciones:</label>
+                <textarea name="obs" id="obs"></textarea><br>
+              </div>
+              <!-- accesos -->
+              <div>
+                <label for="accesos">Accesos:</label>
+                <!-- <input type="text" name="accesos" id="accesos"><br> -->
+                <textarea name="accesos" id="accesos" cols="30" rows="10"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="seccionBotones">
+            <div>
+              <button class="btnGraba" onclick="grabarUsuario(event)">Grabar</button>
+            </div>
+          </div>
+          <div class="seccionVerTabla">
+            <button onclick="mostrarTabla('seccionTblUsu');mostrarUsuariosEnTablaLocal()">&#x25bc</button>
+            <button onclick="ocultarTabla('seccionTblUsu')">&#x25b2</button>
+          </div>
+          <section id="seccionTblUsu" class="seccionTabla">
+            <table id="tablaUsuarios" border="1">
+              <tbody id="bodyTablaUsu">
+              </tbody>
+            </table> 
+          </section>
+    </div>
+    <!------------------------ login ----------------------------->
+    <form class="formLogin" id="formularioLogin"  >
+        <div>
+          <h3>Login</h3>
+          <!-- usuario -->
+          <div class="columna centrado">
+                <label for="usuarioLogin">usuario</label>
+                <input type="text" class="inputLogin" id="usuarioLogin" name="usuarioLogin">
+          </div>
+          <!-- psw -->
+          <div class="columna centrado">
+                <label for="pswLogin">Password</label>
+                <input class="inputLogin" type="password" id="pswLogin" name="pswLogin">
+          </div>
+        </div>
+        <br>
+        <!-- btn -->
+        <div>
+              <button class="btnLogin" id="btnLogin" onclick="validaLogin();event.preventDefault()" class="btnGraba">Ingresar</button>
+        </div>
+    </form>
+    <!----------------------  ingreso bitacora a bitacoras   ----------->
+    <div id="modBit" class="ocultar">
+      <div class="tituloModulo">
+        <div class="verIds" onclick="activaElemento('seccionIdsBit')">&#x25bd</div>
+        <div class="ocultaIds" onclick="desactivaElemento('seccionIdsBit') ">&#x25b3</div>
+        <div class="close-icon" onclick="desactivaMod('modBit')">&#x2716;</div>
+        <h3>Bitacoras</h3>
+      </div>
+      <div class="seccionMenu inputBit">
+        <div id="seccionIdsBit" class="seccionIds" style="display: none">
+          <div>
+            <div class="ajustados">
+              <label for="idUsuBit">Id Usuario</label>
+              <input type="text" id="idUsuBit" name="idUsuBit" readonly disabled><br><br>
+            </div>
+            <div class="ajustados">
+              <label for="idBit">Id Bitacora</label>
+              <input type="text" id="idBit" name="idBit" readonly disabled><br><br>
+            </div>
+          </div>
+        </div> 
+          <br>
+          <div class="seccionInput">
+              <br>
+              <div class="lineal">
+                <input type="date" id="fechaBit" name="fechaBit" ><br><br>
+                <input type="time" id="horaBit" name="horaBit" disabled><br><br>
+              </div> 
+            <div class="seccionPrincipal">
+              <div>
+                <label for="bitacora">Bitácora:</label>
+                <input id="bitacora" name="bitacora" required></input><br><br>
+              </div>
+              <div>
+                <label for="detalleBit">Detalle:</label>
+                <textarea id="detalleBit" name="detalleBit" required></textarea><br><br>
+              </div>
+            </div>  
+          </div>
+          <div class="seccionBotones">
+            <div>
+              <button type="button"class="btnGraba" onclick="grabarBitacora()">Grabar</button>
+            </div>
+            <div class="seccionVerTabla">
+              <button onclick="mostrarTabla('tablaBitacoras')">&#x25bc</button>
+              <button onclick="ocultarTabla('tablaBitacoras')">&#x25b2</button>
+            </div>
+          </div>
+      </div>
+      <section class="seccionTabla">
+          <table id="tablaBitacoras" border="1">
+              <thead>
+                  <tr>
+                      <th>ID Us</th>
+                      <th>ID Bit</th>
+                      <th>Fecha</th>
+                      <th>Hora</th>
+                      <th>bitacora</th>
+                      <th>detalles</th>
+                  </tr>
+              </thead>
+              <tbody></tbody>
+          </table>
+      </section>
+    </div>
+    <!----------------------- notas -------------------------------->
+    <div id="modNot" style="display: none">
+      <div class="tituloModulo">
+        <div class="verIds" onclick="activaElemento('seccionIdsNot')">&#x25bd</div>
+        <div class="ocultaIds" onclick="desactivaElemento('seccionIdsNot') ">&#x25b3</div>
+        <div class="close-icon" onclick="desactivaElemento('modNot')">&#x2716</div>
+        <h3>Notas</h3>
+      </div>
+      <div id="seccionIdsNot" class="seccionIds" style="display: none">
+          <div class="ajustados">
+            <label for="idNota">Id Nota: </label>
+            <input type="text" id="idNota" disabled>
+          </div>
+          <div class="ajustados">
+            <label for="idBitNot">Id Bitacora</label>
+            <input type="text" name="idBitNot" id="idBitNot" disabled>
+          </div>
+          <div class="ajustados">
+            <label for="usuNot">Usuario</label>
+            <input type="text" id="usuNot" disabled>
+          </div>
+          <div class="ajustados">
+            <label for="idUsuNot">Id Us</label>
+            <input type="text" id="idUsuNot" disabled>
+          </div>
+      </div>
+      <form id="formNotaBit">
+          <!-- fecha hora -->
+          <div class="lineal">
+            <!-- fecha -->
+            <div>
+                <input type="date" id="fechaNota">
+            </div>
+            <!-- hora -->
+            <div>
+                <input type="time" id="horaNota" disabled>
+            </div>
+          </div>
+          <!-- bitacoras -->
+          <div>
+            <div class="columna">
+              <label for="bitNot">Bitacoras</label>
+              <select name="bitNot" id="bitNot" onchange="mostrarIdBitSeleccionado()"></select>
+            </div>
+          </div>
+          <br>
+          <!-- titulo lugar -->
+          <div>
+            <!-- titulo -->
+            <div class="seccionTitulosNotas ajustados">
+              <label for="tituloNotas">Titulos</label>
+              <select id="titulosNotas"></select>
+              <button id="verTit" onclick="mostrarTituloSeleccionado();event.preventDefault()">&#x25bc</button>
+              <label for="tituloNota">Titulo</label>
+              <input type="text" id="tituloNota">
+            </div>
+            <!-- lugar  -->
+            <div class="seccionTitulosLugares ajustados">
+              <label for="lugaresNotas">Lugares</label>
+              <select id="lugaresNotas"></select>
+              <button id="verLug" onclick="mostrarLugarSeleccionado();event.preventDefault()">&#x25bc</button>
+              <label for="lugarNota">Lugar</label>
+              <input type="text" id="lugarNota">
+            </div>
+          </div>
+          <!-- nota -->
+          <div>
+              <div>
+                  <label for="notaBit">Nota</label>
+                  <textarea id="notaBit"></textarea>
+              </div>
+          </div>
+          <!-- btn graba y nuevo -->
+          <div>
+              <div>
+                  <button id="btnGrabNot" type="button" onclick="guardarNota()">Guardar</button>
+              </div>
+              <div>
+                <button id="btnNueNot" type="button" onclick="nuevaNota()">Nueva</button>
+              </div>
+          </div>
+          <div class="seccionVerTabla">
+            <button onclick="mostrarTabla('tablaNotas')">&#x25bc</button>
+            <button onclick="ocultarTabla('tablaNotas')">&#x25b2</button>
+          </div>
+      </form>
+      <section id="seccionTablaNotas" class="seccionTabla">
+        <table id="tablaNotas" border="1">
+            <thead>
+                <tr>
+                    <th>id Usu</th>
+                    <th>id Bit</th>
+                    <th>id Nota</th>
+                    <th>fecha</th>
+                    <th>hora</th>
+                    <th>Nota</th>
+                    <th>Título</th>
+                    <th>Lugar</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se generarán las filas de las notas -->
+            </tbody>
+        </table>
+      </section>
+    </div>
+    <!-- -------------------------Tipos de articulos ------------------ -->
+    <div id="modTipArt" style="display: none">
+      <div class="tituloModulo">
+        <div class="verIds" onclick="activaElemento('seccionIdsTipArt')">&#x25bd</div>
+        <div class="ocultaIds" onclick="desactivaElemento('seccionIdsTipArt') ">&#x25b3</div>
+        <div class="close-icon" onclick="desactivaElemento('modTipArt')">&#x2716</div>
+        <h3>Tipos de Articulos</h3>
+      </div>
+      <div id="seccionIdsTipArt" class="seccionIds" style="display: none">
+        <div class="lineal">
+          <div class="ajustados">
+            <label for="idUsuTip">ID Usuario:</label>
+            <input type="text" id="idUsuTip" disabled><br>
+          </div>
+          <div class="ajustados">
+            <label for="idTipo">ID Tipo:</label>
+            <input type="text" id="idTipo" disabled><br>
+          </div>
+        </div>
+      </div>
+      <form id="formTiposArt">
+        <!-- fecha y hora -->
+        <div class="lineal centrado">
+          <input type="date" id="fechaTipo" class="fecha" disabled><br>
+          <input type="time" id="horaTipo" class="hora" disabled>
+        </div>
+        <div class="columna centrado">
+            <label for="tipo">Tipo:</label>
+            <input type="text" class="entrada" id="tipo" required><br>
+            <label for="detalle">Detalle:</label>
+            <textarea class="detalle" id="detalle" required></textarea><br>
+        </div>
+        <br>
+        <div class="lineal centrado">
+          <button type="button" class="btnGraba" onclick="grabarRegistroTipo()">Grabar</button>
+          <br>
+          <button type="button" class="btnNuevo" onclick="document.getElementById('formTipo').reset();presentaTiemposTipo()">Nuevo</button>
+        </div>
+      </form>
+      <br>
+      <div class="seccionVerTabla">
+        <button onclick="mostrarTabla('seccionTablaTipos');mostrarConexiones()">&#x25bc</button>
+        <button onclick="ocultarTabla('seccionTablaTipos')">&#x25b2</button>
+      </div>
+      <section id="seccionTablaTipos" class="seccionTabla">
+        <div id="tablaRegistrosTipos" style="margin: 0 auto"></div>
+      </section>
+    </div>
+    <!-- ----------------------  ARTICULOS -------------------- -->
+    <div id="modArt" style="display: none">
+      <div class="tituloModulo">
+        <div class="verIds" onclick="activaElemento('seccionIdsArt')">&#x25bd</div>
+        <div class="ocultaIds" onclick="desactivaElemento('seccionIdsArt') ">&#x25b3</div>
+        <div class="close-icon" onclick="desactivaElemento('modArt')">&#x2716</div>
+        <h3>Articulos</h3>
+      </div>
+      <div id="seccionIdsArt" class="seccionIds" style="display: none">
+        <div class="lineal">
+          <div class="ajustados">
+            <label for="idUsuArt">ID Usuario:</label>
+            <input type="text" id="idUsuArt" disabled>
+          </div>
+          <div class="ajustados">
+            <label for="idArticulo">ID Artículo:</label>
+            <input type="text" id="idArticulo" disabled>
+          </div>
+          <div class="ajustados">
+            <label for="idTipoArt">ID Tipo:</label>
+            <input type="text" id="idTipoArt" disabled>
+          </div>
+        </div>
+      </div>
+      <div>
+      </div>
+      <form id="formArticulos">
+        <!-- fecha y hora -->
+        <div class="lineal centrado">
+          <input type="date" id="fechaArticulo" class="fecha" readonly>
+          <input type="text" id="horaArticulo" class="hora" readonly>
+        </div>
+        <div class="columna centrado">
+          <select id="listaTipos" class="combo" onchange="mostrarIdTipo()">
+          </select>
+          <label for="articulo">Artículo:</label>
+          <input type="text" class="entrada" id="articulo">
+          <label for="detalleart">Detalle:</label>
+          <textarea class="detalle" id="detalleart"></textarea>
+        </div>
+        <div class="lineal centrado">
+          <button type="button" class="btnGraba" onclick="grabaRegistroArticulo()">Grabar</button>
+          <button type="button" class="btnNuevo" onclick="limpiaFormTipo()">Nuevo Artículo</button>
+        </div>
+      </form>
+      <br>
+      <div class="seccionVerTabla">
+        <button onclick="mostrarTabla('seccionTablaArticulos');mostrarConexiones()">&#x25bc</button>
+        <button onclick="ocultarTabla('seccionTablaArticulos')">&#x25b2</button>
+      </div>
+      <section id="seccionTablaArticulos" class="seccionTabla">
+          <table id="tblArticulos">
+            <thead>
+              <tr>
+                <th>ID Usuario</th>
+                <th>ID Tipo</th>
+                <th>ID Artículo</th>
+                <th>Artículo</th>
+                <th>Detalle</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+      </section>
+    </div>
+    <!-- ------------------------ INVENTARIOS ---------------------->
+    <div id="modInv" style="display: none">
+      <div class="tituloModulo">
+        <div class="verIds" onclick="activaElemento('seccionIdsInv')">&#x25bd</div>
+        <div class="ocultaIds" onclick="desactivaElemento('seccionIdsInv') ">&#x25b3</div>
+        <div class="close-icon" onclick="desactivaElemento('modInv')">&#x2716</div>
+        <h3>Inventarios</h3>
+      </div>
+      <div id="seccionIdsInv" class="seccionIds" style="display: none">
+        <div class="lineal">
+          <div class="ajustados">
+            <label for="idUsuInv">ID Usuario:</label>
+            <input type="text" id="idUsuInv"><br><br>
+          </div>
+          <div class="ajustados">
+            <label for="idInventario">ID Inventario:</label>
+            <input type="text" id="idInventario" disabled><br><br>
+          </div>
+        </div>
+      </div>
+      <form id="formInventarios">
+        <!-- fecha y hora -->
+        <div class="lineal centrado">
+          <input type="text" id="fechaInv" disabled><br><br>
+          <input type="text" id="horaInv" disabled><br><br>
+        </div>
+        <div class="columna centrado">
+          <label for="inventario">Inventario:</label>
+          <input type="text" id="inventario"><br><br>
+          <label for="detalleInv">Detalle:</label>
+          <input type="text" id="detalleInv"><br><br>
+        </div>
+        <div class="lineal centrado">
+          <button type="button" class="btnGraba" onclick="grabaRegistroInventario()">Grabar</button>
+          <button type="button" class="btnNuevo" onclick="limpiaFormInventario()">Nuevo</button>
+        </div>
+      </form>
+      <br>
+      <div class="seccionVerTabla">
+        <button onclick="mostrarTabla('seccionTablaInventarios');mostrarConexiones()">&#x25bc</button>
+        <button onclick="ocultarTabla('seccionTablaInventarios')">&#x25b2</button>
+      </div>
+      <section id="seccionTablaInventarios" class="seccionTabla">
+        <table id="tblInventarios">
+          <thead>
+            <tr>
+              <th>ID Usuario</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>ID Inventario</th>
+              <th>Inventario</th>
+              <th>Detalle</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+    <!-------------------- TRANSACCION INVENTARIOS ---------------->
+    <div id="modTransInv" style="display: none">
+      <div class="tituloModulo">
+        <div class="verIds" onclick="activaElemento('seccionIdsTransInv')">&#x25bd</div>
+        <div class="ocultaIds" onclick="desactivaElemento('seccionIdsTransInv') ">&#x25b3</div>
+        <div class="close-icon" onclick="desactivaElemento('modTransInv')">&#x2716</div>
+        <h3>Transacciones Inventarios</h3>
+      </div>
+      <div id="seccionIdsTransInv" class="seccionIds" style="display: none">
+        <div class="lineal">
+          <div class="columna centrado">
+            <label for="idUsuInvTrans">ID Usuario:</label>
+            <input type="text" id="idUsuInvTrans" readonly>
+          </div>
+          <div class="columna centrado">
+            <label for="usuarioTransInv">Usuario:</label>
+            <input type="text" id="usuarioTransInv" disabled>
+          </div>
+          <div class="columna centrado">
+            <label for="idInventarioTrans">ID Inventario:</label>
+            <input type="text" id="idInventarioTrans" disabled>
+          </div>
+          <div class="columna centrado">
+            <label for="idTipoSelTrans">ID Tipo:</label>
+            <input type="text" id="idTipoSelTrans" readonly>
+          </div>
+          <div class="columna centrado">
+            <label for="idArticuloSel">ID Artículo:</label>
+            <input type="text" id="idArticuloSel" readonly>
+          </div>
+          <div class="columna centrado">
+            <label for="idTransInv">ID Transacción:</label>
+            <input type="text" id="idTransInv" disabled>
+          </div>
+        </div>
+      </div>
+      <!-- FECHA HORA -->
+      <div class="lineal centrado">
+        <input type="text" id="fechaTransInv" class="fecha" readonly>
+        <input type="text" id="horaTransInv" class="hora" readonly>
+      </div>
+      <br>
+      <!-- listas-->
+      <div class="lineal">
+        <div class="columna">
+          <label for="ListaInventariosTrans">Inventarios:</label>
+          <!-- <select id="ListaInventariosTrans" class="combo" onchange="ejecutaIdInventario(this.value)"></select> -->
+          <select id="ListaInventariosTrans" class="combo" onchange="elijiendoInventario(this.value)"></select>
+          <br>
+          <label for="ListaTiposTrans">Tipo:</label>
+          <select id="ListaTiposTrans" class="combo"></select>
+          <br>
+          <label for="ListaArticulosTrans">Artículo:</label>
+          <select id="ListaArticulosTrans" class="combo"></select>
+          <br>
+        </div>
+        <!-- cantidad valor detalle -->
+        <div class="columna">
+          <div class="columna">
+            <label for="cantidadTransInv">Cantidad:</label>
+            <input type="number" id="cantidadTransInv" class="entrada" style="width: 100px !important;" oninput="calcularTotalTrans()">
+          </div>
+          <div class="columna">
+            <label for="valorTransInv">Valor:</label>
+            <input type="number" id="valorTransInv" class="entrada" style="width: 100px !important;" oninput="calcularTotalTrans()">
+          </div>
+          <div class="columna">
+            <label for="totalTransInv">Total:</label>
+            <input type="text" id="totalTransInv" class="entrada" style="width: 100px !important;" disabled>
+          </div>
+          <div class="columna centrado">
+            <label for="DetalleTransInv">Detalle</label>
+            <textarea name="DetalleTransInv" id="DetalleTransInv" class="detalle" cols="30" rows="10"></textarea>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!-- botones -->
+      <div class="lineal centrado">
+        <button type="button" class="btnGraba" onclick="grabaTransaccionInventario()" id="grabaTransInv">Grabar</button>
+        <button type="button" class="btnNuevo" onclick="nuevaTransaccionInv()" id="nuevaTransInv">Nueva</button>
+      </div>
+      <!-- despliega tabla -->
+      <div class="seccionVerTabla">
+        <button onclick="mostrarTabla('seccionTablaTransInv')">&#x25bc</button>
+        <button onclick="ocultarTabla('seccionTablaTransInv')">&#x25b2</button>
+      </div>
+      <section id="seccionTablaTransInv" class="seccionTabla" style="display: none">
+        <h2>Transacciones</h2>
+        <table onclick="desactivaElemento('tablaTransResumen')" id="tablaTransResumen" border="1" style="background-color: rgb(65, 74, 82);color: white;display: none">
+          <thead>
+            <tr>
+              <th>ID Usuario</th>
+              <th>ID Inventario</th>
+              <th>Cantidad</th>
+              <th>Valores</th>
+              <th>Totales</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <table id="tablaTransacciones" border="1">
+          <thead>
+            <tr>
+              <th>ID Transacción</th>
+              <th>ID Usuario</th>
+              <th>ID Inventario</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>ID Tipo</th>
+              <th>Tipo</th>
+              <th>ID Artículo</th>
+              <th>Artículo</th>
+              <th>Cant</th>
+              <th>Valor</th>
+              <th>Total</th>
+              <th>detalle</th>
+              <th>editar</th>
+              <th>eliminar</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+    <br>
+    <!-- ----------------------  ACERCA DE -------------------- -->
+    <div id="modAcerca" style="display: none">
+      <div class="tituloModulo">
+        <div class="close-icon" onclick="desactivaElemento('modAcerca')">&#x2716</div>
+        <h3>Acerca de </h3>
+      </div>
+      <div class="contenidoModulo">
+          <p id="parrafoAcercaDe" class="parrafoAcerca"></p>
+      </div>
+    </div>
+    <!-- ---------------------CRUD PUBLICACIONES ----------------------->
+    <div id="modCrudPub" class="PubformCrud" style="display: none">
+      <div class="tituloModulo">
+        <div class="close-icon" onclick="desactivaElemento('modCrudPub');cerrarTablaCrudPub()">&#x2716</div>
+        <h3>Formulario de publicacion</h3>
+      </div>
+      <div id="modFomPublicando" style="display: none"> 
+        <div class="contenidoModulo">
+          <form id="formPublica" class="formPubCrud">
+            <br>
+            <div class="formIds">
+              <input type="text" name="id" id="idPub" value="" placeholder="Id">
+              <div class="lineal">
+                <input type="text" name="fecha" id="fechaPub" value="" placeholder="Fecha">
+                <input type="text" name="hora" id="horaPub" value="" placeholder="Hora">
+              </div>
+            </div>
+              <label for="titulo">Titulo</label>
+              <input type="text" name="titulo" id="tituloPub" value="" placeholder="Titulo">
+              <label for="Autor">Autor</label>
+              <input type="text" name="autor" id="autorPub" value="" placeholder="Autor">
+              <label for="parrafo">Contenido</label>
+              <div>
+                <textarea name="parrafo" id="parrafoPub" class="inputParrafo" placeholder="Parrafo"></textarea>
+              </div>
+              <br>
+              <label for="firma">Firma</label>
+              <input type="text" name="firma" id="firmaPub" value="" placeholder="Firma">
+              <label for="Pie">Pie de contenido</label>
+              <input type="text" name="pie" id="piePub" value="" placeholder="Pie">
+              <label for="linkCorreo">Correo</label>
+              <input type="text" name="linkCorreo" id="linkCorreoPub" value="" placeholder="Correo">
+              <label for="linkWeb">Web</label>  
+              <input type="text" name="linkWeb" id="linkWebPub" value="" placeholder="Web">
+              <label for="linkWssp">Whatsapp</label>
+              <input type="text" name="linkWssp" id="linkWsspPub" value="" placeholder="Whatsapp">
+              <div>
+                <!-- <button onclick="grabaLocalAsql(event)">graba local storage a tabla sql</button> -->
+                <!-- <button onclick="cargaTblJsonAlocal(event)">Cargar JSON a Local Storage</button> -->
+                <!-- <button class="btnRecTblJson" onclick="grabaTablaAjson()">Graba Tabla a Json</button> -->
+                <button class="btnNuevaPub" onclick="nuevoFormulario(event)">Nueva Publicacion</button>
+                <button class="btnGrabaPub" onclick="grabaFormPub(event);resetearFormulario(event)">Grabar Publicacion</button>
+              </div>
+              <!-- <button class="btnPub" onclick="grabaFormAarchivo(event)">Rec Form a archivo</button> -->
+              <!-- <button class="btnPub" onclick="archivoAlocalYform(event)">Json a Local&form</button> -->
+              <!-- <button class="btnPub" onclick="grabaJsonPhp(event)">Rec archivo Json</button> -->
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- AQUI ABAJO LA TABLA DEL CRUD SE CREA DINAMICAMNTE -->
+    <!-- <table border="1" id="tablaPublicaciones"><thead><tr><th>ID</th><th>FECHA</th><th>HORA</th><th>TITULO</th><th>AUTOR</th><th>PARRAFO</th><th>FIRMA</th><th>PIE</th><th>LINKCORREO</th><th>LINKWEB</th><th>LINKWSSP</th><th>Acciones</th></tr></thead><tbody id="tbodyPub"><tr id="fila-15112023165551"><td>15112023165551</td><td>15/11/2023</td><td>16:55:51</td><td>Acerca de Esta Aplicacion en desarrollo </td><td>Jorge Vera Videla</td><td>Esta aplicación web Esta diseñada  
+con Html, Css, Javascript,sql,php, python, flask y fastapi. 
+
+Los datos se manejan localmente en Localstorage se graban y leen en archivos json y actualmente se esta grabando en tablas sql en el servidor.
+
+Las grabaciones en disco duro local son efectivas. Para grabar también hay un modo encriptado.
+
+El estudio de la permanencia de los datos osea la persistencia es en 
+   localStorage 
+   Archivos Json 
+   Tablas sql
+
+
+</td><td>JanVeraV</td><td>Desarrollo de un Portafolio de apps</td><td>jorgeveravidela@gmail.com</td><td>https//elkizen.000webapp.com/menu</td><td>56 935899417</td><td><button class="btnCrudEdit">Editar</button><button class="btnCrudElimina">Eliminar</button></td></tr><tr id="fila-25112023132129"><td>25112023132129</td><td>25/11/2023</td><td>13:21:29</td><td>otra</td><td>otra</td><td>otra mas</td><td>otra</td><td>otrita</td><td>otrita mas</td><td>otra</td><td>otra otra</td><td><button class="btnCrudEdit">Editar</button><button class="btnCrudElimina">Eliminar</button></td></tr><tr id="fila-25112023132432"><td>25112023132432</td><td>25/11/2023</td><td>13:24:32</td><td>mas</td><td>mas</td><td>mas</td><td>mas</td><td>mas</td><td>mas</td><td>mas</td><td>mas</td><td><button class="btnCrudEdit">Editar</button><button class="btnCrudElimina">Eliminar</button></td></tr><tr id="fila-25112023134318"><td>25112023134318</td><td>25/11/2023</td><td>13:43:18</td><td>222</td><td>222</td><td>222</td><td>222</td><td>222</td><td>222</td><td>222</td><td>2222</td><td><button class="btnCrudEdit">Editar</button><button class="btnCrudElimina">Eliminar</button></td></tr></tbody></table> -->
+
+<!-- --------------------------------- SCRIPT ---------------------- -->
+    <script src="./crypto-js.js"></script>
+    <script src="./libreria.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

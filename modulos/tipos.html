@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD con Local Storage</title>
+    <script src="./libreria.js"></script>
+    <style>
+        /* Estilos para el formulario */
+#formTipo {
+  width: 90%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#formTipo label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#formTipo input[type="text"],
+#formTipo input[type="date"],
+#formTipo input[type="time"],
+#formTipo textarea {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#formTipo button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#formTipo button:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para la tabla de registros */
+#tablaRegistrosTipos {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#tablaRegistrosTipos th,
+#tablaRegistrosTipos td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+#tablaRegistrosTipos th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#tablaRegistrosTipos tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#tablaRegistrosTipos tr:hover {
+  background-color: #ddd;
+}
+    </style>
+</head>
+<body>
+  <div>
+    <h2>Formulario de ingreso y actualización</h2>
+    <form id="formTipo">
+      <label for="idUsu">ID Usuario:</label>
+      <input type="text" id="idUsu" required><br>
+
+      <label for="fechaTipo">Fecha Tipo:</label>
+      <input type="date" id="fechaTipo" disabled><br>
+
+      <label for="horaTipo">Hora Tipo:</label>
+      <!-- <input type="time" id="horaTipo" required><br> -->
+      <input type="time" id="horaTipo" readonly disabled>
+
+      <label for="tipo">Tipo:</label>
+      <input type="text" id="tipo" required><br>
+
+      <label for="idTipo">ID Tipo:</label>
+      <input type="text" id="idTipo" disabled><br>
+
+      <label for="detalle">Detalle:</label>
+      <textarea id="detalle" required></textarea><br>
+
+      <button type="button" onclick="grabarRegistroTipo()">Grabar</button>
+      <button type="button" onclick="document.getElementById('formTipo').reset();presentaTiemposTipo()">Nuevo</button>
+    </form>
+  </div>
+
+  <div>
+    <h2>Registros tipos</h2>
+    <div id="tablaRegistrosTipos"></div>
+  </div>
+
+  <script>
+    
+    function grabaNuevoTipo() {
+      let idUsu = document.getElementById('idUsu').value;
+      // debe haber usuario
+      if(!idUsu){
+        alert('falta id usuario')
+        document.getElementById('idUsu').select();
+        return
+      }
+      let tipos = JSON.parse(localStorage.getItem('tipos'));
+      let idTipo = indiceAhora();
+      // debe haber tipo
+      let tipo = document.getElementById('tipo').value;
+      if(!tipo){
+        alert('falta tipo')
+        document.getElementById('tipo').select();
+        return
+      }
+      // Verificar si el tipo ya existe en el local storage
+      if (tipos) {
+        let tipoExistente = tipos.find(function(t) {
+          return t.tipo === tipo;
+        });
+        if (tipoExistente) {
+          alert('El tipo ya existe. Por favor, ingresa uno nuevo.');
+          document.getElementById('tipo').select()
+          return;
+        }
+      } else {
+        tipos = [];
+      }
+      // Obtener el resto de los valores del formulario
+      let fechaTipo = document.getElementById('fechaTipo').value;
+      let horaTipo = document.getElementById('horaTipo').value;
+      let detalle = document.getElementById('detalle').value;
+      // Crear el nuevo registro
+      let nuevoRegistro = {
+        idUsu: idUsu,
+        fechaTipo: fechaTipo,
+        horaTipo: horaTipo,
+        idTipo: idTipo,
+        tipo: tipo,
+        detalle: detalle
+      };
+      // Agregar el registro al array de tipos
+      tipos.push(nuevoRegistro);
+      // Guardar el array actualizado en el local storage
+      localStorage.setItem('tipos', JSON.stringify(tipos));
+      limpiaFormTipo();
+      mostrarRegistrosTipos();
+    }
+
+    function editarRegistroTipo(registro) {
+      // Llenar el formulario con los datos del registro
+      document.getElementById('idUsu').value = registro.idUsu;
+      document.getElementById('idTipo').value = registro.idTipo;
+      document.getElementById('fechaTipo').value = registro.fechaTipo;
+      document.getElementById('horaTipo').value = registro.horaTipo;
+      document.getElementById('tipo').value = registro.tipo;
+      document.getElementById('detalle').value = registro.detalle;
+      // Guardar el registro en edición en el local storage
+      localStorage.setItem('registroEditandoTipo', JSON.stringify(registro));
+    }
+    
+    function grabaEdicionTipo() {
+      let tipos = JSON.parse(localStorage.getItem('tipos'));
+      let idTipo = document.getElementById('idTipo').value;
+      // Verificar si se está editando un registro existente
+      let registroEditandoTipo = JSON.parse(localStorage.getItem('registroEditandoTipo'));
+      if (registroEditandoTipo) {
+        // Encontrar el índice del registro editando en el array de tipos
+        let index = tipos.findIndex(function(t) {
+          return t.idTipo === registroEditandoTipo.idTipo;
+        });
+
+        if (index !== -1) {
+          // Obtener el tipo ingresado en el formulario
+          let tipoIngresado = document.getElementById('tipo').value;
+          // Verificar si el tipo ingresado ya existe en el local storage
+          let tipoExistente = tipos.find(function(t, i) {
+            return t.tipo === tipoIngresado && i !== index;
+          });
+          if (tipoExistente) {
+            alert('El tipo ya existe. Por favor, ingresa uno nuevo.');
+            return;
+          }
+          // Actualizar los datos del formulario en el registro existente
+          tipos[index].idUsu = document.getElementById('idUsu').value;
+          tipos[index].fechaTipo = document.getElementById('fechaTipo').value;
+          tipos[index].horaTipo = document.getElementById('horaTipo').value;
+          tipos[index].tipo = tipoIngresado;
+          tipos[index].detalle = document.getElementById('detalle').value;
+          // Guardar el array actualizado en el local storage
+          localStorage.setItem('tipos', JSON.stringify(tipos));
+          // Eliminar el registro en edición del local storage
+          localStorage.removeItem('registroEditandoTipo');
+        }
+      }
+
+      limpiaFormTipo();
+      mostrarRegistrosTipos();
+    }
+
+    function grabarRegistroTipo() {
+      let idTipo = document.getElementById('idTipo').value;
+      if (idTipo !== '') {
+        grabaEdicionTipo();
+      } else {
+        grabaNuevoTipo();
+      }
+    }
+
+    function limpiaFormTipo(){
+        document.getElementById('idUsu').value = '';
+        document.getElementById('tipo').value = '';
+        document.getElementById('idTipo').value = '';
+        document.getElementById('detalle').value = '';
+    }
+
+    function mostrarRegistrosTipos() {
+      // Obtener los registros del local storage
+      let tipos = localStorage.getItem('tipos');
+      if (tipos) {
+        tipos = JSON.parse(tipos);
+        // Crear la tabla
+        let tablatipos = document.createElement('table');
+        // Crear la fila de cabecera y las celdas de título
+        let filaCabecera = document.createElement('tr');
+
+        let celdaIdUsuTitulo = document.createElement('th');
+        celdaIdUsuTitulo.textContent = 'ID Usuario';
+        filaCabecera.appendChild(celdaIdUsuTitulo);
+
+        let celdaFechaTipoTitulo = document.createElement('th');
+        celdaFechaTipoTitulo.textContent = 'Fecha Tipo';
+        filaCabecera.appendChild(celdaFechaTipoTitulo);
+
+        let celdaHoraTipoTitulo = document.createElement('th');
+        celdaHoraTipoTitulo.textContent = 'Hora Tipo';
+        filaCabecera.appendChild(celdaHoraTipoTitulo);
+
+        let celdaIdTipoTitulo = document.createElement('th');
+        celdaIdTipoTitulo.textContent = 'ID Tipo';
+        filaCabecera.appendChild(celdaIdTipoTitulo);
+
+        let celdaTipoTitulo = document.createElement('th');
+        celdaTipoTitulo.textContent = 'Tipo';
+        filaCabecera.appendChild(celdaTipoTitulo);
+
+        let celdaDetalleTitulo = document.createElement('th');
+        celdaDetalleTitulo.textContent = 'Detalle';
+        filaCabecera.appendChild(celdaDetalleTitulo);
+
+        let celdaEditarTitulo = document.createElement('th');
+        celdaEditarTitulo.textContent = 'Editar';
+        filaCabecera.appendChild(celdaEditarTitulo);
+
+        let celdaEliminarTitulo = document.createElement('th');
+        celdaEliminarTitulo.textContent = 'Eliminar';
+        filaCabecera.appendChild(celdaEliminarTitulo);
+
+        tablatipos.appendChild(filaCabecera);
+
+        // Crear las filas y las celdas de datos
+        tipos.forEach(function(t) {
+          let fila = document.createElement('tr');
+
+          let celdaIdUsu = document.createElement('td');
+          celdaIdUsu.textContent = t.idUsu;
+          fila.appendChild(celdaIdUsu);
+
+          let celdaFechaTipo = document.createElement('td');
+          celdaFechaTipo.textContent = t.fechaTipo;
+          fila.appendChild(celdaFechaTipo);
+
+          let celdaHoraTipo = document.createElement('td');
+          celdaHoraTipo.textContent = t.horaTipo;
+          fila.appendChild(celdaHoraTipo);
+
+          let celdaIdTipo = document.createElement('td');
+          celdaIdTipo.textContent = t.idTipo;
+          fila.appendChild(celdaIdTipo);
+
+          let celdaTipo = document.createElement('td');
+          celdaTipo.textContent = t.tipo;
+          fila.appendChild(celdaTipo);
+
+          let celdaDetalle = document.createElement('td');
+          celdaDetalle.textContent = t.detalle;
+          fila.appendChild(celdaDetalle);
+
+          let celdaEditar = document.createElement('td');
+          let botonEditar = document.createElement('button');
+          botonEditar.textContent = 'Editar';
+          botonEditar.addEventListener('click', function() {
+            editarRegistroTipo(t);
+          });
+          celdaEditar.appendChild(botonEditar);
+          fila.appendChild(celdaEditar);
+
+          let celdaEliminar = document.createElement('td');
+          let botonEliminar = document.createElement('button');
+          botonEliminar.textContent = 'Eliminar';
+          botonEliminar.addEventListener('click', function() {
+            eliminarRegistroTipo(t);
+          });
+          celdaEliminar.appendChild(botonEliminar);
+          fila.appendChild(celdaEliminar);
+
+          tablatipos.appendChild(fila);
+        });
+
+        // Mostrar la tabla en el documento
+        let contenedorTabla = document.getElementById('tablaRegistrosTipos');
+        contenedorTabla.innerHTML = '';
+        contenedorTabla.appendChild(tablatipos);
+      }
+    }
+
+    function eliminarRegistroTipo(registro) {
+      // Obtener los registros del local storage
+      let tipos = localStorage.getItem('tipos');
+      if (tipos) {
+        tipos = JSON.parse(tipos);
+
+        // Eliminar el registro del array
+        tipos = tipos.filter(function(t) {
+          return t.tipo !== registro.tipo;
+        });
+
+        // Guardar el array actualizado en el local storage
+        localStorage.setItem('tipos', JSON.stringify(tipos));
+
+        // Actualizar la tablatipos
+        mostrarRegistrosTipos();
+      }
+    }
+
+    function presentaTiemposTipo(){
+        // Obtener la fecha y hora actual
+        let fechaHoraActual = new Date();
+        let fechaActual = fechaHoraActual.toISOString().split('T')[0];
+        // let horaActual = fechaHoraActual.toTimeString().split(' ')[0];
+        // Establecer la fecha y hora actual por defecto en los campos de entrada
+        document.getElementById('fechaTipo').value = fechaActual;
+        // document.getElementById('horaTipo').value = horaActual;
+
+    }
+    
+    function mostrarHoraActualTipo() {
+      let fechaHoraActual = new Date();
+      let opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      let horaActual = fechaHoraActual.toLocaleTimeString('es-ES', opciones);
+      document.getElementById('horaTipo').value = horaActual;
+    }
+    
+    function cargaTipos(){
+      presentaTiemposTipo()
+      mostrarRegistrosTipos();
+    }
+    setInterval(mostrarHoraActualTipo, 1000); 
+    cargaTipos()
+  </script>
+</body>
+</html>

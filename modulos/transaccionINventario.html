@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transacciones de Inventarios</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <!-- <div id="modInv" style="display: none"> -->
+  <div id="modTransInv">
+      <div class="tituloModulo">
+        <div class="verIds" onclick="activaElemento('seccionIdsTransInv')">&#x25bd</div>
+        <div class="ocultaIds" onclick="desactivaElemento('seccionIdsTransInv') ">&#x25b3</div>
+        <div class="close-icon" onclick="desactivaElemento('modTransInv')">&#x2716</div>
+        <h3>Transacciones Inventarios</h3>
+      </div>
+      <div id="seccionIdsTransInv" class="seccionIds" style="display: none">
+        <div class="lineal">
+          <div class="columna centrado">
+            <label for="idUsuInvTrans">ID Usuario:</label>
+            <input type="text" id="idUsuInvTrans" readonly>
+          </div>
+          <div class="columna centrado">
+            <label for="usuarioTransInv">Usuario:</label>
+            <input type="text" id="usuarioTransInv" disabled>
+          </div>
+          <div class="columna centrado">
+            <label for="idInventarioTrans">ID Inventario:</label>
+            <input type="text" id="idInventarioTrans" disabled>
+          </div>
+          <div class="columna centrado">
+            <label for="idTipoSelTrans">ID Tipo:</label>
+            <input type="text" id="idTipoSelTrans" readonly>
+          </div>
+          <div class="columna centrado">
+            <label for="idArticuloSel">ID Artículo:</label>
+            <input type="text" id="idArticuloSel" readonly>
+          </div>
+          <div class="columna centrado">
+            <label for="idTransInv">ID Transacción:</label>
+            <input type="text" id="idTransInv" disabled>
+          </div>
+        </div>
+      </div>
+      <!-- FECHA HORA -->
+      <div class="lineal centrado">
+        <input type="text" id="fechaTransInv" class="fecha" readonly>
+        <input type="text" id="horaTransInv" class="hora" readonly>
+      </div>
+      <br>
+      <!-- listas-->
+      <div class="lineal">
+        <div class="columna">
+          <label for="ListaInventariosTrans">Inventarios:</label>
+          <!-- <select id="ListaInventariosTrans" class="combo" onchange="ejecutaIdInventario(this.value)"></select> -->
+          <select id="ListaInventariosTrans" class="combo" onchange="elijiendoInventario(this.value)"></select>
+          <br>
+          <label for="ListaTiposTrans">Tipo:</label>
+          <select id="ListaTiposTrans" class="combo"></select>
+          <br>
+          <label for="ListaArticulosTrans">Artículo:</label>
+          <select id="ListaArticulosTrans" class="combo"></select>
+          <br>
+        </div>
+        <!-- cantidad valor detalle -->
+        <div class="columna">
+          <div class="columna">
+            <label for="cantidadTransInv">Cantidad:</label>
+            <input type="number" id="cantidadTransInv" class="entrada" style="width: 100px !important;" oninput="calcularTotalTrans()">
+          </div>
+          <div class="columna">
+            <label for="valorTransInv">Valor:</label>
+            <input type="number" id="valorTransInv" class="entrada" style="width: 100px !important;" oninput="calcularTotalTrans()">
+          </div>
+          <div class="columna">
+            <label for="totalTransInv">Total:</label>
+            <input type="text" id="totalTransInv" class="entrada" style="width: 100px !important;" disabled>
+          </div>
+          <div class="columna centrado">
+            <label for="DetalleTransInv">Detalle</label>
+            <textarea name="DetalleTransInv" id="DetalleTransInv" class="detalle" cols="30" rows="10"></textarea>
+
+          </div>
+
+        </div>
+      </div>
+      <br>
+      <!-- botones -->
+      <div class="lineal centrado">
+        <button type="button" class="btnGraba" onclick="grabaTransaccionInventario()" id="grabaTransInv">Grabar</button>
+        <button type="button" class="btnNuevo" onclick="nuevaTransaccionInv()" id="nuevaTransInv">Nueva</button>
+      </div>
+      <!-- despliega tabla -->
+      <div class="seccionVerTabla">
+        <button onclick="mostrarTabla('seccionTablaTransInv')">&#x25bc</button>
+        <button onclick="ocultarTabla('seccionTablaTransInv')">&#x25b2</button>
+      </div>
+      <section id="seccionTablaTransInv" class="seccionTabla" style="display: none">
+        <h2>Transacciones</h2>
+        <table onclick="desactivaElemento('tablaTransResumen')" id="tablaTransResumen" border="1" style="background-color: rgb(65, 74, 82);color: white;display: none">
+          <thead>
+            <tr>
+              <th>ID Usuario</th>
+              <th>ID Inventario</th>
+              <th>Cantidad</th>
+              <th>Valores</th>
+              <th>Totales</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <table id="tablaTransacciones" border="1">
+          <thead>
+            <tr>
+              <th>ID Transacción</th>
+              <th>ID Usuario</th>
+              <th>ID Inventario</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>ID Tipo</th>
+              <th>Tipo</th>
+              <th>ID Artículo</th>
+              <th>Artículo</th>
+              <th>Cant</th>
+              <th>Valor</th>
+              <th>Total</th>
+              <th>detalle</th>
+              <th>editar</th>
+              <th>eliminar</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+  </div>
+  <script src="./libreria.js"></script>
+  <script>
+    function ejecutaIdInventario(id){
+      alert(id)
+    } 
+    // Actualizar la hora en el input correspondiente
+    function darHoraTransInv() {
+      let horaInput = document.getElementById('horaTransInv');
+      let fecha = new Date();
+      let hora = fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      horaInput.value = hora;
+    }
+
+    function darTiempoTransInv() {
+      let fecha = new Date();
+      let opciones = { month: '2-digit', day: '2-digit', year: 'numeric' };
+      let fechaFormateada = fecha.toLocaleDateString('es-ES', opciones);
+      let fechaInput = document.getElementById('fechaTransInv');
+      let horaInput = document.getElementById('horaTransInv');
+      fechaInput.value = fechaFormateada;
+      horaInput.value = fecha.toLocaleTimeString();
+    }
+
+    function calcularTotalTrans() {
+      let cantidad = document.getElementById('cantidadTransInv').value;
+      let valor = document.getElementById('valorTransInv').value;
+      let total = cantidad * valor;
+      totalPeso=formatoMoneda(total)
+      document.getElementById('totalTransInv').value = totalPeso;
+    }
+
+    function usuarioActivoTransInv() {
+      // Obtener el usuario activo del local storage
+      let idUsu=retornaUsuarioActivo()
+        if(!idUsu){
+            mensajeAyuda('el usuario no esta activo','alerta')
+            return null
+        }
+        // document.getElementById('idUsuInv').value=idUsu
+        return idUsu 
+    }
+
+    function actualizarTablaTransacciones() {
+      // Obtener los datos de local storage
+      let transacciones = JSON.parse(localStorage.getItem('transaccionesInv'));
+      if (!transacciones) {
+        return;
+      }
+      // Obtener el cuerpo de la tabla
+      let tabla = document.getElementById('tablaTransacciones');
+      let tbody = tabla.getElementsByTagName('tbody')[0];
+      tbody.innerHTML = '';
+      // Llenar la tabla con las transacciones
+      transacciones.forEach(transaccion => {
+        let fila = document.createElement('tr');
+        fila.id = transaccion.idTransInv; // Asignar el ID de la transacción a la fila
+        let idTransInv = document.createElement('td');
+        idTransInv.textContent = transaccion.idTransInv;
+        fila.appendChild(idTransInv);
+        let idUsu = document.createElement('td');
+        idUsu.textContent = transaccion.idUsu;
+        fila.appendChild(idUsu);
+        let idInventario = document.createElement('td');
+        idInventario.textContent = transaccion.idInventario;
+        fila.appendChild(idInventario);
+        let fecha = document.createElement('td');
+        fecha.textContent = transaccion.fecha;
+        // fecha.setAttribute('class','columnaFecha')
+        // fecha.style.width = '50px !important'; // Ancho de la columna
+        // fecha.setAttribute('style', 'width: 100px !important'); // Ancho de la columna
+        fila.appendChild(fecha);
+        let hora = document.createElement('td');
+        hora.textContent = transaccion.hora;
+        // hora.setAttribute('class','columnaHora')
+        fila.appendChild(hora);
+        let idTipo = document.createElement('td');
+        idTipo.textContent = transaccion.idTipo;
+        fila.appendChild(idTipo);
+        let tipo = document.createElement('td');
+        tipo.textContent = transaccion.tipo;
+        fila.appendChild(tipo);
+        let idArticulo = document.createElement('td');
+        idArticulo.textContent = transaccion.idArticulo;
+        fila.appendChild(idArticulo);
+        let articulo = document.createElement('td');
+        articulo.textContent = transaccion.articulo;
+        fila.appendChild(articulo);
+        let cantidad = document.createElement('td');
+        cantidad.textContent = transaccion.cantidad;
+        fila.appendChild(cantidad);
+        let valor = document.createElement('td');
+        valor.textContent = transaccion.valor;
+        fila.appendChild(valor);
+        let total = document.createElement('td');
+        total.textContent = transaccion.total;
+        fila.appendChild(total);
+        let detalle = document.createElement('td');
+        detalle.textContent = transaccion.detalle;
+        fila.appendChild(detalle);
+        let editar = document.createElement('td');
+        let botonEditar = document.createElement('button');
+        botonEditar.textContent = 'Editar';
+        botonEditar.setAttribute("class","btnEdita")
+        botonEditar.onclick = function() {
+          // editarTransInv(transaccion.idTransInv);
+          // debugger
+          editandoRegTransInv(transaccion.idTransInv)
+        };
+        editar.appendChild(botonEditar);
+        fila.appendChild(editar);
+        let eliminar = document.createElement('td');
+        let botonEliminar = document.createElement('button');
+        botonEliminar.textContent = 'Eliminar';
+        botonEliminar.setAttribute("class","btnElimina")
+
+        botonEliminar.onclick = function() {
+          eliminarTransInv(transaccion.idTransInv);
+        };
+        eliminar.appendChild(botonEliminar);
+        fila.appendChild(eliminar);
+        tbody.appendChild(fila);
+      });
+    }
+
+    function resumenTransInv(){
+        // hace visible la tabla
+        let elemento = document.getElementById('tablaTransResumen'); 
+        elemento.style.display = "block";
+        // elemento.style.width = 'background-color: #191b19;';
+        elemento.setAttribute('style', 'width: 100vw !important;background-color:  coral'); // Ancho de la columna
+
+        let idInv=document.getElementById('idInventarioTrans').value
+        let tabla = document.getElementById('tablaTransResumen');
+        let tbody = tabla.getElementsByTagName('tbody')[0];
+        tbody.innerHTML = '';
+
+        let fila = document.createElement('tr');
+        let idUsu = document.createElement('td');
+        idUsu.textContent = document.getElementById('idUsuInvTrans').value;
+        fila.appendChild(idUsu);
+
+        let idInventario = document.createElement('td');
+        idInventario.textContent = document.getElementById('idInventarioTrans').value;
+        fila.appendChild(idInventario);
+
+        let cantidad = document.createElement('td');
+        // let cantidadTotal=10
+        cantidad.textContent = totalTotalInventario(idInv)[1]
+        fila.appendChild(cantidad);
+
+        let valor = document.createElement('td');
+        // let valorTotal=1000
+        valor.textContent = totalTotalInventario(idInv)[2]
+        fila.appendChild(valor);
+
+        let total = document.createElement('td');
+        let totalTotal=totalTotalInventario(idInv)[0]
+        total.textContent = totalTotal;
+        fila.appendChild(total);
+        tbody.appendChild(fila);
+    }
+
+    function totalTotalInventario(idInventario){
+      let transacciones = JSON.parse(localStorage.getItem('transaccionesInv'));
+      let largo=transacciones.length
+      let tot=0
+      let totPeso=0
+      let cant=0
+      let val=0
+      for(i=0;i<largo;i++){
+        if(transacciones[i].idInventario===idInventario){
+          tot=tot+(parseInt(transacciones[i].cantidad)*parseInt(transacciones[i].valor))
+          cant=cant+parseInt(transacciones[i].cantidad)
+          val=val+(parseInt(transacciones[i].valor)*parseInt(transacciones[i].cantidad))
+        }
+      }
+      // val=formatNumber(val)
+      tot=formatoMoneda(tot)
+      return [tot,cant,val]
+    }
+
+    function eliminarTransInv(idTransaccion) {
+      let idInventario=retornaIdInventario(idTransaccion)
+      let fila = document.getElementById(idTransaccion);
+      if (fila) {
+        // Eliminar la fila de la tabla
+        fila.remove();
+      }
+      // Obtener las transacciones del almacenamiento local
+      let transacciones = JSON.parse(localStorage.getItem('transaccionesInv'));
+      if (!transacciones) {
+        return;
+      }
+      // Filtrar las transacciones para excluir la transacción con el ID especificado
+      let transaccionesFiltradas = transacciones.filter(transaccion => transaccion.idTransInv !== idTransaccion);
+      // Guardar las transacciones actualizadas en el almacenamiento local
+      localStorage.setItem('transaccionesInv', JSON.stringify(transaccionesFiltradas));
+      console.log("Transacción eliminada con ID: " + idTransaccion);
+      // ELIMINA DE LA TABLA DINAMICA
+      eliminaTransGenInventario(idInventario, idTransaccion)
+    }
+
+    function eliminaTransGenInventario(idInventario, idTransInv) {
+      // Obtener los datos de local storage
+      let gentransinventario = JSON.parse(localStorage.getItem('inventarios'+idInventario)) || [];
+      // Filtrar el inventario para excluir el registro con el idInventario y idTransInv especificado
+      gentransinventario = gentransinventario.filter(inventario => !(inventario.idInventario === idInventario && inventario.idTransInv === idTransInv));
+      // Guardar los cambios en local storage
+      localStorage.setItem('inventarios'+idInventario, JSON.stringify(gentransinventario));
+    }
+
+    function retornaIdInventario(idTransInv) {
+      // Obtener los datos de local storage
+      let transacciones = JSON.parse(localStorage.getItem('transaccionesInv')) || [];
+      // Buscar el idInventario correspondiente al idTransInv especificado
+      let transaccion = transacciones.find(transaccion => transaccion.idTransInv === idTransInv);
+      // Retornar el idInventario si se encuentra la transacción, de lo contrario retornar null
+      return transaccion ? transaccion.idInventario : null;
+    }
+
+    function filtroUsuarioInventario(idUsu, idInventario) {
+      // Obtener el inventario del local storage
+      const inventarios = JSON.parse(localStorage.getItem('inventarios'));
+      // Verificar si existe algún registro en el inventario que coincida con los parámetros idUsu y idInventario
+      const inventarioCorrespondiente = inventarios.find(inventario => inventario.idUsu === idUsu && inventario.idInventario === idInventario);
+      // Devolver true si se encontró el registro correspondiente, de lo contrario, false
+      return Boolean(inventarioCorrespondiente);
+    }
+
+    function editandoRegTransInv(idTransInvInput) {
+      // Obtener los elementos por sus IDs
+      const idTransInv = document.getElementById('idTransInv');
+      const fechaTransInv = document.getElementById('fechaTransInv');
+      const horaTransInv = document.getElementById('horaTransInv');
+      const idUsuInvTrans = document.getElementById('idUsuInvTrans');
+      const idInventarioTrans = document.getElementById('idInventarioTrans');
+      const ListaTiposTrans = document.getElementById('ListaTiposTrans');
+      const idTipoSelTrans = document.getElementById('idTipoSelTrans');
+      const ListaArticulosTrans = document.getElementById('ListaArticulosTrans');
+      const idArticuloSel = document.getElementById('idArticuloSel');
+      const cantidadTransInv = document.getElementById('cantidadTransInv');
+      const valorTransInv = document.getElementById('valorTransInv');
+      const totalTransInv = document.getElementById('totalTransInv');
+      const DetalleTransInv = document.getElementById('DetalleTransInv');
+      // Obtener los datos del Local Storage
+      const data = JSON.parse(localStorage.getItem('transaccionesInv'));
+      // Buscar los datos para el ID especificado utilizando un ciclo for
+      let selectedData;
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].idTransInv === idTransInvInput) {
+          selectedData = data[i];
+          break;
+        }
+      }
+      // Rellenar los campos con los datos obtenidos
+      idTransInv.value = idTransInvInput;
+      fechaTransInv.value = selectedData.fecha;
+      horaTransInv.value = selectedData.hora;
+      idUsuInvTrans.value = selectedData.idUsu;
+      idInventarioTrans.value = selectedData.idInventario;
+      idTipoSelTrans.value = selectedData.idTipo;
+      presentaComboTipoTrans(idTipoSelTrans.value)
+      llenarComboboxArticulos()
+      // ListaTiposTrans.value = selectedData.tipo;//NO FUNCIONA ?
+      idArticuloSel.value = selectedData.idArticulo;
+      presentaComboArticuloTrans(idArticuloSel.value)
+      // ListaArticulosTrans.value = selectedData.articulo; //no funciona
+      cantidadTransInv.value = selectedData.cantidad;
+      valorTransInv.value = selectedData.valor;
+      totalTransInv.value = selectedData.total;
+      DetalleTransInv.value = selectedData.detalle;
+    }
+
+    function cargaFormTransInv(){
+        darTiempoTransInv();
+        actualizarTablaTransacciones();
+        darHoraTransInv();
+        setInterval(darHoraTransInv, 1000);
+        llenaComboInventarios()
+        presentaIdUsuarioAct()
+        cargarTiposYarticulos()
+        simulaSeleccionListInvTrans()
+    }
+
+    function simulaSeleccionListInvTrans(){
+          // Obtener el elemento del combobox
+          let listaInventarios = document.getElementById("ListaInventariosTrans");
+          // Crear un nuevo evento de tipo "change"
+          let eventoChange = new Event("change");
+          // Simular la activación del evento "onchange" en el combobox
+          listaInventarios.dispatchEvent(eventoChange);
+    }
+
+    function llenaComboInventarios() {
+      // Obtener los datos de local storage
+      let inventarios = JSON.parse(localStorage.getItem('inventarios'));
+      // Obtener los elementos del DOM
+      let listaInventarios = document.getElementById('ListaInventariosTrans');
+      let idInv = document.getElementById('idInventarioTrans');
+      // Limpiar el combobox de inventarios
+      listaInventarios.innerHTML = '';
+      // Llenar el combobox con los inventarios
+      inventarios.forEach(inventario => {
+        let option = document.createElement('option');
+        option.text = inventario.inventario;
+        option.value = inventario.idInventario;
+        listaInventarios.add(option);
+      });
+      // Mostrar el idInventario del primer elemento en el input
+      idInv.value = inventarios[0].idInventario;
+      // Actualizar el idInventario en el input al seleccionar un elemento del combobox
+      listaInventarios.addEventListener('change', function() {
+        idInv.value = this.value;
+        elijiendoInventario(this.value);
+      });
+    }
+
+    function grabaTransaccionInventario() {
+        let idTransInv = document.getElementById('idTransInv').value;
+        if (idTransInv !== '') {
+          actualizaTransInventario()
+          actualizarTablaTransacciones()
+          cargarTiposYarticulos()
+        } else {
+          grabaNuevaTransInv();
+        }
+    }
+
+    function actualizaTransInventario() {
+      // Obtener el ID de la transacción a actualizar
+      const idTransInv = document.getElementById('idTransInv').value;
+      // Obtener los datos del Local Storage
+      let data = JSON.parse(localStorage.getItem('transaccionesInv'));
+      // Encontrar el índice del registro a actualizar
+      const index = data.findIndex(item => item.idTransInv === idTransInv);
+      // Verificar si se encontró el registro
+      if (index !== -1) {
+        // Actualizar los valores del registro
+        data[index].fecha = document.getElementById('fechaTransInv').value;
+        data[index].hora = document.getElementById('horaTransInv').value;
+        data[index].idUsu = document.getElementById('idUsuInvTrans').value;
+        data[index].idInventario = document.getElementById('idInventarioTrans').value;
+        data[index].idTipo = document.getElementById('idTipoSelTrans').value;
+        data[index].idArticulo = document.getElementById('idArticuloSel').value;
+        
+        let listaTiposTrans = document.getElementById('ListaTiposTrans');
+        let idTipo = document.getElementById('idTipoSelTrans').value;
+        let tipo = listaTiposTrans.options[listaTiposTrans.selectedIndex]?.text;
+        data[index].tipo = tipo;
+        listaTiposTrans.value = idTipo
+        
+        let listaArticulosTrans = document.getElementById('ListaArticulosTrans');
+        let idArticulo = document.getElementById('idArticuloSel').value;
+        let articulo = listaArticulosTrans.options[listaArticulosTrans.selectedIndex]?.text;
+        data[index].articulo = articulo;
+        listaArticulosTrans.value=idArticulo
+
+        data[index].cantidad = document.getElementById('cantidadTransInv').value;
+        data[index].valor = document.getElementById('valorTransInv').value;
+        data[index].total = document.getElementById('totalTransInv').value;
+        data[index].detalle = document.getElementById('DetalleTransInv').value;
+        // Guardar los datos actualizados en el Local Storage
+        localStorage.setItem('transaccionesInv', JSON.stringify(data));
+      } else {
+        console.log('No se encontró el registro en el almacenamiento local.');
+      }
+    }
+
+    function grabaNuevaTransInv() {
+      // Obtener los datos del formulario
+      let idUsu = document.getElementById('idUsuInvTrans').value
+      let idInventario = document.getElementById('idInventarioTrans').value;
+      // valida usuario inventario
+      let validado=filtroUsuarioInventario(idUsu, idInventario)
+      if(!validado){
+        // mensajeAyuda('el usuario no ha creado este inventario','alerta')
+        alert('el usuario no ha creado este inventario')
+        // alert("idUsu: "+idUsu,"idInventario: "+idInventario)
+        return
+        //id1308202393923 en manos de  
+        //1308202393923 yonarev 
+        //12082023150148 janvera
+      } else {
+        alert("idUsu: "+idUsu,"idInventario: "+idInventario)
+      }
+      let idTransInv = indiceAhora();
+      let fecha = document.getElementById('fechaTransInv').value;
+      let hora = document.getElementById('horaTransInv').value;
+      let listaTiposTrans = document.getElementById('ListaTiposTrans');
+      let tipo = listaTiposTrans.options[listaTiposTrans.selectedIndex].text;
+      let idTipo = document.getElementById('idTipoSelTrans').value;
+      let listaArticulos = document.getElementById('ListaArticulosTrans');
+      let articulo = listaArticulos.options[listaArticulos.selectedIndex].text;
+      let idArticulo = document.getElementById('idArticuloSel').value;
+      // valida si ya existe articulo de el inventario
+      let siExiste = siExisteArtInv(idInventario, idArticulo) 
+      if(siExiste){
+        alert('Ya esta este articulo en el inventario')
+        document.getElementById('ListaArticulosTrans').focus()
+        return
+      }
+      let cantidad = parseInt(document.getElementById('cantidadTransInv').value);
+      let valor= parseInt(document.getElementById('valorTransInv').value);
+      let total = cantidad * valor;
+      let totalPeso=formatoPeso(total)
+      let detalle = document.getElementById('DetalleTransInv').value;
+      // Crear la nueva transacción
+      let nuevaTransaccion = {
+        idUsu: idUsu,
+        idTransInv: idTransInv,
+        idInventario: idInventario,
+        fecha: fecha,
+        hora: hora,
+        tipo: tipo,
+        idTipo: idTipo,
+        articulo: articulo,
+        idArticulo: idArticulo,
+        cantidad: cantidad,
+        valor: valor,
+        total: totalPeso,
+        detalle: detalle
+      };
+      // Obtener las transacciones del local storage
+      let transacciones = JSON.parse(localStorage.getItem('transaccionesInv')) || [];
+      // Agregar la nueva transacción a la lista
+      transacciones.push(nuevaTransaccion);
+      // Guardar las transacciones actualizadas en el local storage
+      localStorage.setItem('transaccionesInv', JSON.stringify(transacciones));
+      //graba en inventario generado
+      grabaGenInventario(idInventario, nuevaTransaccion)
+      // Actualizar la tabla de transacciones
+      actualizarTablaTransacciones();
+      // Limpiar el formulario
+      document.getElementById('idTransInv').value = '';
+      document.getElementById('cantidadTransInv').value = '';
+      document.getElementById('valorTransInv').value = '';
+    }
+
+    function elijiendoInventario(idInventario){
+      let idUsu=document.getElementById('idUsuInvTrans').value
+      let validado=validaUsuarioTransInv(idUsu, idInventario)
+      if(!validado){
+        alert('usted no tiene acceso a este inventario')
+        let listaInventarios = document.getElementById("ListaInventariosTrans");
+        // Establecer el índice del elemento seleccionado
+        listaInventarios.selectedIndex = 0; // Cambiar el número 0 po
+        //luego validar que el indice si le corresponda al usuario
+        return
+      }
+      presentaTablaInvUsu(idInventario, idUsu)
+      resumenTransInv()
+    }
+
+    function validaUsuarioTransInv(idUsu, idInventario) {
+      // Obtener los registros de inventarios desde el local storage
+      const inventarios = JSON.parse(localStorage.getItem('inventarios')) || [];
+      // Buscar el registro de inventario que coincide con idInventario
+      const inventarioEncontrado = inventarios.find(
+        (inventario) => inventario.idInventario === idInventario
+      );
+      // Verificar si el inventario fue encontrado y si el idUsu coincide
+      if (inventarioEncontrado && inventarioEncontrado.idUsu === idUsu) {
+        console.log("El usuario tiene acceso al inventario")
+        return true;
+      } else {
+        console.log("El usuario no tiene acceso al inventario")
+        return false; 
+      }
+    }
+
+    function siExisteArtInv(idInventario, idArticulo) {
+      // Obtener los datos del local storage
+      const transaccionesInv = JSON.parse(localStorage.getItem('transaccionesInv'));
+      if(!transaccionesInv){
+        return false
+      }
+      // Verificar si existe el artículo en el inventario
+      const existeArticulo = transaccionesInv.some(transaccion => {
+        return transaccion.idInventario === idInventario && transaccion.idArticulo === idArticulo;
+      });
+      return existeArticulo;
+    }
+
+    function cargarTiposYarticulos(){
+        llenarComboboxTipos();
+        llenarComboboxArticulos();
+        // Actualizar los artículos al cambiar el tipo seleccionado
+        document.getElementById('ListaTiposTrans').addEventListener('change', llenarComboboxArticulos);
+        // Mostrar el idArticulo al seleccionar un artículo
+        document.getElementById('ListaArticulosTrans').addEventListener('change', function() {
+            document.getElementById('idArticuloSel').value = this.value;
+        });
+    }
+
+    function grabaGenInventario(idInventario, data) {
+      // Obtener los datos actuales del inventario (si existen)
+      const inventarioActual = JSON.parse(localStorage.getItem('inventario' + idInventario)) || [];
+
+      // Agregar la nueva transacción al inventario
+      inventarioActual.push({
+        idTransInv: data.idTransInv,
+        idUsu: data.idUsu,
+        idInventario: data.idInventario,
+        fecha: data.fecha,
+        hora: data.hora,
+        idTipo: data.idTipo,
+        tipo: data.tipo,
+        idArticulo: data.idArticulo,
+        articulo: data.articulo,
+        cantidad: data.cantidad,
+        valor: data.valor,
+        total: data.total
+      });
+
+      // Guardar el inventario actualizado en el local storage
+      localStorage.setItem('inventario' + idInventario, JSON.stringify(inventarioActual));
+    }
+
+    function llenarComboboxTipos() {
+      // Obtener los datos de local storage
+      let tipos = JSON.parse(localStorage.getItem('tipos'));
+      // Obtener el combobox de tipos
+      let listaTipos = document.getElementById('ListaTiposTrans');
+      // Vaciar el combobox de tipos
+      listaTipos.innerHTML = '';
+      // Llenar el combobox de tipos
+      tipos.forEach(tipo => {
+        let option = document.createElement('option');
+        option.text = tipo.tipo;
+        option.value = tipo.idTipo;
+        listaTipos.add(option);
+      });
+    }
+
+    function presentaComboTipoTrans(idTipo) {
+      let tipos = JSON.parse(localStorage.getItem('tipos'));
+      let listaTipos = document.getElementById('ListaTiposTrans');
+
+      for (let i = 0; i < tipos.length; i++) {
+        if (tipos[i].idTipo === idTipo) {
+          listaTipos.value = tipos[i].idTipo;
+          break;
+        }
+      }
+    }
+
+    function presentaComboArticuloTrans(idArticulo) {
+      let articulos = JSON.parse(localStorage.getItem('articulos'));
+      let listaArticulos = document.getElementById('ListaArticulosTrans');
+
+      for (let i = 0; i < articulos.length; i++) {
+        if (articulos[i].idArticulo === idArticulo) {
+          listaArticulos.value = articulos[i].idArticulo;
+          break;
+        }
+      }
+    }
+
+    function llenarComboboxArticulos() {
+      // Obtener los datos de local storage
+      let articulos = JSON.parse(localStorage.getItem('articulos'));
+      // Obtener los elementos del DOM
+      let listaTipos = document.getElementById('ListaTiposTrans');
+      let idTipoSel = document.getElementById('idTipoSelTrans');
+      let listaArticulos = document.getElementById('ListaArticulosTrans');
+      let idArticuloSel = document.getElementById('idArticuloSel');
+      // Limpiar el combobox de artículos
+      listaArticulos.innerHTML = '';
+      // Obtener el idTipo seleccionado
+      let idTipo = listaTipos.value;
+      // Filtrar los artículos por el idTipo seleccionado
+      let articulosFiltrados = articulos.filter(articulo => articulo.idTipo === idTipo);
+      // Llenar el combobox de artículos con los artículos filtrados
+      articulosFiltrados.forEach(articulo => {
+        let option = document.createElement('option');
+        option.text = articulo.articulo;
+        option.value = articulo.idArticulo;
+        listaArticulos.add(option);
+      });
+      // Mostrar el idTipo en el input correspondiente
+      idTipoSel.value = idTipo;
+      // Mostrar el idArticulo del primer artículo en el input correspondiente
+      idArticuloSel.value = articulosFiltrados.length > 0 ? articulosFiltrados[0].idArticulo : '';
+    }
+
+    function presentaTablaInvUsu(idInventario, idUsu) {
+      // Obtener los datos del Local Storage
+      const data = JSON.parse(localStorage.getItem('transaccionesInv'));
+      // Filtrar las transacciones que coinciden con el idInventario y el idUsu
+      const transacciones = data.filter(item => item.idInventario === idInventario && item.idUsu === idUsu);
+      // Llamar a la función tablaInvUsu con los resultados
+      if(transacciones.length===0){
+        alert('no hay transacciones aun de este inventario')
+      }
+      //------------ aki
+      if (!transacciones) {
+        return;
+      }
+      // Obtener el cuerpo de la tabla
+      let tabla = document.getElementById('tablaTransacciones');
+      let tbody = tabla.getElementsByTagName('tbody')[0];
+      tbody.innerHTML = '';
+      // Llenar la tabla con las transacciones
+      transacciones.forEach(transaccion => {
+        let fila = document.createElement('tr');
+        fila.id = transaccion.idTransInv; // Asignar el ID de la transacción a la fila
+        let idTransInv = document.createElement('td');
+        idTransInv.textContent = transaccion.idTransInv;
+        fila.appendChild(idTransInv);
+        let idUsu = document.createElement('td');
+        idUsu.textContent = transaccion.idUsu;
+        fila.appendChild(idUsu);
+        let idInventario = document.createElement('td');
+        idInventario.textContent = transaccion.idInventario;
+        fila.appendChild(idInventario);
+        let fecha = document.createElement('td');
+        fecha.textContent = transaccion.fecha;
+        // fecha.setAttribute('class','columnaFecha')
+        fecha.style.width = '70px !important';
+        fila.appendChild(fecha);
+        let hora = document.createElement('td');
+        hora.textContent = transaccion.hora;
+        // hora.setAttribute('class','columnaHora')
+        fila.appendChild(hora);
+        let idTipo = document.createElement('td');
+        idTipo.textContent = transaccion.idTipo;
+        fila.appendChild(idTipo);
+        let tipo = document.createElement('td');
+        tipo.textContent = transaccion.tipo;
+        fila.appendChild(tipo);
+        let idArticulo = document.createElement('td');
+        idArticulo.textContent = transaccion.idArticulo;
+        fila.appendChild(idArticulo);
+        let articulo = document.createElement('td');
+        articulo.textContent = transaccion.articulo;
+        fila.appendChild(articulo);
+        let cantidad = document.createElement('td');
+        cantidad.textContent = transaccion.cantidad;
+        fila.appendChild(cantidad);
+        let valor = document.createElement('td');
+        valor.textContent = transaccion.valor;
+        fila.appendChild(valor);
+        let total = document.createElement('td');
+        total.textContent = transaccion.total;
+        fila.appendChild(total);
+        let detalle = document.createElement('td');
+        detalle.textContent = transaccion.detalle;
+        fila.appendChild(detalle);
+        let editar = document.createElement('td');
+        let botonEditar = document.createElement('button');
+        botonEditar.textContent = 'Editar';
+        botonEditar.setAttribute("class","btnEdita")
+        botonEditar.onclick = function() {
+          // editarTransInv(transaccion.idTransInv);
+          // debugger
+          editandoRegTransInv(transaccion.idTransInv)
+        };
+        editar.appendChild(botonEditar);
+        fila.appendChild(editar);
+        let eliminar = document.createElement('td');
+        let botonEliminar = document.createElement('button');
+        botonEliminar.textContent = 'Eliminar';
+        botonEliminar.setAttribute("class","btnElimina")
+        botonEliminar.onclick = function() {
+          eliminarTransInv(transaccion.idTransInv);
+        };
+        eliminar.appendChild(botonEliminar);
+        fila.appendChild(eliminar);
+        tbody.appendChild(fila);
+      });
+    }
+
+    function nuevaTransaccionInv() {
+      // cargaFormTransInv()
+      document.getElementById('idTransInv').value = '';
+      document.getElementById('cantidadTransInv').value = '';
+      document.getElementById('valorTransInv').value = '';
+      document.getElementById('totalTransInv').value = '';
+      document.getElementById('DetalleTransInv').value = '';
+      document.getElementById('cantidadTransInv').select()
+    }
+
+    // MODIFICAR AL PASAR A MENU
+    function presentaIdUsuarioAct(){
+      // Mostrar el usuario activo en el input correspondiente
+      // idocument.getElementById('idUsuInvTrans').value = usuarioActivoTransInv();
+      let idUsu="1308202393923"
+      // Mostrar el idInventario en el input correspondiente
+      document.getElementById('idUsuInvTrans').value = idUsu;
+      let nombreUsuario=nombreUsuarioActivo(idUsu)
+      document.getElementById('usuarioTransInv').value=nombreUsuario
+      // idInventarioTransInput.value = localStorage.getItem('idInventario');
+    }
+    // MOVER ESTA FUNCION A INDEX.JS
+    function nombreUsuarioActivo(idUsu){ 
+        let usuarios = JSON.parse(localStorage.getItem('usuarios')) || []; 
+        for (let i = 0; i < usuarios.length; i++) { 
+          if (usuarios[i].idUsu === idUsu) { 
+            return usuarios[i].usuario; 
+          } 
+        } 
+      return null; 
+    } 
+
+    window.addEventListener('load', function() {
+        cargaFormTransInv()
+        // debugger
+    // clickListaInventario()
+    });
+  </script>
+</body>
+
+</html>

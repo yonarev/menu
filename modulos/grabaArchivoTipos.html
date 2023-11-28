@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Guardar archivo JSON en disco duro</title>
+</head>
+<body>
+  <button onclick="guardarArchivo()">Guardar archivo JSON</button>
+  
+  <script>
+    function guardarArchivoTipos() {
+      // Obtener los datos de tipos desde el localStorage
+      var tipos = localStorage.getItem('tipos');
+      
+      // Crear un objeto Blob con los datos JSON
+      var blob = new Blob([tipos], { type: 'application/json' });
+      
+      // Crear un enlace de descarga para el archivo
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'tipos.json';
+      
+      // Agregar el enlace al documento y hacer clic en él para descargar el archivo
+      document.body.appendChild(a);
+      a.click();
+      
+      // Eliminar el enlace después de la descarga
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>

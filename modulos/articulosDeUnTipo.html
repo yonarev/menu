@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artículos por Tipo</title>
+</head>
+
+<body>
+  <label for="ListaTiposTrans">Seleccione un Tipo:</label>
+  <select id="ListaTiposTrans"></select>
+  <br>
+  <label for="idTipoSelTrans">ID Tipo:</label>
+  <input type="text" id="idTipoSelTrans" readonly>
+  <br>
+  <label for="ListaArticulosTrans">Seleccione un Artículo:</label>
+  <select id="ListaArticulosTrans"></select>
+  <br>
+  <label for="idArticuloSel">ID Artículo:</label>
+  <input type="text" id="idArticuloSel" readonly>
+  <script src="./libreria.js"></script>
+  <script>
+    function llenarComboboxTipos() {
+      // Obtener los datos de local storage
+      let tipos = JSON.parse(localStorage.getItem('tipos'));
+      // Obtener el combobox de tipos
+      let listaTipos = document.getElementById('ListaTiposTrans');
+      // Llenar el combobox de tipos
+      tipos.forEach(tipo => {
+        let option = document.createElement('option');
+        option.text = tipo.tipo;
+        option.value = tipo.idTipo;
+        listaTipos.add(option);
+      });
+    }
+
+    function llenarComboboxArticulos() {
+      // Obtener los datos de local storage
+      let articulos = JSON.parse(localStorage.getItem('articulos'));
+      // Obtener los elementos del DOM
+      let listaTipos = document.getElementById('ListaTiposTrans');
+      let idTipoSel = document.getElementById('idTipoSelTrans');
+      let listaArticulos = document.getElementById('ListaArticulosTrans');
+      let idArticuloSel = document.getElementById('idArticuloSel');
+      // Limpiar el combobox de artículos
+      listaArticulos.innerHTML = '';
+      // Obtener el idTipo seleccionado
+      let idTipo = listaTipos.value;
+      // Filtrar los artículos por el idTipo seleccionado
+      let articulosFiltrados = articulos.filter(articulo => articulo.idTipo === idTipo);
+      // Llenar el combobox de artículos con los artículos filtrados
+      articulosFiltrados.forEach(articulo => {
+        let option = document.createElement('option');
+        option.text = articulo.articulo;
+        option.value = articulo.idArticulo;
+        listaArticulos.add(option);
+      });
+      // Mostrar el idTipo en el input correspondiente
+      idTipoSel.value = idTipo;
+      // Mostrar el idArticulo del primer artículo en el input correspondiente
+      idArticuloSel.value = articulosFiltrados.length > 0 ? articulosFiltrados[0].idArticulo : '';
+    }
+
+    function cargarTiposYarticulos(){
+        llenarComboboxTipos();
+        llenarComboboxArticulos();
+        // Actualizar los artículos al cambiar el tipo seleccionado
+        document.getElementById('ListaTiposTrans').addEventListener('change', llenarComboboxArticulos);
+        // Mostrar el idArticulo al seleccionar un artículo
+        document.getElementById('ListaArticulosTrans').addEventListener('change', function() {
+            document.getElementById('idArticuloSel').value = this.value;
+        });
+    }
+    
+    // Al cargar la página, llenar el combobox de tipos y mostrar los artículos correspondientes al primer tipo
+    window.addEventListener('load', function() {
+        cargarTiposYarticulos()
+    });
+    
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+git status
+git add .
+git commit -m "Mensaje descriptivo de los cambios"
+git push origin <nombre_de_tu_rama>
+
+
+inicializar Repositorio:
+    Abre el panel de control de Git haciendo 
+    clic en el icono de Git en la barra lateral 
+    de la izquierda (o usa Ctrl + Shift + G).
+    Haz clic en "Initialize Repository".
+    Añadir y Confirmar Cambios:
+
+    VSCode detectará automáticamente los cambios en tus archivos. Puedes ver los cambios en la sección "Source Control" del panel lateral.
+    Haz clic en los archivos modificados para añadirlos al área de preparación.
+    Escribe un mensaje de confirmación en el cuadro de texto "Message" y haz clic en el botón de "✔" para confirmar los cambios.
+    Conectar con Repositorio Remoto (por ejemplo, GitHub):
+
+    Si aún no tienes un repositorio remoto, 
+    crea uno en la plataforma de tu elección (por ejemplo, GitHub).
+    Copia la URL del repositorio remoto.
+
+Agregar Repositorio Remoto desde VSCode:
+    En VSCode, haz clic en el icono de engranaje 
+    en la barra lateral para 
+        abrir "Extensions" (o usa Ctrl + Shift + X).
+        Busca "GitHub" 
+        y selecciona la extensión 
+        "GitHub Pull Requests and Issues".
+        Haz clic en "Clone Repository".
+        Pega la URL del repositorio remoto 
+        y selecciona la carpeta local donde deseas 
+        clonar el repositorio.
+Realizar Commits y Push desde VSCode:
+    A medida que realices cambios en tus archivos, 
+    VSCode los detectará automáticamente.
+    Usa el panel de control de Git para 
+    añadir y confirmar cambios, así como para 
+    realizar push a tu repositorio remoto.

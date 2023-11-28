@@ -1,0 +1,1082 @@
+EDITANDO USUARIOS ADMIN
+
+BACKP JSON
+codigo en un solo archivo html 
+que guarde en un archivo json 
+en disco duro los datos de local storage 
+con key = 'conexiones' con blob 
+
+LEE JSON 
+codigo en un solo archivo html que lea desde un archivo json 
+en disco duro a buscar con un fileinput creado dinamicamente 
+sin necesidad de que este creado.
+que lea el archivo json y lo cargue en local storage con key='usuarios'
+
+CARGA KEY 
+codigo en un solo archivo html que elimine un key de local storage 
+consultando con un confirm
+eliminarLocal(key)
+
+VACIA TABLA 
+codigo en un solo archivo html que con una funcion llamada 
+vaciaTabla(id) seleccione la tabla con el id y la vacie
+
+corrije este codigo para que grabe en un solo boton y sin tener que dejar variables 
+en local storage 
+
+GRABA BASE DE DATOS 
+local storage se toma como una base de datos  
+hay varios keys que se toman como tablas 
+'conexiones' 'usuarios' 'bitacoras' 
+la idea es grabar toda la base de datos en un archivo json 
+en disco duro a partir de localstorage
+------------------------------------
+
+comunicacion 
+    emisor 
+    receptor 
+    canal  x`x
+    mensaje 
+    contexto 
+
+    supraContexto
+
+axiomas 
+    imposible no comunicar 
+    inhteraccion entre la relacion y el contenido 
+    puntuacion de hechos 
+
+
+asertividad 
+barreras 
+    fisica
+    semantica
+    Fisiologica
+    Sicologicas 
+
+
+
+Una palabra es una  pala 
+pala obra 
+grabar en pantalla los nombres de las bitacoras 
+---------------------------------------------------
+SESSION USUARIO 
+codigo en un solo archivo html con una funcion 
+que graba en session storage en el key 'acts' 
+lo que viene en el parametro de la funcion.
+la funcion debe llamarse usuarioActivo(idUsu)
+y debe grabar en la estructura de session 
+acts=[{
+  id,fecha,hora
+}] 
+el valor de fecha es fechaAhora()
+y el valor de hora=horaAhora()
+-------------------------------------
+CRUD BITACORAS
+administrar en local storage el key='bitacoras'.
+codigo en un solo archivo html que permita 
+en una pantalla dividida en dos;
+siendo la parte superior para un formulario de ingreso 
+y la parte inferior una tabla.
+la parte superior :
+donde esta el formulario,
+debe permitir los siguientes inputs a grabar: 
+idBit,fecha,hora,bitacora,detalle.
+la parte inferior,
+es la tabla abajo con barra de desplazamiento vertical
+presenta las filas como registros
+de local storage, y en filas por columnas 
+siendo las columnas los campos 
+idUsu,idBit,idNota,fecha,hora,nota,titulo,autor,acciones
+y cada fila debe tener ademas 2 botones en la celda de la columna 'acciones'
+(un boton para editar y otro para eliminar)
+la fila seleccionada de la tabla en pantalla debe eliminarse 
+de local storage con el boton eliminar y tambien de la tabla en pantalla
+en la fila seleccionada se debe permitir la edicion con el boton editar de esa fila 
+que pinte los datos en los campos en los inputs del formulario 
+para editar y actualizar un el boton en el formulario 
+grabar 
+
+el formulario de ingreso debe tener los siguientes 
+inputs idUsu,idBit,idNota,fecha,hora,nota,titulo,autor
+
+debe presentar en la parte superior a esta tabla 
+
+ (a partir de local storage key='bitacoras')
+en local storage con key = 'bitacoras' 
+con la siguiente estructura 
+bitacoras=[{
+  idUsu,idBit,fecha,hora,bitacora,detalle
+}]
+siendo idbit=idAhora() 
+fecha =fechaAhora()
+hora=horaAhora()
+los que deben presentarse de inmediato al estar 
+ingresando una bitacora con un input 
+con su respectivo detalle con un input. 
+debe haber un boton grabar que grabe 
+en local storage y 
+
+bitacora
+codigo en un solo archivo html que permita 
+tomar notas por fecha hora y lugar
+con codigo de usuario que administre 
+en local storage el key = bitacora
+bitacoras =[{
+  idUsu,idBit,idNota,fecha,hora,nota,titulo,autor
+}]
+debe presentar en pantalla dividida en 2
+---------------------------- 1
+GRABA JSON bitacoras
+Codigo en un solo archivo html que permita grabar desde local
+storage el key 'bitacoras'  en un archivo json en disco duro  
+con blop de manera que el archivo json contenga estos datos y se llame bitacoras.json
+la estructura de local es bitacoras =[{
+  idUsu,idBit,idNota,fecha,hora,nota,titulo,autor
+}]
+----------------------- 2
+LEE JSON bitacoras
+codigo en un solo archivo html que permita leer desde un archivo json
+en disco duro con blop y que todo sea dinamico de manera de poder 
+buscar el archivo json y cargar en localstorage su informacion key='bitacoras'
+la estructura de local es bitacoras =[{
+  idUsu,idBit,idNota,fecha,hora,nota,titulo,autor
+}]
+---------------------------
+codigo en un solo archivo html  que  
+permita ingresar motivos en local storage 
+con key 
+------------------------------
+NOTAS DE BITACORAS
+codigo en un solo archivo html que administre 
+las notas en local storage el key = 'notas'
+notas =[{
+  idUsu,idBit,idNota,fecha,hora,nota,titulo,lugar
+}]
+FORMULARIO
+la idea es que se ingrese una nota diaria por fecha y que siempre este la nota diaria editable 
+en el formulario hasta que cambie la fecha actual queda el formulario a la espera ingresar 
+los datos de la nueva nota  a grabar
+con un formulario superior con id='formNotaBit' 
+donde los inputs de entrada son 
+idUsu (input text con id="idUsuNot"),idBit (select con id="idBitNot"),
+idNota (input text con id="idNota"),fecha (input tipo date id="fechaNota"),
+hora (input tipo hora con id="horaNota"),nota =(textarea con id="notaBit"),
+titulo (input text con id="tituloNota")
+al cargar Debe llenarse el formulario con los inputs por omision 
+si es que ya hubieran. 
+de fecha (con la fecha actual),hora(con la hora actual)
+bebe haber un campo select como un combobox que recupera 
+de localSotorage del key='bitacoras' y muestre una lista de bitacoras 
+la estructura de local storage es  
+bitacoras=[{ idUsu,idBit,fecha,hora,bitacora,detalle }] 
+(es importante retener en el combobox el 'idBit' pues es el campo 
+que servira para grabar en local storage key='notas' de manera que
+al seleccionar en el combobox el nombre de la 'bitacora' estara 
+tambien seleccionando el "idBit" en memoria para lo que viene) 
+el formulario debe tener un boton grabar que grabe una nueva nota o la actualice 
+en local storage.  notas =[{idUsu,idBit,idNota,fecha,hora,nota,titulo}]
+TABLA
+bajo el formulario la tabla de notas despliega filas de notas (de local storage) 
+se despliega al seleccionar del combobox una bitacora pues con el 'idBit' y el 'idUsu'
+filtra de local storage el key 'notas' y solo presenta 
+las notas grabadas con ese 'idUsu' y ese 'idBit'
+la tabla debe tener como filas idUsu,idBit,idNota,fecha,hora,nota,titulo,lugar
+
+---------------------------
+presente todas las tablas en memoria
+de local storage 
+usuarios conexiones
+(borar usuario actual apenas se deso 
+cupe su funcion)
+
+codigo en un solo archivo html 
+que cargue en memoria directamente 
+el key=usuarios en local storage 
+de un archivo en una ruta definida 
+
+
+incorporar palabras claves para psw usuarios
+al grabar en local storage queda expuesta la clave 
+se debe solicitar palabra clave para desencriptar 
+la psw encriptada
+----------------------------
+pagina web con formato libro de bolsillo 
+1/3 de la pantalla horizontal 
+que presente el cotenido indentado que va  
+a ser en base a un archivo de texto 
+que viene indentado desde vs code 
+la pagina web debe ser un hipertexto  
+
+relacional que agregue a ciertas palabras claves 
+links como hipervinculos 
+debe tener una funcion que en base a un listado 
+de palabras a estas les inco
+--------------
+en base al codigo que te entrego agrega dos funciones 
+para desplegar fecha y hora de manera que la funcion de  
+fecha sea fechaActual() en formato dd-mm-yyyy y la funcion
+de hora sea horaActual() pero con un timer de manera 
+que este indicando el transcurrir del tiempo 
+en el input fechaNota y horaNota respectivamente 
+La idea es que al presentar la pagina en pantalla 
+se despliegue la fecha y la hora actual por omision 
+activando estas funciones 
+todo en un solo archivo html 
+---------
+funcion en un solo archivo html que recupere de local
+storage notas =[{
+  idUsu,idBit,idNota,fecha,hora,nota,titulo,lugar
+}] y en en combobox con id="titulosNotas" presente 
+una lista de los titulos no reepetidos 
+la funcion debe llamarse comboTitulosNotas()
+
+funcion en un solo archivo html que recupere de local
+storage notas =[{
+  idUsu,idBit,idNota,fecha,hora,nota,titulo,lugar
+}] y en en combobox con id="lugaresNotas" presente 
+una lista de los lugares  no reepetidos 
+la funcion debe llamarse presentaLugaresNotas()
+debe haber un <input type="text" id="lugarNota">
+y un boton de manera que al presionar en el 
+presente en este input el lugar seleccionado 
+en el combo box con una funcion llamada 
+mostrarLugarSeleccionado()
+-----------
+codigo en un solo archivo html que con una funcion 
+llamada permisoUsuarioActivo(idusu) retorne el valor de: 
+'accessos' a partir de local storage key='usuarios' 
+en base al 'idUsu' entregado como parametro.Y  tiene otro 
+de sus campos llamado 'accesos' como una lista de accesos 
+la que debe retornar esta funcion
+'usuarios' tiene campos 'idUsu' y 'accesos'
+---------------
+requiero en base a esta funcion implementar otra funcion que grabe encriptado el archivo llamada 
+grabaBaseEncriptada() ocupando crypto-js.js 
+la base de datos antes de encriptar debe estar en 
+formato json en memoria esta en local storage 
+y debe graba en un archivo.enc en disco duro. Te adjunto 
+funcion que graba json en disco duro de la base 
+que requiero grabar encriptada en disco duro: 
+function grabarBaseEnJSON(keys) {
+    const data = {};
+    // Recorrer los keys y obtener los datos de Local Storage
+    keys.forEach((key) => {
+      const datos = JSON.parse(localStorage.getItem(key));
+      data[key] = datos;
+    });
+  
+    // Convertir los datos a JSON
+    const jsonData = JSON.stringify(data);
+  
+    // Crear un enlace de descarga para el archivo JSON
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+  
+    // Crear un elemento <a> para el enlace y descargar el archivo
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'local-storage.json';
+    document.body.appendChild(link);
+    link.click();
+}
+--------------------
+necesito ahora la funcion que desecripta y carga en local 
+storage los datos ..el nombre debe ser 
+cargaBaseEncriptada()
+----------------------
+luquidacion 
+Ejemplo: Sueldo base 682000 / Trabajo 26 dias / 17 hrs extras / afp prima / colacion 2650 dia / viatico 630000 /1a carga familiar  
+
+DATOS 
+COL 	colación 2650 x día 	data 	$2.650  	 
+ 	1 carga familiar 	data 	1 carga 	 
+ 	Viatico 	data 	$63.000  	 
+HE 	horas extras             	data 	17 	 
+DL 	días laborales          	Cte. 	30 	 
+VDL 	valor día Laboral     	Calc 	$22.733  	=SB/30 
+DT 	días trabajados       	data 	26 	 
+ 	Cte. para horas extra 	cte. 	$0,00777770  	 
+CALCULO HORAS 
+ 	 	 	 	 	 
+VHO 	Valor hora ordinaria               	Calc 	$3.536  	= (VDL*28)/180 	 
+VHE 	Valor hora extraordinaria     	Calc 	$5.304  	=VHO x 1,5 	si es 50% de VHO 
+VHE 	Valor calculo directo 	 	$5.304  	=SB x CTE 	(por 0,00777) 
+THE 	total, horas extras trabajadas 	Calc 	$90.176  	=HE x VHE 	 
+  
+	HABERES imponibles 	 	 
+SB 	sueldo Base 	$682.000  	 
+SBI 	sueldo base imponible (Trabajado) 	$591.067  	"=VDT*DT 
+G 	Gratificación 	$147.767  	"=25% SBI" 
+THE 	Horas extras 	$90.176  	 
+TI 	Total remuneración Imponible 	$829.009  	 
+ HABERES No imponibles 	 	 
+Cargas familiares 	$12.475  	de ac a tabla 
+Colación 	$68.900  	=DT*COL 
+Viatico 	$63.000  	data 
+ 	$144.375  	 
+ DESCUENTOS 	 	 
+Fonasa 	$41.375  	X 7% TI
+Seguro cesantía 	$3.546  	X 0,6% TI
+Afp 	$78.848  	X Porcentaje TI (en base a tabla) 
+ 	$123.769  	 
+ 
+Total Haberes Imponibles y No Imp 	$973.384  
+total descuentos 	$123.769  
+Liquido 	$849.615 
+ 
+DETALLE DE GRATIFICACION 	 
+CALCULO TOPE GRATIFICACION= 	SUELDO INIMO X 4,75 /12= TOPE GRATIFICACION 	 
+TOPE GRATIFICACION 	$174.167 	 
+ 	NO PUEDE SER MAYOR SI ES MAYOR SE PAGA EL TOPE 	 
+ 	SI ES MENOR SE PAGA GRATIFICACION 	 
+ 	CAMBIA 1ERO SEPT SUBE A 460000 	 
+TOPE EN SEPT 	$182.083 	 
+
+codigo en un solo archivo html para un crud
+que presente una pantalla los inputs necesarios
+en un formulario id='formInputLiq' con una funcion  InputLiq() para
+grabar los datos en local storage con la siguiente estructura
+liquidaciones=[{
+	fechaLiq=fechaAhora(),
+	horaLiq=horaAhora(),
+	idLiq=str(fechaLiq+horaLiq),
+	idUsu,
+	diasLab=30,
+  sueldoBase,
+	diasTrab,
+	horasExtras,
+  porHoraExtra,
+  valorDiaLab=sueldoBase/diasLab,
+  sueldoBaseImp=valorDiaLab*diasTrab,
+  valorHoraLab=(valorDiaLab*28)/180,
+  valorHoraExt=valorHoraLab*porHoraExtra,
+  totalHorasExt=valorHoraExt*horasExtras,
+  gratificacion=(sueldoBaseImp*25)/100,
+  totalHaberImp=sueldoBaseImp+gratificacion+totalHorasExt,
+  cargas,
+  valorCarga,
+  totalCargas=valorCarga*cargas,
+  Viatico,
+  colacionDia,
+  totalColacion=diasTrab*colacionDia,
+  totalHaberNoImp=totalCargas+viatico+totalColacion
+  afpNombre,
+  porCientoAfp,
+  totalAfp=porCientoAfp*totalHaberImp,
+  fonasa=totalHaberImp*(7/100),
+  seguro=totalHaberImp*(0,6/100),
+  totalDescuentos=totalAfp+fonasa+seguro,
+	totalHaberes=totalHaberImp+totalHaberNoImp,
+  liquidacion=totalHaberes-descuentos
+}]
+la idea es que al ir ingresando los datos se llenen los registros
+cada registro es un objeto de la lista en local storage
+que deben solicitarse los algunos para que otrsos puedan calcularse 
+y con un boton grabar agregue la fila en una tabla en la pantalla 
+mitad hacia abajo y ademas grabar simultaneamente en local storage 
+en cada fila de la tabla debe haber un boton editar y otro eliminar 
+para editar en el formulario y actualizar los cambios en la tabla 
+y en localstorage. el boton eliminar debe eliminar la fila de la tabla 
+donde esta el boton y ademas eliminar de local storage el registro.
+---------------------
+codigo en un solo archivo html para un crud 
+que por medio de un formulario en pantalla grabaBaseEncriptada
+en localStorage el key "tipos" con la siguiente 
+estructura
+ tipos=[{
+  idUsu,
+  fechaTipo,
+  horaTipo,
+  idTipo,
+  tipo,
+  detalle
+}]
+la mitad de la pantalla superior debe tener un formulario de ingreso 
+y actualizacion id='formTipo' con un boton grabar y un boton nuevo,
+la otra mitad inferior de la pantalla debe presentar una tabla 
+que muestre los registros de local storage en cada fila de la tabla 
+donde deben haber en cada fila dos botones uno para editar 
+y el otro para eliminar.
+el booton eliminar elimina la fila de la tabla y el registro de local storage 
+el boton editar presenta los datos en el formulario para editar y actualizar 
+al grabar es importante que no se repita 'tipo'
+---------------
+ARTICULOS 
+Codigo en un solo archivo html de un crud que administre 
+en local storage el key = 'articulos' 
+la mitad superior de la pantalla con un formulario 
+id='formArticulos' debe tener 2 botones uno para grabar 
+y otro para nuevo articulo
+la mitad inferior de la pantalla con una tabla dinamica 
+que presenta los datos de local storage creada dinamicamente
+con id= 'tblArticulos" 
+cada fila de la tabla debe tener dos botones para editar 
+y eliminar la fila y el registro correspondiente en localstorage
+la estructura es: 
+articulos =[{
+  idUsu,
+  fecha,
+  hora,
+  idTipo
+  idArticulo,
+  articulo,
+  detalle
+}]
+en el formulario debe presentarse la fecha y la hora actual en curso por
+omision. el boton grabar debe grabar un nuevo registro como una edicion Y
+debe actualizar local storage y la tabla en pantalla. 
+las funciones deben ser:  
+grabaNuevoArticulo() 
+grabaEdicionArticulo()
+function grabaRegistroArticulo() {
+    let idArticulo = document.getElementById('idArticulo').value;
+    if (idArticulo !== '') {
+      grabaEdicionArticulo();
+    } else {
+      grabaNuevoArticulo();
+    }
+}
+limpiaFormTipo() //debe limpiar el formulario cuando se necesite 
+editaRegistroArticulo(registro) //para el boton editar de las filas
+mostrarRegistrosArticulos() // presenta en la tabla los registros de localstorage 
+eliminarRegistroArticulo(registro) //para eliminar la fila y el registro de localstorage 
+function presentaTiemposArticulo(){
+      let fechaHoraActual = new Date();
+      let fechaActual = fechaHoraActual.toISOString().split('T')[0];
+      document.getElementById('fechaArticulo').value = fechaActual;
+}
+function mostrarHoraActualArt() {
+    let fechaHoraActual = new Date();
+    let opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    let horaActual = fechaHoraActual.toLocaleTimeString('es-ES', opciones);
+    document.getElementById('horaArticulo').value = horaActual;
+}
+function cargaArticulos(){
+    presentaTiemposArticulo()
+    mostrarRegistrosArticulos();
+    document.getElementById('articulo').select()
+}
+--------------
+ENCONTRAR ID TIPO EN COMBO TIPOS 
+Codigo de una funcion que presente en pantalla un combobox con una lista 
+de tipos y almacene en el combobox tambien el idTipo en base a localstorage 
+key 'tipos'=[{
+  idUsu,
+  fechaTipo,
+  horaTipo,
+  idTipo,
+  tipo,
+  detalle
+}]
+debe haber tambien un cuadro de texto id='idTipo' que muestre 'idTipo' al 
+seleccionar un 'tipo' en el combobox con id='listaTipos' 
+-------------------
+GRABAR EN ARCHIVO LISTA tipos 
+Codigo en un solo archivo html que grabe en un archivo 
+con blob en disco duro un archivo json desde localStorage 
+el key='tipos'
+-----------------
+LEER Y CARGAR EN LOCAL tipos 
+Codigo en un solo archivo html que lea de disco duro 
+un archivo json y lo carge en local storage..debe crearse 
+dinamicamente el fileinput
+---------------
+EN BASE A idTipo encuentra tipo
+Codigo en un solo archivo html que en base al idTipo presente 
+el nombre del tipo en el combobox:
+esta es la funcion que ya esta implementada
+   function crearComboBoxTipos() {
+            // Obtener la referencia al elemento ComboBox
+            let comboBox = document.getElementById('listaTipos');
+            // Obtener los datos de tipos desde el localStorage
+            let tipos = JSON.parse(localStorage.getItem('tipos'));
+            // Recorrer la lista de tipos y agregar opciones al ComboBox
+            for (let i = 0; i < tipos.length; i++) {
+                let option = document.createElement('option');
+                option.value = tipos[i].idTipo;
+                option.text = tipos[i].tipo;
+                comboBox.appendChild(option);
+            }
+            // Simular un evento de cambio en el ComboBox
+            let event = new Event('change');
+            comboBox.dispatchEvent(event);
+        }
+y este es el html:
+ <select id="listaTipos" onchange="mostrarIdTipo()">
+    <!-- Las opciones se agregarán dinámicamente desde JavaScript -->
+  </select>
+  <br>
+  <input type="text" id="idTipo" readonly>
+  -------------------
+INVENTARIO 
+Codigo en un solo archivo html de un crud que administre 
+en local storage el key = 'inventarios' 
+la mitad superior de la pantalla con un formulario 
+id='formInventario' debe tener 2 botones uno para grabar 
+y otro para nuevo Inventario 
+la mitad inferior de la pantalla con una tabla dinamica 
+que presenta los datos de local storage creada dinamicamente
+con id= 'tblInventarios" 
+cada fila de la tabla debe tener dos botones para editar 
+y eliminar la fila y el registro correspondiente en localstorage
+la estructura es: 
+inventarios =[{
+  idUsu,
+  fecha,
+  hora,
+  idInventario
+  inventario,
+  detalle
+  }]
+  en el formulario debe presentarse la fecha y la hora actual en curso por
+omision (la hora actual es el tiempo transcurriendo)
+en el formulario los campos deben ser con 'id'= idUsuInv, fechaInv, HoraInv,
+idInventario,inventario,detalleInv.
+El boton grabar debe grabar un nuevo registro y tambien la edicion y
+debe actualizar local storage y la tabla en pantalla. 
+(importante validar que el invantario no se repita en localstorage al grabar uno nuevo o al actualizar)
+las funciones deben ser:  
+grabaNuevoInventario() 
+grabaEdicionInventario()
+function grabaRegistroInventario() {
+    let idInventario = document.getElementById('idInventario').value;
+    if (idInventario !== '') {
+      grabaEdicionInventario();
+    } else {
+      grabaNuevoInventario();
+    }
+}
+limpiaFormInventario() //debe limpiar el formulario cuando se necesite 
+function presentaTiemposInv(){
+      let fechaHoraActual = new Date();
+      let fechaActual = fechaHoraActual.toISOString().split('T')[0];
+      document.getElementById('fechaInventario').value = fechaActual;
+}
+function mostrarHoraActualInv() {
+    let fechaHoraActual = new Date();
+    let opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    let horaActual = fechaHoraActual.toLocaleTimeString('es-ES', opciones);
+    document.getElementById('horaInventario').value = horaActual;
+}
+function cargaInventarios(){
+    presentaTiemposInventario()
+    mostrarRegistrosInventarios();
+    document.getElementById('inventario').select()
+}
+editaRegistroInventario(registro)
+mostrarRegistrosInventarios()
+eliminarRegistroInventario(registro)
+la funcion que carga al comienzo es 
+function cargaInventario(){
+    crearComboBoxTipos();
+    mostrarHoraActualInv();
+    presentaTiemposInv();
+    mostrarRegistrosInventarios()
+    usuarioActivoInventarios()
+}
+------------------------
+LISTA INVENTARIOS 
+Codigo en un solo archivo html que presente 
+en pantalla un combobox con id='ListaInventarios'
+ y un input id="idInventarioSel' 
+los datos estan en local storage inventarios =[{
+  idUsu,
+  fecha,
+  hora,
+  idInventario
+  inventario,
+  detalle
+  }]
+la lista de inventarios se llena a partir de 'inventarios' 
+y en el combo debe acumularse tambien su 'idInventario'.
+al seleccionar un elemento del inventario en el combobox
+ debe presentarse en el input el 'idInventario'
+ apenas se cargue la pagina debe mostrar el combobox con los inventarios 
+ y debe presentarse de inmediato tambien el idInventario en el input
+ ----------------------
+ ARTICULOS DE UN TIPO 
+Codigo en un solo archivo html que presente en pantalla una lista de articulos 
+en base a la seleccion de una lista de tipos.
+debe presentarse en un cuadro de texto el idTipo del tipo seleccionado 
+y al seleccionar el tipo debe llenarse el combo box articulos con los 
+articulo que tienen ese idTipo.
+al seleccionar un articulo debe mostrar en otro cuadro de texto 
+el idArticulo correspondiente.
+(es importante que se almacene en el combobox tipos el idTipo y en el combobox articulos el idArticulo) 
+los datos estan en local storage 
+key 'tipos'=[{
+  idUsu,
+  fechaTipo,
+  horaTipo,
+  idTipo,
+  tipo,
+  detalle
+}]
+
+articulos =[{
+  idUsu,
+  fecha,
+  hora,
+  idTipo
+  idArticulo,
+  articulo,
+  detalle
+}]
+------------------------
+TRANSACCIONES inventarios
+Codigo en un solo archivo html que presente en pantalla un crud con la pantalla 
+dividida en dos. La parte superior de la pantalla tendra el formulario de  
+ingreso de articulos al inventario seleccionado y la parte inferior tendra 
+una tabla que presente las transacciones en filas
+El formulario para ingresar articulos a un inventario y editar una transaccion
+tendra los siguientes elementos: 
+le fecha debe ser la fecha actual y la hora es el tiempo en pantalla y debe estar corriendo
+tambien estos elementos:   
+el input 'idUsuInvTrans' sera igual a usuarioActivoTransInv() al cargar la pagina y equivalente 
+en local storage a 'idUsu'.
+el <input type="text" id="idInventarioTrans" readonly> y equivalente 
+en local storage a 'idInventario' en este input.
+el input con id="idTransInv" estara vacio al cargar la pagina y 
+luego sera en local storage 'idTransInv'
+el <input type="text" id="idTipoSelTrans" readonly> sera igual a 'idTipo' en localStorage
+el <input type="text" id="idArticuloSel" readonly> sera igual a 'idArticulo' en localStorage
+el  <select id="ListaArticulosTrans"></select> sera igual a 'articulo' en localStorage
+el  <select id="ListaTiposTrans"></select> sera igual a 'tipo' en localStorage
+cantidad,valor y total deben ser inputs siendo total=cantidad*valor 
+
+en localstorage esta la base de datos con la siguiente estructura:
+key transaccionesInv=[{
+        'idTransInv',
+        'idUsu',
+        'idInventario',
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+}] bar
+
+debe haber un boton para grabar y se debe actualizar la tabla 
+y localSotorage
+---------------
+necesito una funcion que en base al id de un usuario 'idUsu' 
+retorne true o false en base a si el inventario le corresponde 
+en local storage key= inventarios =[{
+  idUsu,
+  fecha,
+  hora,
+  idInventario
+  inventario,
+  detalle
+  }]
+  si el idUsu es el misno ingresado como parametro en la funcion
+function filtroUsuarioInventario(idUsu){
+  
+}
+----------------
+VALIDA ARTICULO NO REPETIDO EN INVENTARIO
+necesito funcion que en base al idInventario y al idArticulo retorne 
+true si ya existe y false de lo contrario en local storage en el key:
+key transaccionesInv=[{
+        'idTransInv',
+        'idUsu',
+        'idInventario',
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+}]
+la funcion debe llamarse siExisteArtInv(idInventario,idArticulo)
+------------------
+GRABA EN INVENTARIO GENERADO CON ID
+requiero una funcion llamada grabaGenInventario(idInventario,data) 
+data corresponde a los datos en json de manera que 
+que cree en local storage un key concatenando 'inventario'+idInventario 
+y graba la nueva dato o si ya esta generado el key entonces que agregue la data
+el key es con la siguiente estructura 
+        idTransInv:data.idTransInv,
+        idUsu:data.idUsu,
+        idInventario:data.idInventario,
+        fecha:data.fecha,
+        hora:data.hora,
+        idTipo:data.idTipo,
+        tipo:data.tipo,
+        idArticulo:data.idArticulo,
+        articulo:data.articulo,
+        cantidad:data.articulo,
+        valor:data.valor,
+        total:data.total 
+---------------------
+ELIMINA TRANSACCION DE GEN TRANS INVENTaRIO
+Necesito una fucnion llamada eliminaGenTransInv(idInventario,idTransInv)
+que elimine de local storage el registro siendo el key el idInventario y la estructura 
+        'idTransInv',
+        'idUsu',
+        'idInventario',
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+ ------------------
+necesito funcion llamada retornaIdInventario(idTransInv)
+en base al idTransInv
+que retorne el idInventario de localstorage key transaccionesInv=[{
+        'idTransInv',
+        'idUsu',
+        'idInventario',
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+}]
+--------------
+ACTUALIZA REGISTRO 
+en la edicion del registro en localstorage key
+transaccionesInv=[{
+        'idTransInv',
+        'idUsu',
+        'idInventario',
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+}]
+encontrar el registro con una funcion llamada 
+actualizaTransaccionInventario(idTransInv,data)   
+que grabe en ese registro encontrando el idTransInv
+y vaciando la data en el registro..actualizando los datos
+
+funcion editandoRegTransInv(idTransInv) que presente los datos en pantalla 
+siendo estos los inputs <h2>Formulario de Ingreso de Artículos</h2>
+------
+PRESENTA TABLA EN BASE AL INVENTARIO
+Codigo en un solo archivo html que por medio de una funcion 
+llamada presentaTablaInvUsu(idInventario,idUsu) 
+que busque en local storage key 'transaccionesInv' 
+todas las transacciones que tienen este 'idInventario' y que 
+son de este 'idUsu'. la estructura en local es esta 
+transaccionesInv=[{
+        idTransInv,
+        idUsu,
+        idInventario,
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+}]
+la idea es que llene un arreglo de objetos como resultado 
+para luego decidir llamada 'tablaInvUsu'
+------------
+necesito funcion que se llame validaUsuarioTransInv(idUsu,idInventario) 
+que valide si el usuario tiene acceso al inventario 
+en local storage ver si en inventario el registro que tiene idInventario 
+tiene el mismo idUsu ..siendo idInventario,idUsu parametros de la funcion.
+debe retornar la funcion verdadero si el usuario creo el inventario o falso 
+si no lo encuentra
+inventarios =[{
+  idUsu,
+  fecha,
+  hora,
+  idInventario
+  inventario,
+  detalle
+  }]
+
+
+transaccionesInv=[{
+        idTransInv,
+        idUsu,
+        idInventario,
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+}]
+
+----------------
+necesito funcion llamada presentaComboTipoTrans(idTipo)
+que retorne en base a local storage el tipo corresopndiente al idTipo 
+en local storgage
+key 'tipos'=[{
+  idUsu,
+  fechaTipo,
+  horaTipo,
+  idTipo,
+  tipo,
+  detalle
+}]
+hay un combobox que debe presentar el tipo en base al idTipo 
+este es: <select id="ListaTiposTrans"></select>
+y ya esta lleno con los datos en base a otra funcion que ya funciona 
+y que no es necesario repetir ni mejorar es esta:
+function llenarComboboxTipos() {
+  // Obtener los datos de local storage
+  let tipos = JSON.parse(localStorage.getItem('tipos'));
+  // Obtener el combobox de tipos
+  let listaTipos = document.getElementById('ListaTiposTrans');
+  // Llenar el combobox de tipos
+  tipos.forEach(tipo => {
+    let option = document.createElement('option');
+    option.text = tipo.tipo;
+    option.value = tipo.idTipo;
+    listaTipos.add(option);
+  });
+}
+--------------------
+requiero funcion presentaComboArticuloTrans(idArticulo)
+que en base a local storage, presente en el combobox el articulo de este idArticulo
+este es localSotorage
+articulos =[{
+  idUsu,
+  fecha,
+  hora,
+  idTipo
+  idArticulo,
+  articulo,
+  detalle
+}]
+hay un combobox que debe presentar el articulo en base al idArticulo
+este es:   <select id="ListaArticulosTrans"></select>
+y ya esta lleno con los datos en base a otra funcion que ya funciona 
+y que no es necesario repetir ni mejorar es esta:
+function llenarComboboxArticulos() {
+  // Obtener los datos de local storage
+  let articulos = JSON.parse(localStorage.getItem('articulos'));
+  // Obtener los elementos del DOM
+  let listaTipos = document.getElementById('ListaTiposTrans');
+  let idTipoSel = document.getElementById('idTipoSelTrans');
+  let listaArticulos = document.getElementById('ListaArticulosTrans');
+  let idArticuloSel = document.getElementById('idArticuloSel');
+  // Limpiar el combobox de artículos
+  listaArticulos.innerHTML = '';
+  // Obtener el idTipo seleccionado
+  let idTipo = listaTipos.value;
+  // Filtrar los artículos por el idTipo seleccionado
+  let articulosFiltrados = articulos.filter(articulo => articulo.idTipo === idTipo);
+  // Llenar el combobox de artículos con los artículos filtrados
+  articulosFiltrados.forEach(articulo => {
+    let option = document.createElement('option');
+    option.text = articulo.articulo;
+    option.value = articulo.idArticulo;
+    listaArticulos.add(option);
+  });
+  // Mostrar el idTipo en el input correspondiente
+  idTipoSel.value = idTipo;
+  // Mostrar el idArticulo del primer artículo en el input correspondiente
+  idArticuloSel.value = articulosFiltrados.length > 0 ? articulosFiltrados[0].idArticulo : '';
+}
+---------------------
+necesito una funcion llamada nuevaTransaccionInv()
+que limpie los campos del formulario: 
+------------------
+necesito una funcion que encuentre en localstorage en el key 'transaccionesInv' 
+y que obtenga el valor de 'cantidad' y que retorne este valor en base a datos
+parametros idInventario,idArticulo
+transaccionesInv=[{
+        idTransInv,
+        idUsu,
+        idInventario,
+        fecha,
+        hora,
+        idTipo,
+        tipo,
+        idArticulo,
+        articulo,
+        cantidad,
+        valor,
+        total 
+}]
+la funcion se llama cantidadArticuloInventario(idInventario,idArticulo)
+----------------
+necesito actualizar en local storage el key Stock=[{
+            idUsu,
+            idInv,
+            idTipo,
+            idArticulo,
+            fecha,
+            hora,
+            cantidad,
+            detalle
+        }]
+con datos que ya tengo en data    
+        actualizaStock={
+            idUsu:data.idUsu,
+            idInv:data.idInv,
+            idTipo:data.idTipo,
+            idArticulo:data.idArt,
+            fecha:data.fecha,
+            hora:data.hora,
+            cantidad:cantidad,
+            detalle:data.detalle
+        }
+la idea es encontrar primero el 'idInv' y luego el 'idArticulo' y luego solo 
+actualizar con los datos que ya tengo
+------------------
+SQL PARA PUBLICACIONES
+codigo php para crear una tabla sql 
+llamada 'publicaciones' 
+en base a los siguientes campos 
+titulo varchar(50), autor varchar(30),  
+parrafo tipo texto, firma varchar(20),
+pie varchar(50), linkCorreo varchar(30),
+linkWeb varchar(100), linkWssp varchar(50)
+el archivo php debe llamarse 'crea-tabla-pub'
+la conexion debe establecerse en base a 
+un archivo llamado conexion.php con PDO
+------------------- 
+codigo en un solo archivo html que con js y php
+grabe los datos de un formulario como archivo json 
+en una ruta definida como "./bd/publicacion.json . 
+el archivo php se llama graba-publicacion.php  
+los campos son  
+id
+idUsu
+fecha
+hora
+titulo
+autor
+parrafo
+linkCorreo
+linkWeb
+linkWssp
+firma
+pie
+
+no hagas el formulario ya esta hecho 
+
+modulariza el codigo con funciones 
+sin variables globales 
+y en php la conexion es por medio 
+del archivo './conexion.php' cibn PDO 
+y la variable no es 'conn' es 'conexion'  
+--------------------
+codigo que atraves de la funcion que te adjunto incompleta 
+le envie los datos a un archvo php para que grabe el registro 
+en una tabla llamada "publicaciones" con una conexion establecida 
+con PDO llamada conexion. 
+los campos son
+id,fecha,hora, titulo, autor,  parrafo, firma, pie, linkCorreo, linkWeb, linkWssp
+function grabaPubSql(event){
+    event.preventDefault();
+    const inputs = document.querySelectorAll('.formPub input, .formPub textarea');
+    const formData = {};
+    inputs.forEach(input => {
+      formData[input.name] = input.value;
+    });
+    const publicacionJSON = JSON.stringify(formData);
+    localStorage.setItem('publicacion', publicacionJSON);
+    //aca debe enviar instruccion a archivo php "graba-pub-sql.php"
+}
+------------------------
+codigo en un solo archivo html que despliegue 
+un crud en una tabla html creada dinamicamente (con createelement).
+(cada fila de la tabla debe tener un boton editar y un boton eliminar)
+que presente con js los datos obtenidos de una tabla sql 
+llamada 'publicaciones' con un archivo php 
+llamado 'presenta-pubs-sql.php' con conexion establecida 
+con un archivo llamdao 'conexion.php' ocupando conexion no conn
+los campos son
+id,fecha,hora, titulo, autor,  parrafo, firma, pie, linkCorreo, linkWeb, linkWssp
+------------------------
+codigo en un solo archivo html que despliegue un reguistro en pantalla 
+de una tabla sql llamada 'publicaciones' el registro 
+debe encontrarse con un una funcion js llamada 
+'encuentraPublicacion(id)'y con el 'id' atraves de un archivo php llamado 
+'encuentra-pub-sql.php' que tiene una conexion PDO 
+con un archivo llamado 'conexion.php'
+--------------------
+necesito una funcion llamada encontrarPublicacionSql(id) en js que retorne un objeto json 
+proveniente de un archivo php llamado 'encuentra-pub-sql.php' 
+que tiene una conexion PDO con un archivo llamado 'conexion.php'
+---------------------
+CODIGO PARA ACTUALIZAR LA TABLA UNA VEZ GRABADOS LOS DATOS
+// Función para actualizar los datos de una fila en la tabla
+function actualizarFilaEnTabla(idFila, nuevosDatos) {
+    // Obtener la fila actual mediante su ID
+    const fila = document.getElementById(idFila);
+
+    if (fila) {
+        // Obtener las celdas de la fila
+        const celdas = fila.getElementsByTagName('td');
+
+        // Actualizar el contenido de cada celda con los nuevos datos
+        for (let i = 0; i < celdas.length; i++) {
+            celdas[i].textContent = nuevosDatos[i];
+        }
+    } else {
+        console.error('No se encontró la fila con ID:', idFila);
+    }
+}
+
+// Ejemplo de uso: Supongamos que tienes nuevos datos para la fila con ID 'fila-15112023165551'
+const idFilaActualizar = 'fila-15112023165551';
+const nuevosDatosFila = ['Nuevo ID', 'Nueva Fecha', 'Nueva Hora', 'Nuevo Título', 'Nuevo Autor', 'Nuevo Párrafo', 'Nueva Firma', 'Nuevo Pie', 'Nuevo Correo', 'Nuevo Web', 'Nuevo Whatsapp'];
+
+// Llamar a la función para actualizar la fila
+actualizarFilaEnTabla(idFilaActualizar, nuevosDatosFila);
+
+---------------------
+codigo de funcion js llamada 'grabaTablaAjson' que tome  
+de una tabla html con datos en pantalla y los guarde en un 
+archivo json en disco duro dinamicamente..el archivo json debe 
+tener los siguientes campos en cada registro o fila de la tabla y
+en el mismo orden 
+id,fecha, hora, titulo, autor,  parrafo, firma, pie, linkCorreo, linkWeb, linkWssp
+presento la estructura html 
+-----------------------
+en base a esto dame el codigo js de una funcion llamada 'cargaTblJsonAlocal()' 
+que lea el archivo json en discoduro con blob y 
+cargue estos datos en local storage con key='publicacionesRec'
+---------------------------
+codigo en una funcion js llamada 'grabaLocalAsql()' que tome el key de local storage key='publicacionesRec' y 
+y grabe los registros con un archivo php llamado 'graba-Json-publicaciones.php' a una tabla sql 
+llamada publicaciones con una conexion establecida con pdo 
+llamada 'conexion.php'.  javascript debe enviar el json desde local storage 
+al archivo php
+----------------- LLAVE DE ENCRIPTACION -----------
+necesito generar el siguiente codigo para guardar una clave encriptada 
+con "./crypto-js.js" en un archivo con una funcion llamada 
+'encriptaClave()' de manera de ingresar simple con 
+un prompt y que la guarde en un archivo encriptado
+-------------------
+codigo para desencriptar la clave a partir de un archivo en disco duro 
+a partir de un prompt para ingresar la clave
+------------------
+necesito ahora un modal simple que solo 
+me pida una clave pasword
+-----------------

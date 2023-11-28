@@ -1,0 +1,19 @@
+const eye=document.querySelector('.eye')
+eye.addEventListener('click',()=>{
+	showPwd()
+}
+const icon=document.querySelector('.eye img')
+
+const showPwd=()=>{
+let input=document.querySelector('#field')
+if (input.type==="password){
+	input.type="text"
+	icon.setAttribute('src','eyeOpen.svg')
+}else {
+	input.type="password"
+	icon.setAttribute('src','eyeClose.svg')
+}
+div class ="input-row"
+	input type="password" id="field"
+	<p class="eye"<img src="eyeClose.svg"></p>
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ComboBox y Cuadro de Texto</title>
+</head>
+<body>
+  <select id="listaTipos" onchange="mostrarIdTipo()">
+    <!-- Las opciones se agregarán dinámicamente desde JavaScript -->
+  </select>
+  <br>
+  <input type="text" id="idTipo" readonly>
+  <script>
+    function crearComboBoxTipos() {
+        // Obtener la referencia al elemento ComboBox
+        let comboBox = document.getElementById('listaTipos');
+        // Obtener los datos de tipos desde el localStorage
+        let tipos = JSON.parse(localStorage.getItem('tipos'));
+        // Recorrer la lista de tipos y agregar opciones al ComboBox
+        for (let i = 0; i < tipos.length; i++) {
+            let option = document.createElement('option');
+            option.value = tipos[i].idTipo;
+            option.text = tipos[i].tipo;
+            comboBox.appendChild(option);
+        }
+        // Simular un evento de cambio en el ComboBox
+        let event = new Event('change');
+        comboBox.dispatchEvent(event);
+    }
+    // Función para mostrar el idTipo seleccionado en el ComboBox
+    function mostrarIdTipo() {
+    // Obtener la referencia al elemento ComboBox y al cuadro de texto
+    let comboBox = document.getElementById('listaTipos');
+    let idTipoInput = document.getElementById('idTipo');
+
+    // Obtener el idTipo seleccionado
+    let idTipoSeleccionado = comboBox.value;
+
+    // Mostrar el idTipo en el cuadro de texto
+    idTipoInput.value = idTipoSeleccionado;
+    }
+    crearComboBoxTipos();
+  </script>
+</body>
+</html>

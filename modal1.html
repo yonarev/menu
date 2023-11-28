@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Modal de Contraseña Unica encriptada</title>
+  <style>
+    /* Estilo básico para el modal */
+    #modalPswUnica {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    #modal-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Botón para abrir el modal -->
+<button onclick="abrirModalPswUnica()">Abrir Modal</button>
+<button onclick="funcionX()">funcion x</button>
+<button onclick="otraFuncion()">otra funcion</button>
+
+<!-- Modal -->
+<div id="modalPswUnica">
+  <div id="modal-content">
+    <h2>Ingresa tu contraseña</h2>
+    <input type="password" id="passwordInput" />
+    <br />
+    <button onclick="verificarContraseña()">Verificar</button>
+    <button onclick="rechazarModalPswUnica()">Cancelar</button>
+  </div>
+</div>
+
+<script>
+// retorna el resuktado de la validacion
+function abrirModalPswUnica() {
+  return new Promise((resolve) => {
+    // Función para resolver la promesa con el valor deseado
+    window.resolveModal = (valor) => {
+      resolve(valor);
+    };
+
+    // Mostrar el modal
+    document.getElementById('modalPswUnica').style.display = 'flex';
+    document.getElementById('passwordInput').focus();
+  });
+}
+
+//SE ASUME NO RETORNA NADA
+function cerrarModalPswUnica() {
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('modalPswUnica').style.display = 'none';
+}
+//RECHAZA CON RETORNO
+function rechazarModalPswUnica() {
+    // Cierra el modal y resuelve la promesa con false
+    cerrarModalPswUnica();
+    window.resolveModal(false);
+}
+
+function verificarContraseña() {
+  // Obtener el valor de la contraseña ingresada
+  const pass = document.getElementById('passwordInput').value;
+  desencriptaClave(pass)
+    .then(validada => {
+      if (validada) {
+        alert('Clave desencriptada ok');
+        const data = 'clara';
+        const dataOk = JSON.stringify(data);
+        localStorage.setItem('luz', dataOk);
+        cerrarModalPswUnica();
+        window.resolveModal(true); // Resuelve la promesa con true
+      } else {
+        const data = 'off';
+        const dataOk = JSON.stringify(data);
+        localStorage.setItem('luz', dataOk);
+        alert('Clave no desencriptada');
+        document.getElementById('passwordInput').select();
+        document.getElementById('passwordInput').focus();
+        // window.resolveModal(false); // Resuelve la promesa con false
+        rechazarModalPswUnica()
+      }
+    })
+    .catch(error => {
+        const data = 'off';
+        const dataOk = JSON.stringify(data);
+        localStorage.setItem('luz', dataOk);
+        console.error('Error en la validación:', error.message);
+        alert('Error en la validación');
+        //   window.resolveModal(false); // Resuelve la promesa con false en caso de error
+        rechazarModalPswUnica() //NO PREMITIRA REINGRESO DE PSW
+        
+    });
+}
+  
+// Función para desencriptar una clave a partir de un archivo
+function desencriptaClave(claveDesencriptar) {
+  return new Promise((resolve, reject) => {
+    // Crear dinámicamente un elemento de entrada de tipo file
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.style.display = 'none';
+    // Manejar el evento de cambio en el elemento de entrada de tipo file
+    input.addEventListener('change', function() {
+      // Obtener el archivo seleccionado
+      const archivo = input.files[0];
+      // Leer el contenido del archivo seleccionado como Blob
+      const reader = new FileReader();
+      reader.onload = function() {
+        const claveEncriptada = reader.result;
+        // Desencriptar la clave
+        try {
+          const bytesDesencriptados = CryptoJS.AES.decrypt(claveEncriptada, claveDesencriptar);
+          const claveDesencriptada = bytesDesencriptados.toString(CryptoJS.enc.Utf8);
+          if (claveDesencriptada !== '') {
+            if (claveDesencriptada === claveDesencriptar) {
+              resolve(true); // Resuelve la promesa con éxito
+            } else {
+              resolve(false);
+            }
+          } else {
+            resolve(false); // Resuelve la promesa indicando que no fue válida
+          }
+        } catch (error) {
+          reject(error); // Rechaza la promesa en caso de error
+        } finally {
+          // Eliminar el elemento de entrada de tipo file después de la ejecución
+          document.body.removeChild(input);
+        }
+      };
+      reader.readAsText(archivo);
+    });
+    // Agregar el elemento de entrada de tipo file al cuerpo del documento
+    document.body.appendChild(input);
+    // Abrir el cuadro de diálogo para seleccionar archivos
+    input.click();
+  });
+}
+
+//METODO 1 SIMPLE
+//es posible llamar el modal desde cualquier funcion para validar
+async function funcionX() {
+  const resultado = await abrirModalPswUnica();
+  console.log(resultado); // Aquí puedes hacer algo con el resultado
+  alert("el resultado de la validcion es "+resultado)
+}
+//METODO 2 
+//es posible llamar el modal desde cualquier funcion para validar
+async function otraFuncion() {
+  try {
+    const resultado = await abrirModalPswUnica();
+    console.log(resultado); // true si la validación es exitosa, false si no lo es
+  } catch (error) {
+    console.error('Ocurrió un error al abrir el modal:', error);
+  }
+}
+
+//METODO 3
+// Otra forma de usar la promesa sin async/await
+// abrirModalPswUnica().then(resultado => {
+//   console.log(resultado); // true o false
+// }).catch(error => {
+//   console.error('Ocurrió un error al abrir el modal:', error);
+// });
+
+
+</script>
+<script src="./crypto-js.js"></script>
+
+</body>
+</html>

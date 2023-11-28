@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CRUD de Artículos</title>
+</head>
+<body onload="cargaArticulos()">
+  <div>
+    <h2>Formulario de Artículos</h2>
+    <form id="formArticulos">
+      <label for="fechaArticulo">Fecha:</label>
+      <input type="date" id="fechaArticulo" readonly>
+      <br>
+      <label for="horaArticulo">Hora:</label>
+      <input type="text" id="horaArticulo" readonly>
+      <br>
+      <label for="idUsu">ID Usuario:</label>
+      <input type="text" id="idUsu">
+      <br>
+      <select id="listaTipos" onchange="mostrarIdTipo()">
+      </select>
+      <br>
+      <label for="idTipo">ID Tipo:</label>
+      <input type="text" id="idTipo" readonly>
+      <!-- <input type="text" id="idTipo"> -->
+      <br>
+      <label for="idArticulo">ID Artículo:</label>
+      <input type="text" id="idArticulo" disabled>
+      <br>
+      <label for="articulo">Artículo:</label>
+      <input type="text" id="articulo">
+      <br>
+      <label for="detalle">Detalle:</label>
+      <textarea id="detalle"></textarea>
+      <br>
+      <button type="button" onclick="grabaRegistroArticulo()">Grabar</button>
+      <button type="button" onclick="limpiaFormTipo()">Nuevo Artículo</button>
+    </form>
+  </div>
+  <div>
+    <h2>Tabla de Artículos</h2>
+    <table id="tblArticulos">
+      <thead>
+        <tr>
+          <th>ID Usuario</th>
+          <th>ID Tipo</th>
+          <th>ID Artículo</th>
+          <th>Artículo</th>
+          <th>Detalle</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+    <script>
+function grabaNuevoArticulo() {
+            let idUsu = document.getElementById('idUsu').value;
+            let idTipo = document.getElementById('idTipo').value;
+            let idArticulo = indiceAhora();
+            let articulo = document.getElementById('articulo').value;
+            let detalle = document.getElementById('detalle').value;
+            let nuevoArticulo = {
+                idUsu: idUsu,
+                fecha: document.getElementById('fechaArticulo').value,
+                hora: document.getElementById('horaArticulo').value,
+                idTipo: idTipo,
+                idArticulo: idArticulo,
+                articulo: articulo,
+                detalle: detalle
+            };
+            let articulos = JSON.parse(localStorage.getItem('articulos')) || [];
+            articulos.push(nuevoArticulo);
+            localStorage.setItem('articulos', JSON.stringify(articulos));
+            mostrarRegistrosArticulos();
+            limpiaFormTipo();
+        }
+
+function grabaEdicionArticulo() {
+            let idUsu = document.getElementById('idUsu').value;
+            let idTipo = document.getElementById('idTipo').value;
+            let idArticulo = document.getElementById('idArticulo').value;
+            let articulo = document.getElementById('articulo').value;
+            let detalle = document.getElementById('detalle').value;
+            let articulos = JSON.parse(localStorage.getItem('articulos')) || [];
+            let articuloIndex = articulos.findIndex(function (art) {
+                return art.idArticulo === idArticulo;
+            });
+            if (articuloIndex !== -1) {
+                articulos[articuloIndex].idUsu = idUsu;
+                articulos[articuloIndex].idTipo = idTipo;
+                articulos[articuloIndex].articulo = articulo;
+                articulos[articuloIndex].detalle = detalle;
+                localStorage.setItem('articulos', JSON.stringify(articulos));
+                mostrarRegistrosArticulos();
+                limpiaFormTipo();
+            }
+        }
+
+function grabaRegistroArticulo() {
+            let idArticulo = document.getElementById('idArticulo').value;
+            if (idArticulo !== '') {
+                grabaEdicionArticulo();
+            } else {
+                grabaNuevoArticulo();
+            }
+        }
+
+function limpiaFormTipo() {
+            document.getElementById('idUsu').value = '';
+            document.getElementById('idTipo').value = '';
+            document.getElementById('idArticulo').value = '';
+            document.getElementById('articulo').value = '';
+            document.getElementById('detalle').value = '';
+            mostrarIdTipo()
+            document.getElementById('articulo').select()
+        }
+
+function editaRegistroArticulo(registro) {
+            document.getElementById('idUsu').value = registro.idUsu;
+            let idTipo=registro.idTipo
+            document.getElementById('idTipo').value = idTipo;
+            presentaIdTipo(idTipo)
+            document.getElementById('idArticulo').value = registro.idArticulo;
+            document.getElementById('articulo').value = registro.articulo;
+            document.getElementById('detalle').value = registro.detalle;
+        }
+       
+function mostrarRegistrosArticulos() {
+            let tblArticulos = document.getElementById('tblArticulos');
+            let tbody = tblArticulos.querySelector('tbody');
+            tbody.innerHTML = '';
+            let articulos = JSON.parse(localStorage.getItem('articulos')) || [];
+            articulos.forEach(function (articulo) {
+                let row = document.createElement('tr');
+                let idUsuCell = document.createElement('td');
+                idUsuCell.textContent = articulo.idUsu;
+                row.appendChild(idUsuCell);
+                let idTipoCell = document.createElement('td');
+                idTipoCell.textContent = articulo.idTipo;
+                row.appendChild(idTipoCell);
+                let idArticuloCell = document.createElement('td');
+                idArticuloCell.textContent = articulo.idArticulo;
+                row.appendChild(idArticuloCell);
+                let articuloCell = document.createElement('td');
+                articuloCell.textContent = articulo.articulo;
+                row.appendChild(articuloCell);
+                let detalleCell = document.createElement('td');
+                detalleCell.textContent = articulo.detalle;
+                row.appendChild(detalleCell);
+                let fechaCell = document.createElement('td');
+                fechaCell.textContent = articulo.fecha;
+                row.appendChild(fechaCell);
+                let horaCell = document.createElement('td');
+                horaCell.textContent = articulo.hora;
+                row.appendChild(horaCell);
+                let accionesCell = document.createElement('td');
+                let editarBtn = document.createElement('button');
+                editarBtn.textContent = 'Editar';
+                editarBtn.addEventListener('click', function () {
+                editaRegistroArticulo(articulo);
+                });
+                accionesCell.appendChild(editarBtn);
+                let eliminarBtn = document.createElement('button');
+                eliminarBtn.textContent = 'Eliminar';
+                eliminarBtn.addEventListener('click', function () {
+                eliminarRegistroArticulo(articulo);
+                });
+                accionesCell.appendChild(eliminarBtn);
+                row.appendChild(accionesCell);
+                tbody.appendChild(row);
+            });
+            }
+
+function eliminarRegistroArticulo(registro) {
+    let articulos = JSON.parse(localStorage.getItem('articulos')) || [];
+    let articuloIndex = articulos.findIndex(function (art) {
+        return art.idArticulo === registro.idArticulo;
+    });
+    if (articuloIndex !== -1) {
+        articulos.splice(articuloIndex, 1);
+        localStorage.setItem('articulos', JSON.stringify(articulos));
+        mostrarRegistrosArticulos();
+    }
+}
+
+function presentaTiemposArticulo() {
+    let fechaHoraActual = new Date();
+    let fechaActual = fechaHoraActual.toISOString().split('T')[0];
+    document.getElementById('fechaArticulo').value = fechaActual;
+}
+
+function mostrarHoraActualArt() {
+    let horaInput = document.getElementById('horaArticulo');
+    function actualizarHora() {
+        let fechaHoraActual = new Date();
+        let opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        let horaActual = fechaHoraActual.toLocaleTimeString('es-ES', opciones);
+        horaInput.value = horaActual;
+    }
+    setInterval(actualizarHora, 1000);
+}
+
+function crearComboBoxTipos() {
+    // Obtener la referencia al elemento ComboBox
+    let comboBox = document.getElementById('listaTipos');
+    // Obtener los datos de tipos desde el localStorage
+    let tipos = JSON.parse(localStorage.getItem('tipos'));
+    // Recorrer la lista de tipos y agregar opciones al ComboBox
+    for (let i = 0; i < tipos.length; i++) {
+        let option = document.createElement('option');
+        option.value = tipos[i].idTipo;
+        option.text = tipos[i].tipo;
+        comboBox.appendChild(option);
+    }
+    // Simular un evento de cambio en el ComboBox
+    let event = new Event('change');
+    comboBox.dispatchEvent(event);
+}
+
+function mostrarIdTipo() {
+    // Obtener la referencia al elemento ComboBox y al cuadro de texto
+    let comboBox = document.getElementById('listaTipos');
+    let idTipoInput = document.getElementById('idTipo');
+    // Obtener el idTipo seleccionado
+    let idTipoSeleccionado = comboBox.value;
+    // Mostrar el idTipo en el cuadro de texto
+    idTipoInput.value = idTipoSeleccionado;
+}
+        
+function presentaIdTipo(idTipo) {
+    // Obtener la referencia al elemento ComboBox
+    let comboBox = document.getElementById('listaTipos');
+    // Buscar el tipo correspondiente al idTipo en el ComboBox
+    let option = Array.from(comboBox.options).find(function(option) {
+        return option.value === idTipo;
+    });
+    // Seleccionar el tipo correspondiente en el ComboBox
+    if (option) {
+        option.selected = true;
+    }
+}
+
+function cargaArticulos(){
+    crearComboBoxTipos();
+    mostrarHoraActualArt();
+    presentaTiemposArticulo();
+    mostrarRegistrosArticulos()
+}
+
+
+    </script>
+    <script src="./libreria.js"></script>
+</body>
+</html>

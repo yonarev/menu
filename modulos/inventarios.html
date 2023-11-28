@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CRUD de Inventarios</title>
+</head>
+<body>
+  <div>
+    <form id="formInventario">
+      <label for="idUsuInv">ID Usuario:</label>
+      <input type="text" id="idUsuInv"><br><br>
+      <label for="fechaInv">Fecha:</label>
+      <input type="text" id="fechaInv" disabled><br><br>
+      <label for="horaInv">Hora:</label>
+      <input type="text" id="horaInv" disabled><br><br>
+      <label for="idInventario">ID Inventario:</label>
+      <input type="text" id="idInventario" disabled><br><br>
+      <label for="inventario">Inventario:</label>
+      <input type="text" id="inventario"><br><br>
+      <label for="detalleInv">Detalle:</label>
+      <input type="text" id="detalleInv"><br><br>
+      <button type="button" onclick="grabaRegistroInventario()">Guardar</button>
+      <button type="button" onclick="limpiaFormInventario()">Nuevo Inventario</button>
+    </form>
+  </div>
+  <div>
+    <table id="tblInventarios">
+      <thead>
+        <tr>
+          <th>ID Usuario</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>ID Inventario</th>
+          <th>Inventario</th>
+          <th>Detalle</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script src="./libreria.js"></script>
+  <script>
+// Función para grabar un nuevo inventario
+function grabaNuevoInventario() {
+  let idInventario = document.getElementById('idInventario').value;
+  let inventarios = JSON.parse(localStorage.getItem('inventarios')) || [];
+
+  // Verificar si ya existe un inventario con el mismo ID
+  let inventarioExistente = inventarios.find(function(inventario) {
+    return inventario.idInventario === idInventario;
+  });
+
+  if (inventarioExistente) {
+    // Mostrar mensaje de error o realizar alguna acción
+    alert('Ya existe un inventario con el mismo ID');
+    return;
+  }
+
+  let idUsuInv = document.getElementById('idUsuInv').value;
+  let fechaInv = document.getElementById('fechaInv').value;
+  let horaInv = document.getElementById('horaInv').value;
+  let inventario = document.getElementById('inventario').value;
+  let detalleInv = document.getElementById('detalleInv').value;
+
+  // Verificar si ya existe un inventario con el mismo nombre
+  let inventarioNombreExistente = inventarios.find(function(inventarioExistente) {
+    return inventarioExistente.inventario === inventario;
+  });
+
+  if (inventarioNombreExistente) {
+    // Mostrar mensaje de error o realizar alguna acción
+    alert('Ya existe un inventario con el mismo nombre');
+    return;
+  }
+
+  idInventario = indiceAhora();
+
+  inventarios.push({
+    idUsu: idUsuInv,
+    fecha: fechaInv,
+    hora: horaInv,
+    idInventario: idInventario,
+    inventario: inventario,
+    detalle: detalleInv
+  });
+
+  localStorage.setItem('inventarios', JSON.stringify(inventarios));
+
+  // Actualizar la tabla en pantalla
+  mostrarRegistrosInventarios();
+  limpiaFormInventario();
+}
+// Función para grabar una edición de inventario
+function grabaEdicionInventario() {
+    let idInventario = document.getElementById('idInventario').value;
+    let nuevoInventario = document.getElementById('inventario').value;
+    let inventario = document.getElementById('inventario').value
+    let inventarios = JSON.parse(localStorage.getItem('inventarios')) || [];
+
+    // Verificar si ya existe otro inventario con el mismo nombre
+    let inventarioExistente = inventarios.find(function(inventario) {
+        return inventario.inventario === nuevoInventario && inventario.idInventario !== idInventario;
+    });
+
+    if (inventarioExistente) {
+        // Mostrar mensaje de error o realizar alguna acción
+        alert('Ya existe otro inventario con el mismo nombre');
+        return;
+    }
+
+  // Buscar el inventario a editar y realizar los cambios necesarios
+  for (let i = 0; i < inventarios.length; i++) {
+    if (inventarios[i].idInventario === idInventario) {
+      inventarios[i].idUsu = document.getElementById('idUsuInv').value;
+      inventarios[i].fecha = document.getElementById('fechaInv').value;
+      inventarios[i].hora = document.getElementById('horaInv').value;
+      inventarios[i].inventario = inventario;
+      inventarios[i].detalle = document.getElementById('detalleInv').value;
+      break;
+    }
+  }
+
+  // Actualizar el inventario en el local storage
+  localStorage.setItem('inventarios', JSON.stringify(inventarios));
+
+  // Actualizar la tabla en pantalla
+  mostrarRegistrosInventarios();
+  limpiaFormInventario();
+}
+// Función para grabar un registro de inventario
+function grabaRegistroInventario() {
+  let idInventario = document.getElementById('idInventario').value;
+  if (idInventario !== '') {
+    grabaEdicionInventario();
+  } else {
+    grabaNuevoInventario();
+  }
+}
+// Función para limpiar el formulario de inventario
+function limpiaFormInventario() {
+  document.getElementById('idUsuInv').value = '';
+//   document.getElementById('fechaInv').value = '';
+//   document.getElementById('horaInv').value = '';
+  document.getElementById('idInventario').value = '';
+  document.getElementById('inventario').value = '';
+  document.getElementById('detalleInv').value = '';
+  document.getElementById('inventario').select()
+}
+// Función para presentar la fecha actual en el formulario
+function presentaTiemposInv() {
+  let fechaHoraActual = new Date();
+  let fechaActual = fechaHoraActual.toISOString().split('T')[0];
+  document.getElementById('fechaInv').value = fechaActual;
+}
+// Función para mostrar la hora actual en el formulario
+function mostrarHoraActualInv() {
+    setInterval(function() {
+        let fechaHoraActual = new Date();
+        let opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        let horaActual = fechaHoraActual.toLocaleTimeString('es-ES', opciones);
+        document.getElementById('horaInv').value = horaActual;
+    }, 1000); // Actualiza la hora cada segundo
+}
+// Función para cargar los inventarios al inicio
+function cargaInventarios() {
+      presentaTiemposInv();
+      mostrarRegistrosInventarios();
+      document.getElementById('inventario').select();
+    }
+// Función para editar un registro de inventario
+function editaRegistroInventario(registro) {
+      document.getElementById('idUsuInv').value = registro.idUsu;
+      document.getElementById('fechaInv').value = registro.fecha;
+      document.getElementById('horaInv').value = registro.hora;
+      document.getElementById('idInventario').value = registro.idInventario;
+      document.getElementById('inventario').value = registro.inventario;
+      document.getElementById('detalleInv').value = registro.detalle;
+    }
+// Función para mostrar todos los registros de inventario en la tabla
+function mostrarRegistrosInventarios() {
+      let inventarios = JSON.parse(localStorage.getItem('inventarios')) || [];
+      let tableBody = document.querySelector('#tblInventarios tbody');
+      tableBody.innerHTML = '';
+
+      for (let i = 0; i < inventarios.length; i++) {
+        let row = tableBody.insertRow();
+
+        let idUsuCell = row.insertCell();
+        idUsuCell.textContent = inventarios[i].idUsu;
+
+        let fechaCell = row.insertCell();
+        fechaCell.textContent = inventarios[i].fecha;
+
+        let horaCell = row.insertCell();
+        horaCell.textContent = inventarios[i].hora;
+
+        let idInventarioCell = row.insertCell();
+        idInventarioCell.textContent = inventarios[i].idInventario;
+
+        let inventarioCell = row.insertCell();
+        inventarioCell.textContent = inventarios[i].inventario;
+
+        let detalleCell = row.insertCell();
+        detalleCell.textContent = inventarios[i].detalle;
+
+        let accionesCell = row.insertCell();
+        let editarBtn = document.createElement('button');
+        editarBtn.textContent = 'Editar';
+        editarBtn.addEventListener('click', function() {
+          editaRegistroInventario(inventarios[i]);
+        });
+        accionesCell.appendChild(editarBtn);
+
+        let eliminarBtn = document.createElement('button');
+        eliminarBtn.textContent = 'Eliminar';
+        eliminarBtn.addEventListener('click', function() {
+          eliminarRegistroInventario(inventarios[i]);
+        });
+        accionesCell.appendChild(eliminarBtn);
+      }
+    }
+// Función para eliminar un registro de inventario
+function eliminarRegistroInventario(registro) {
+      let inventarios = JSON.parse(localStorage.getItem('inventarios')) || [];
+
+      // Filtrar los inventarios y eliminar el registro correspondiente
+      inventarios = inventarios.filter(function(inventario) {
+        return inventario.idInventario !== registro.idInventario;
+      });
+
+      // Actualizar el inventario en el local storage
+      localStorage.setItem('inventarios', JSON.stringify(inventarios));
+
+      // Actualizar la tabla en pantalla
+      mostrarRegistrosInventarios();
+    }
+// Función que se ejecuta al cargar la página
+function cargaInventario() {
+      mostrarHoraActualInv();
+      presentaTiemposInv();
+      mostrarRegistrosInventarios();
+    //   usuarioActivoInventarios();
+    }
+function usuarioActivoInventarios(){
+        let idUsu=retornaUsuarioActivo()
+        if(!idUsu){
+            mensajeAyuda('el usuario no esta activo','alerta')
+            return
+        }
+        document.getElementById('idUsuInv').value=idUsu
+    }
+cargaInventario();
+  </script>
+</body>
+</html>

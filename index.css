@@ -1,0 +1,1013 @@
+*{
+  margin-left: 0; 
+  padding-left: 0;
+  box-sizing: border-box;
+ } 
+ :root {
+  --fontGral:Arial;
+ }
+ body {
+   padding: 10px;
+   margin: 0;
+   font-family: var(fontGral);
+   background-color: rgb(130, 122, 201);
+ }
+ .lineal{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 1vw;
+}
+.ajustados{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.columna{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+}
+.moduloActivo{
+  display: block;
+}
+.moduloInactivo{
+  display: none;
+}
+.ocultar {
+  display: none;
+}
+.centrado{
+  justify-content: center;
+}
+.visible { 
+  display: block !important; 
+}
+.visibleFlex{
+  display: flex;
+}
+.destacado{
+  font-family: sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+.alerta{
+  color: white;
+  background-color: red;
+}
+.correcto{
+  color: white;
+  background-color: rgb(159, 84, 230);
+}
+.fecha{
+  font-size: 1.5em;
+  width: 145px !important;
+}
+.hora{
+  text-align: center;
+  font-size: 1.5em;
+  width: 140px !important;
+  height: 39px;
+}
+.detalle{
+  width: 450px;
+  height: 100px;
+  font-size: 22px;
+}
+.entrada{
+  width: 260px !important;
+  font-size: 22px;
+  text-align: right;
+}
+.combo{
+  width: 260px !important;
+  font-size: 22px;
+}
+/* ----------------- MENU NAV ------------ */
+/* ESTILO DEL MENU NAV Y MODAL  */
+nav {
+  position: fixed;
+}
+#navbar > a{
+  font-size: 30px !important;
+ }
+ /* fondo de nav bar superior */
+ #navbar {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   background-color: #2f2424;
+   align-content: center;
+   justify-items: center;
+   align-items: center;
+   overflow: hidden;
+ }
+ /* barra superior ancho */
+ #navbar a {
+   font-size: 15px;
+   float: left;
+   display: block;
+   color: white;
+   text-align: center;
+   padding: 20px 12px;
+   text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+
+ }
+/* ancho destacador seleccion submenu */
+#navbar a:hover {
+  background-color: #e1eae1;
+  color: rgb(0, 0, 0);
+  width: 120px;
+  text-align: center;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  border-radius: 1vw;
+}
+ /* texto submenu */
+ .submenu{
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+ }
+ /* menu superior */
+ .dropdown {
+   float: left;
+   overflow: hidden;
+ }
+ /* fuente submenu */
+ .dropdown .dropbtn {
+   font-size: 15px;
+   border: none;
+   outline: none;
+   color: white;
+   background-color: inherit;
+   font-family: inherit;
+   margin: 0;
+   max-width: 90px;
+ }
+ /* ancho submenu y alto*/
+ .dropdown-content {
+   position: absolute;
+   display: none;
+   top: auto;
+   min-width: 50px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   z-index: 2;
+ }
+ .dropdown-content a{
+   padding-top: 0;
+   padding-bottom: 0;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+ }
+ /* fondo submenu */
+ .dropdown:hover .dropdown-content {
+   display: block;
+   background-color: rgb(94, 77, 77);
+ }
+/* texto submenu */
+.submenu{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 120px;
+  background-color: #262637;
+}
+/* menu superior */
+.dropdown {
+  float: center;
+  overflow: hidden;
+}
+/* fuente submenu */
+.dropdown .dropbtn {
+  border: none;
+  outline: none;
+  color: white;
+  background-color: transparent;
+  transition: color 0.3s;
+  font-family: inherit;
+  margin: 0;
+}
+/* ancho submenu y alto*/
+.dropdown-content {
+  position: absolute;
+  display: none;
+  top: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+.dropdown-content a{
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* fondo submenu */
+.dropdown:hover .dropdown-content {
+  display: block;
+  background-color: rgb(29, 22, 53);
+}
+.dropdown:hover .dropbtn {
+  color: #f0f0f0;
+}
+/* ---------------------------------- */
+
+.tituloModulo{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding-top: 0px;
+  margin: 0 auto;
+  max-width: 100vw;
+  height: 28px;
+  width: 92vw !important;
+  background-color: #191b19;
+  border-radius: 1vw;
+}
+.seccionIds {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content:center;
+  padding-top: 5px;
+  background-color: coral;
+  text-align: center;
+  font-size: 28px;
+}
+.close-icon {
+  position: absolute;
+  font-size: 18px;
+  width: 10px;
+  /* right: 92vw; */
+  right: 92%;
+  cursor: pointer;
+  color:white;
+}
+.verIds {
+  position: absolute;
+  font-size: 20px;
+  width: 10px;
+  right: 82vw;
+  color: #34bd39;
+  cursor: pointer;
+}
+.ocultaIds{
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  width: 10px;
+  right: 78vw;
+  color: #34bd39;
+  cursor: pointer;
+}
+#tao{
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 1vw;
+  font-size: 20px;
+  cursor: pointer;
+}
+#acerca{
+  padding: 0 0 0;
+  position: absolute;
+  right: 15px;
+  font-size: 50px;
+  cursor: pointer;
+  text-decoration: none;
+}
+#usuarioLog{
+  text-align: center;
+  background-color: rgb(72, 122, 122);
+  font-size: 18px;
+  color: rgb(249, 240, 240);
+}
+#seccionMsgAyuda{
+  background-color:#06912d
+}
+#mensajeAyuda{
+  background-color: #27748a;
+  text-align: center;
+  font-size: 18px;
+  color: rgb(249, 240, 240);
+}
+.moduloActivo{
+  display: block;
+}
+.moduloInactivo{
+  display: none;
+}
+#navbar > div > button{
+  cursor: pointer;
+}
+table {
+  margin-left: 2px;
+  height: 100% !important;
+  width: 100% !important;
+  max-height: 100vw !important;
+  /* overflow-x: auto !important; */
+  border: 1px solid #ccc !important;
+  padding: 5px !important;
+
+}
+
+th, td {
+  font-family: arial;
+  font-size: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: auto;
+  white-space: wrap;
+  padding: 1px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.seccionTabla {
+  height: 90vh;
+  width: 100%; 
+  max-height: 100vw; 
+  /* overflow-x: auto;  */
+  /* overflow-x: auto;  */
+  border: 1px solid #ccc; 
+  padding: 5px; 
+}
+
+.seccionTablaUsu table
+.seccionTablaCnx table {
+  height: 50%;
+  width: 100%; 
+  border-collapse: collapse;
+  table-layout: fixed; 
+}
+
+#tabla-conexiones{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 100vw !important;
+  max-height: 90vh !important;
+}
+button[type="button"]:hover {
+  background-color: #45a049;
+}
+button[type="button"]:focus {
+  outline: none;
+}
+
+h1 {
+  text-align: center;
+}
+h3 {
+  color: white;
+  font-weight: bold;
+}
+label {
+  font-size: 1rem;
+  color: white;
+
+}
+input {
+  max-width: auto;
+}
+input::placeholder {
+  color: #9e9797; /* Color de texto del marcador de posición */
+  font-style: italic; /* Estilo de fuente del marcador de posición */
+}
+#usuarioLogin input::placeholder {
+  color: #887e7e; /* Color de texto del marcador de posición */
+  font-style: italic; /* Estilo de fuente del marcador de posición */
+}
+
+input[type="text"],
+input[type="password"]{
+  margin: 0 auto;
+  width: 25vw;
+  padding: 5px;
+  margin-bottom: 1vw;
+  margin-right: 1vw;
+  margin-left: 1vw;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+input[type="date"] {
+  margin: 0 auto;
+  width: 20vw;
+  padding: 5px;
+  margin-bottom: 1vw;
+  margin-right: 1vw;
+  margin-left: 1vw;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.plateado {
+  font-size: 1rem;
+  background-color: rgb(89, 7, 7);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.copiaPor {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.copiaPor input[type="password"] {
+  margin-right: 10px;
+}
+.copiaPor button.plateado {
+  margin: 0;
+  padding: 0;
+}
+.seccionMenu{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: #4CAF50;
+  padding: 0 0 0 ;
+  z-index: 2;
+  max-width: 100vw;
+}
+.seccionArchivos{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: rgb(149, 117, 117);
+  margin: o auto;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  border: 1px solid black;
+  width: 100vw;
+}
+.seccionInput{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap:  wrap;
+}
+.seccionPrincipal{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+.seccionViewTabla{
+  padding-left: 1vw;
+  display: flex;
+  flex-direction: row;
+}
+
+.seccionFecha #hora , #fecha, #idCnx {
+  font-size: 1.5vw;
+  width: 15vw;
+  margin: 0 0 0 0;
+  text-align: center;
+  background-color:gray ;
+
+}
+/* Estilos personalizados para el elemento input */
+.custom-input::file-selector-button::before {
+  content: "Selecciona";
+}
+.custom-input::file-selector-button::after {
+  content: "";
+}
+.seleccionada {
+  background-color: gray;
+}
+.ocultaPsw {
+  /* color: white; */
+  font-family:'symbol';
+  background-color: rgb(95, 95, 102);
+
+}
+
+.columnaFecha {
+  background-color: rgb(245, 220, 81);
+  text-align: center;
+  justify-content: center;
+  width: 50px; /* Ajusta el valor según tus necesidades */
+
+}
+.columnaHora{
+  background-color: rgb(167, 179, 128);
+  /* max-width: 15px !important; */
+  width: 35px !important;
+}
+.columnaId{
+  background-color: rgb(97, 100, 102);
+  max-width: 50px;
+}
+.columnaPsw{
+  background-color: rgb(188, 176, 39);
+  max-width: 70px !important;
+}
+.columnaNumero{
+  background-color: rgb(12, 91, 128);
+  max-width: 40px !important;
+}
+.columnaAlias{
+  background-color: rgb(27, 168, 233);
+  max-width: 40px !important;
+}
+.columnaAcciones{
+  background-color: rgb(173, 213, 232);
+  max-width: 50px !important;
+}
+
+/* -------------- BOTONES EN GRAL ------------------  */
+.btnEdita {
+  justify-content: center;
+  text-align: center;
+  font-size: 17px;
+  width: 75px;
+  color: black;
+  border-radius: 2vw;
+  padding:5px;
+  cursor: pointer;
+  background-color: #34bd39;
+}
+.btnElimina{
+  color: white;
+  text-align: center;
+  font-size: 17px;
+  width: 75px;
+  padding:5px;
+  margin-top: 5px;
+  border-radius: 2vw;
+  cursor: pointer;
+  background-color: #f7462e;
+} 
+.btnGraba{
+  margin-left: 1vw;
+  text-align: center;
+  font-size: 20px;
+  width: 100px;
+  color: rgb(38, 32, 32);
+  border-radius: .5vw;
+  cursor: pointer;
+  background-color: #34bd39;
+} 
+.btnNuevo{
+  margin-left: 1vw;
+  text-align: center;
+  font-size: 20px;
+  width: 100px;
+  color: rgb(38, 32, 32);
+  border-radius: .5vw;
+  cursor: pointer;
+  background-color: #2da4d0;
+} 
+/* ------------------- SECCIONES EN GRAL -------------- */
+.seccionBotones {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.seccionVerTabla {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.seccionPrincipal > #psw , #alias, #numero{
+font-size: 1.5vw;
+max-width: 25vw;
+margin: 0 0 0 0;
+}
+/* -------------------- MODAL CONEXIONES  ----------- */
+#modalPestillo {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* border-radius: 3vw */
+}
+.modal-content {
+  background-color: rgb(121, 110, 110);
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 2vw;
+}
+#pestillo{
+  max-width: 40% !important;
+}
+/* --------------------- USUARIOS ------------------- */
+#modUsu {
+  background-color: rgb(83, 65, 138);
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0 auto;
+  /* padding: 10px; */
+}
+#formIngreso div {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#pswVer{
+  font-size: 21px;
+  /* max-width: 90%; */
+  width: 225px;
+  color: white;
+}
+#idUsu,
+#gps,
+#usuario,
+#pswUsu,
+#psw,
+#obs,
+#accesos {
+  font-size: 21px;
+  max-width: 90%;
+  width: 225px;
+  padding-left: .5vw;
+  padding-right: .5vw;
+  overflow: hidden; /* Oculta el contenido que excede el ancho */
+  text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto es más largo */
+  white-space: nowrap; /* Evita que el texto se ajuste automáticamente */
+}
+#obs,#accesos  {
+  height: 100px;
+  width: 225px !important;
+  /* overflow-y: auto; */
+  overflow-x: auto;
+}
+#formIngreso > div:nth-child(1) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: left;
+  padding-left: 1.5vw;
+  padding-right: .5vw;
+  margin-left: .5;
+  margin-right: .5;
+}
+/* ------------------- LOGIN -------------- */
+body .formLogin {
+  margin-top: 3vw;
+  margin: 0 auto;
+}
+.formLogin {
+  margin-top: 40px !important;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  background-color: rgb(88, 82, 207);
+  width: 250px;
+  font-size: 18px;
+  border-radius: 2vw;
+  margin-top: 1vw;
+}
+.formLogin .inputLogin {
+  margin-left: 150pxw;
+}
+.inputLogin{
+  font-size: 18px;
+  padding-left: 1vw;
+  width: 200px !important;
+}
+.btnLogin{
+  display: inline-block;
+  border: none;
+  margin: 0 auto;
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  background-color: #c5dbe1;
+  padding: 1em;
+  transition: duration 0.5s;
+  border-radius: 2vw;
+}
+.btnLogin:hover{
+  background-color: #cad2d4;
+  transform: scale(1.5);
+  margin-bottom: 10px;
+}
+/*--------------  BITACORAS ------------*/
+#modBit {
+  background-color: #4b5241;
+}
+#idUsuBit,
+#idBit{
+  font-size: 20px;
+  background-color:#6c6f68;
+  height: 39px;
+}
+#horaBit{
+  text-align: center;
+  font-size: 25px;
+  width: 156px;
+  height: 41px;
+}
+#fechaBit{
+  font-size: 25px;
+  width: auto;
+}
+.inputBit{
+  padding-top: 1vw;
+  padding-bottom: 1vw;
+}
+#bitacora{
+  font-size: 20px;
+  width: 40vw;
+  margin-right: 2vw;
+} 
+#detalleBit{
+  width: 47vw;
+  height: 62px !important;
+  font-size: 20px;
+  margin-left: .5vw !important;
+}
+/* -------------- notas -------------- */
+
+#modNot{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 100vw;
+  margin: 0 auto;
+  background-color: #473c3c;
+}
+#formNotaBit{
+  background-color: #4e565e;
+  max-width: 100vw;
+  margin-bottom: 15px;
+  margin-top: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 2vw;
+}
+#formNotaBit div{
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#formNotaBit div div{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+#formNotaBit button{
+  font-size: 2vw;
+  width: 12vw;
+  text-align: center;
+}
+#titulosNotas,#lugaresNotas{
+  text-align: center;
+  font-size: 20px;
+  height: 30px;
+}
+#usuNot,#idNota,#idBitNot,#idUsuNot{
+  width: 7rem !important;
+}
+#tituloNota,#lugarNota,#bitNot{
+  font-size: 18px;
+  width: 20rem;
+  height: 35px;
+}
+#titulosNotas,#lugaresNotas{
+  font-size: 18px;
+  width: 20rem;
+}
+.seccionTitulosNotas{
+  /* flex-wrap: wrap; */
+  background-color: #313c31;
+  width: 400px;
+  border-radius: 6px;
+  padding: 5px;
+  /* height: 250px; */
+}
+.seccionTitulosLugares{
+  background-color: #334a33;
+  width: 400px;
+  border-radius: 6px;
+  padding: 5px;
+}
+#horaNota{
+  text-align: center;
+  font-size: 25px;
+  width: 156px;
+  height: 41px;
+}
+#fechaNota{
+  font-size: 25px;
+  width: auto;
+}
+#notaBit{
+  font-size: 1.5rem;
+  width: 90vw;
+  height: 25vw;
+}
+#btnGrabNot,#btnNueNot{
+  margin-top: 12px;
+  background-color: #06912d !important;
+  padding: 9px;
+  border-radius: 1vw;
+  color: white;
+}
+#btnNueNot{
+  background-color: #3735dc !important;
+}
+#verTit,#verLug{
+  font-size: 9px;
+  width: 37px !important;
+}
+/* ------------------------------------------------*/
+.formPub{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  height: 100vh;
+}
+.formPub input{
+  width: 90vw;
+  background-color: #606860;
+  color: white;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 1.5em;
+}
+.inputParrafo{
+  justify-content: center;
+  align-content: center;
+  background-color: #34bd39;
+  width: 90vw;
+  height: 150px;
+  resize: vertical;
+  padding: 5px;
+  font-size: 1.2em;
+  margin-left: 1vw;
+}
+/* botones 3d del form pub */
+body > div.formPub > form > button {
+  background-color: rgb(94, 231, 94);
+  font-size: .8em !important;
+  margin: 2px;
+  padding: 4px; /* Aumenté el padding para un aspecto más amplio */
+  border: 1px solid #5ED75E; /* Borde del botón */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra tridimensional */
+  transition: transform 0.2s ease-in-out; /* Efecto de transición al pasar el mouse */
+
+  /* Estilos adicionales para resaltar el botón al pasar el mouse */
+  cursor: pointer;
+}
+
+body > div.formPub > form > button:hover {
+  transform: scale(1.05); /* Aumentar el tamaño al pasar el mouse */
+}
+.parrafoAcerca{
+  background-color: rgb(191, 179, 179);
+  margin: 1vw;
+  padding: 1vw;
+  text-align: center;
+  border-radius: 2vw;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 1); /* Aquí defines el color y la intensidad de la sombra */
+  width: auto;
+}
+/* -------------------- crud publicaciones ---------------------------------------------- */
+.PubformCrud{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+.formPubCrud{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+.formPubCrud input{
+  width: 90vw;
+}
+.containerTabla {
+  width: 90%;
+  height: auto;
+  margin: 50px auto;
+  overflow-x: auto;
+}
+
+.containerTabla table {
+  border-collapse: collapse;
+  width: 100%;
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+.containerTabla th, .containerTabla td {
+  padding: 5px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: .7em;
+}
+.containerTabla td {
+    justify-content: baseline;
+    justify-items: baseline;
+    align-items: baseline;
+    align-content: baseline;
+}
+
+.containerTabla th {
+  background-color: #f2f2f2;
+}
+.btnCrudEdit{
+  background-color: #06912d;
+  width: 5em;
+}
+.btnCrudElimina{
+  background-color: rgb(145, 6, 18);
+  color: white;
+  width: 5em;
+}
+.btnGrabaPub{
+  background-color: #06912d;
+  width: auto;
+  cursor: pointer;
+  padding: 5px;
+}
+.btnCrudJson{
+  background-color: yellow;
+  color: black;
+  width: 5em;
+}
+.btnRecTblJson{
+  background-color: yellow;
+  color: black;
+  width: auto;
+  padding: 5px;
+}
+.btnNuevaPub{
+  background-color: #5454ea;
+  color: white;
+  width: auto;
+  cursor: pointer;
+  padding: 5px;
+
+}
+.formIds{
+  padding: 5px;
+  background-color: rgb(119, 83, 83);
+}
+.formIds #idPub,#fechaPub,#horaPub{
+  width: 9em;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ---------- TRANSACCION INVENTARIO -------- */
+/* @media (max-width: 460px) {
+   body {
+    background-color: rgb(252, 104, 49);
+   }
+} */

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CRUD Liquidaciones</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<h1>CRUD Liquidaciones</h1>
+
+	<form id="formInputLiq">
+		<label for="idUsu">ID Usuario:</label>
+		<input type="text" id="idUsu" name="idUsu"><br>
+
+		<label for="diasLab">Días Laborales:</label>
+		<input type="number" id="diasLab" name="diasLab"><br>
+
+		<label for="sueldoBase">Sueldo Base:</label>
+		<input type="number" id="sueldoBase" name="sueldoBase"><br>
+
+		<label for="diasTrab">Días Trabajados:</label>
+		<input type="number" id="diasTrab" name="diasTrab"><br>
+
+		<label for="horasExtras">Horas Extras:</label>
+		<input type="number" id="horasExtras" name="horasExtras"><br>
+
+		<label for="porHoraExtra">Porcentaje Hora Extra:</label>
+		<input type="number" id="porHoraExtra" name="porHoraExtra"><br>
+
+		<label for="cargas">Cargas:</label>
+		<input type="number" id="cargas" name="cargas"><br>
+
+		<label for="valorCarga">Valor Carga:</label>
+		<input type="number" id="valorCarga" name="valorCarga"><br>
+
+		<label for="Viatico">Viático:</label>
+		<input type="number" id="Viatico" name="Viatico"><br>
+
+		<label for="colacionDia">Colación por Día:</label>
+		<input type="number" id="colacionDia" name="colacionDia"><br>
+
+		<label for="afpNombre">Nombre AFP:</label>
+		<input type="text" id="afpNombre" name="afpNombre"><br>
+
+		<label for="porCientoAfp">Porcentaje AFP:</label>
+		<input type="number" id="porCientoAfp" name="porCientoAfp"><br>
+
+		<input type="button" value="Grabar" onclick="InputLiq()">
+	</form>
+
+	<table id="tablaLiq">
+		<thead>
+			<tr>
+				<th>Fecha Liquidación</th>
+				<th>ID Usuario</th>
+				<th>Días Laborales</th>
+				<th>Sueldo Base</th>
+				<th>Días Trabajados</th>
+				<th>Horas Extras</th>
+				<th>Porcentaje Hora Extra</th>
+				<th>Valor Día Laboral</th>
+				<th>Sueldo Base Imponible</th>
+				<th>Valor Hora Laboral</th>
+				<th>Valor Hora Extra</th>
+				<th>Total Horas Extras</th>
+				<th>Gratificación</th>
+				<th>Total Haberes Imponibles</th>
+				<th>Cargas</th>
+				<th>Valor Carga</th>
+				<th>Total Cargas</th>
+				<th>Viático</th>
+				<th>Colación por Día</th>
+				<th>Total Colación</th>
+				<th>Total Haberes no Imponibles</th>
+				<th>Nombre AFP</th>
+				<th>Porcentaje AFP</th>
+				<th>Total AFP</th>
+				<th>FONASA</th>
+				<th>Seguro</th>
+				<th>Total Descuentos</th>
+				<th>Total Haberes</th>
+				<th>Liquidación</th>
+				<th>Editar</th>
+				<th>Eliminar</th>
+			</tr>
+		</thead>
+		<tbody id="tbodyLiq"></tbody>
+	</table>
+
+	<script>
+		function fechaAhora() {
+			var fecha = new Date();
+			var dia = fecha.getDate();
+			var mes = fecha.getMonth()+1;
+			var año = fecha.getFullYear();
+			return dia+'/'+mes+'/'+año;
+		}
+
+		function horaAhora() {
+			var fecha = new Date();
+			var hora = fecha.getHours();
+			var minuto = fecha.getMinutes();
+			var segundo = fecha.getSeconds();
+			return hora+':'+minuto+':'+segundo;
+		}
+
+		function InputLiq() {
+			var fechaLiq = fechaAhora();
+			var horaLiq = horaAhora();
+			var idLiq = fechaLiq+horaLiq;
+			var idUsu = document.getElementById("idUsu").value;
+			var diasLab = document.getElementById("diasLab").value;
+			var sueldoBase = document.getElementById("sueldoBase").value;
+			var diasTrab = document.getElementById("diasTrab").value;
+			var horasExtras = document.getElementById("horasExtras").value;
+			var porHoraExtra = document.getElementById("porHoraExtra").value;
+			var valorDiaLab = sueldoBase/diasLab;
+			var sueldoBaseImp = valorDiaLab*diasTrab;
+			var valorHoraLab = valorDiaLab*(28/180);
+			var valorHoraExt = valorHoraLab*porHoraExtra;
+			var totalHorasExt = valorHoraExt*horasExtras;
+			var gratificacion = sueldoBaseImp*(25/100);
+			var totalHaberImp = sueldoBaseImp+gratificacion+totalHorasExt;
+			var cargas = document.getElementById("cargas").value;
+			var valorCarga = document.getElementById("valorCarga").value;
+			var totalCargas = valorCarga*cargas;
+			var Viatico = document.getElementById("Viatico").value;
+			var colacionDia = document.getElementById("colacionDia").value;
+			var totalColacion = diasTrab*colacionDia;
+			var totalHaberNoImp = totalCargas+Viatico+totalColacion;
+			var afpNombre = document.getElementById("afpNombre").value;
+			var porCientoAfp = document.getElementById("porCientoAfp").value;
+			var totalAfp = porCientoAfp*totalHaberImp;
+			var fonasa = totalHaberImp*(7/100);
+			var seguro = totalHaberImp*(0.6/100);
+			var totalDescuentos = totalAfp+fonasa+seguro;
+			var totalHaberes = totalHaberImp+totalHaberNoImp;
+			var liquidacion = totalHaberes-totalDescuentos;
+
+			var liquidaciones = JSON.parse(localStorage.getItem("liquidaciones")) || [];
+
+			var liquidacionObj = {
+				fechaLiq: fechaLiq,
+				horaLiq: horaLiq,
+				idLiq: idLiq,
+				idUsu: idUsu,
+				diasLab: diasLab,
+				sueldoBase: sueldoBase,
+				diasTrab: diasTrab,
+				horasExtras: horasExtras,
+				porHoraExtra: porHoraExtra,
+				valorDiaLab: valorDiaLab,
+				sueldoBaseImp: sueldoBaseImp,
+				valorHoraLab: valorHoraLab,
+				valorHoraExt: valorHoraExt,
+				totalHorasExt: totalHorasExt,
+				gratificacion: gratificacion,
+				totalHaberImp: totalHaberImp,
+				cargas: cargas,
+				valorCarga: valorCarga,
+				totalCargas: totalCargas,
+				Viatico: Viatico,
+				colacionDia: colacionDia,
+				totalColacion: totalColacion,
+				totalHaberNoImp: totalHaberNoImp,
+				afpNombre: afpNombre,
+				porCientoAfp: porCientoAfp,
+				totalAfp: totalAfp,
+				fonasa: fonasa,
+				seguro: seguro,
+				totalDescuentos: totalDescuentos,
+				totalHaberes: totalHaberes,
+				liquidacion: liquidacion
+			};
+
+			liquidaciones.push(liquidacionObj);
+			localStorage.setItem("liquidaciones", JSON.stringify(liquidaciones));
+
+			actualizarTabla();
+		}
+
+		function actualizarTabla() {
+			var liquidaciones = JSON.parse(localStorage.getItem("liquidaciones")) || [];
+			var tbodyLiq = document.getElementById("tbodyLiq");
+			tbodyLiq.innerHTML = "";
+
+			for (var i = 0; i < liquidaciones.length; i++) {
+				var tr = document.createElement("tr");
+
+				var tdFechaLiq = document.createElement("td");
+				tdFechaLiq.innerHTML = liquidaciones[i].fechaLiq;
+				tr.appendChild(tdFechaLiq);
+
+				var tdIdUsu = document.createElement("td");
+				tdIdUsu.innerHTML = liquidaciones[i].idUsu;
+				tr.appendChild(tdIdUsu);
+
+				var tdDiasLab = document.createElement("td");
+				tdDiasLab.innerHTML = liquidaciones[i].diasLab;
+				tr.appendChild(tdDiasLab);
+
+				var tdSueldoBase = document.createElement("td");
+				tdSueldoBase.innerHTML = liquidaciones[i].sueldoBase;
+				tr.appendChild(tdSueldoBase);
+
+				var tdDiasTrab = document.createElement("td");
+				tdDiasTrab.innerHTML = liquidaciones[i].diasTrab;
+				tr.appendChild(tdDiasTrab);
+
+				var tdHorasExtras = document.createElement("td");
+				tdHorasExtras.innerHTML = liquidaciones[i].horasExtras;
+				tr.appendChild(tdHorasExtras);
+
+				var tdPorHoraExtra = document.createElement("td");
+				tdPorHoraExtra.innerHTML = liquidaciones[i].porHoraExtra;
+				tr.appendChild(tdPorHoraExtra);
+
+				var tdValorDiaLab = document.createElement("td");
+				tdValorDiaLab.innerHTML = liquidaciones[i].valorDiaLab;
+				tr.appendChild(tdValorDiaLab);
+
+				var tdSueldoBaseImp = document.createElement("td");
+				tdSueldoBaseImp.innerHTML = liquidaciones[i].sueldoBaseImp;
+				tr.appendChild(tdSueldoBaseImp);
+
+				var tdValorHoraLab = document.createElement("td");
+				tdValorHoraLab.innerHTML = liquidaciones[i].valorHoraLab;
+				tr.appendChild(tdValorHoraLab);
+
+				var tdValorHoraExt = document.createElement("td");
+				tdValorHoraExt.innerHTML = liquidaciones[i].valorHoraExt;
+				tr.appendChild(tdValorHoraExt);
+
+				var tdTotalHorasExt = document.createElement("td");
+				tdTotalHorasExt.innerHTML = liquidaciones[i].totalHorasExt;
+				tr.appendChild(tdTotalHorasExt);
+
+				var tdGratificacion = document.createElement("td");
+				tdGratificacion.innerHTML = liquidaciones[i].gratificacion;
+				tr.appendChild(tdGratificacion);
+
+				var tdTotalHaberImp = document.createElement("td");
+				tdTotalHaberImp.innerHTML = liquidaciones[i].totalHaberImp;
+				tr.appendChild(tdTotalHaberImp);
+
+				var tdCargas = document.createElement("td");
+				tdCargas.innerHTML = liquidaciones[i].cargas;
+				tr.appendChild(tdCargas);
+
+				var tdValorCarga = document.createElement("td");
+				tdValorCarga.innerHTML = liquidaciones[i].valorCarga;
+				tr.appendChild(tdValorCarga);
+
+				var tdTotalCargas = document.createElement("td");
+				tdTotalCargas.innerHTML = liquidaciones[i].totalCargas;
+				tr.appendChild(tdTotalCargas);
+
+				var tdViatico = document.createElement("td");
+				tdViatico.innerHTML = liquidaciones[i].Viatico;
+				tr.appendChild(tdViatico);
+
+				var tdColacionDia = document.createElement("td");
+				tdColacionDia.innerHTML = liquidaciones[i].colacionDia;
+				tr.appendChild(tdColacionDia);
+
+				var tdTotalColacion = document.createElement("td");
+				tdTotalColacion.innerHTML = liquidaciones[i].totalColacion;
+				tr.appendChild(tdTotalColacion);
+
+				var tdTotalHaberNoImp = document.createElement("td");
+				tdTotalHaberNoImp.innerHTML = liquidaciones[i].totalHaberNoImp;
+				tr.appendChild(tdTotalHaberNoImp);
+
+				var tdAfpNombre = document.createElement("td");
+				tdAfpNombre.innerHTML = liquidaciones[i].afpNombre;
+				tr.appendChild(tdAfpNombre);
+
+				var tdPorCientoAfp = document.createElement("td");
+				tdPorCientoAfp.innerHTML = liquidaciones[i].porCientoAfp;
+				tr.appendChild(tdPorCientoAfp);
+
+				var tdTotalAfp = document.createElement("td");
+				tdTotalAfp.innerHTML = liquidaciones[i].totalAfp;
+				tr.appendChild(tdTotalAfp);
+
+				var tdFonasa = document.createElement("td");
+				tdFonasa.innerHTML = liquidaciones[i].fonasa;
+				tr.appendChild(tdFonasa);
+
+				var tdSeguro = document.createElement("td");
+				tdSeguro.innerHTML = liquidaciones[i].seguro;
+				tr.appendChild(tdSeguro);
+
+				var tdTotalDescuentos = document.createElement("td");
+				tdTotalDescuentos.innerHTML = liquidaciones[i].totalDescuentos;
+				tr.appendChild(tdTotalDescuentos);
+
+				var tdTotalHaberes = document.createElement("td");
+				tdTotalHaberes.innerHTML = liquidaciones[i].totalHaberes;
+				tr.appendChild(tdTotalHaberes);
+
+				var tdLiquidacion = document.createElement("td");
+				tdLiquidacion.innerHTML = liquidaciones[i].liquidacion;
+				tr.appendChild(tdLiquidacion);
+
+				var tdEditar = document.createElement("td");
+				var btnEditar = document.createElement("button");
+				btnEditar.innerHTML = "Editar";
+				btnEditar.onclick = function() {
+					// Código para editar la fila correspondiente
+				};
+				tdEditar.appendChild(btnEditar);
+				tr.appendChild(tdEditar);
+
+				var tdEliminar = document.createElement("td");
+				var btnEliminar = document.createElement("button");
+				btnEliminar.innerHTML = "Eliminar";
+				btnEliminar.onclick = function() {
+					// Código para eliminar la fila correspondiente
+				};
+				tdEliminar.appendChild(btnEliminar);
+				tr.appendChild(tdEliminar);
+
+				tbodyLiq.appendChild(tr);
+			}
+		}
+
+		actualizarTabla();
+	</script>
+</body>
+</html>

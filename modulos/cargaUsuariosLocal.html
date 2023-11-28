@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cargar Usuarios</title>
+    <script>
+        function recuperaUsuarios() {
+            let input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+
+            input.onchange = function(e) {
+                let file = e.target.files[0];
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+                    let contenido = e.target.result;
+                    let usuarios = JSON.parse(contenido);
+                    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                    alert('Usuarios cargados en el almacenamiento local.');
+                };
+
+                reader.readAsText(file);
+            };
+
+            input.click();
+        }
+    </script>
+</head>
+<body>
+    <h1>Cargar Usuarios</h1>
+    <button onclick="recuperaUsuarios()">Cargar Usuarios</button>
+</body>
+</html>
