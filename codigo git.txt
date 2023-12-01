@@ -2,7 +2,9 @@ git status
 git add .
 git commit -m "Mensaje descriptivo de los cambios"
 git push origin <nombre_de_tu_rama>
-
+-------------------------------------
+git commit -m "Menu principal de desarrollo"
+git push origin "noviembre28-2023"
 
 inicializar Repositorio:
     Abre el panel de control de Git haciendo 
@@ -11,9 +13,11 @@ inicializar Repositorio:
     Haz clic en "Initialize Repository".
     Añadir y Confirmar Cambios:
 
-    VSCode detectará automáticamente los cambios en tus archivos. Puedes ver los cambios en la sección "Source Control" del panel lateral.
+    VSCode detectará automáticamente los cambios en tus archivos. 
+    Puedes ver los cambios en la sección "Source Control" del panel lateral.
     Haz clic en los archivos modificados para añadirlos al área de preparación.
-    Escribe un mensaje de confirmación en el cuadro de texto "Message" y haz clic en el botón de "✔" para confirmar los cambios.
+    Escribe un mensaje de confirmación en el cuadro de texto "Message" y haz clic 
+    en el botón de "✔" para confirmar los cambios.
     Conectar con Repositorio Remoto (por ejemplo, GitHub):
 
     Si aún no tienes un repositorio remoto, 
@@ -37,3 +41,14 @@ Realizar Commits y Push desde VSCode:
     Usa el panel de control de Git para 
     añadir y confirmar cambios, así como para 
     realizar push a tu repositorio remoto.
+    -------------------------------
+    PRIMERA ACTUALIZACION
+    PARA Menu EN GIT 
+
+    git init
+  git add README.md
+  git commit -m "primer commit"
+  git branch -M main
+  git remote add origin https://github.com/yonarev/menu.git
+  git push -u origin main
+  ---------------------------------------

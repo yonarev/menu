@@ -1,0 +1,93 @@
+[
+  {
+    "id": "1",
+    "fecha": "1",
+    "hora": "1",
+    "titulo": "1",
+    "autor": "1",
+    "parrafo": "1",
+    "firma": "1",
+    "pie": "1",
+    "linkCorreo": "1",
+    "linkWeb": "1ssszzz",
+    "linkWssp": "1"
+  },
+  {
+    "id": "15112023165551",
+    "fecha": "15/11/2023",
+    "hora": "16:55:51",
+    "titulo": "Acerca de Esta Aplicacion en desarrollo",
+    "autor": "Jorge Vera Videla",
+    "parrafo": "Esta aplicación web Esta diseñada con Html, Css, Javascript, php. python con flask y fastapi. Para grabar también hay un modo encriptado. El estudio de la permanencia de los datos osea la persistencia es en localStorage Archivos Json Tablas sql",
+    "firma": "JanVeraVida",
+    "pie": "Desarrollo de un Portafolio de apps",
+    "linkCorreo": "jorgeveravidela@gmail.com",
+    "linkWeb": "https//elkizen.000webapp.com/menu",
+    "linkWssp": "56 935899417"
+  },
+  {
+    "id": "15112023165552",
+    "fecha": "15/11/2023",
+    "hora": "16:55:51",
+    "titulo": "Acerca de Esta Aplicacion en desarrollo",
+    "autor": "Jorge Vera Videla",
+    "parrafo": "Esta aplicación web Esta diseñada con Html, Css, Javascript, php. En el menu apps hay aplicaciones en python con flask y fastapi. Los datos se manejan localmente en Localstorage se graban y leen en archivos json. Las grabaciones en disco duro local son efectivas sin embargo en el servidor aun fallan. Para grabar también hay un modo encriptado. Proximente se grabara simultaneamente con php en una base datos sql. El estudio de la permanencia de los datos osea la persistencia es en localStorage Archivos Json Tablas sql",
+    "firma": "JanVera",
+    "pie": "Desarrollo de un Portafolio de apps",
+    "linkCorreo": "jorgeveravidela@gmail.com",
+    "linkWeb": "https//elkizen.000webapp.com/menu",
+    "linkWssp": "56 935899417"
+  },
+  {
+    "id": "15112023165553",
+    "fecha": "15/11/2023",
+    "hora": "16:55:51",
+    "titulo": "Acerca de Esta Aplicacion en desarrollo",
+    "autor": "Jorge Vera Videla",
+    "parrafo": "Esta aplicación web Esta diseñada con Html, Css, Javascript, php. En el menu apps hay aplicaciones en python con flask y fastapi. Los datos se manejan localmente en Localstorage se graban y leen en archivos json. Las grabaciones en disco duro local son efectivas sin embargo en el servidor aun fallan. Para grabar también hay un modo encriptado. Proximente se grabara simultaneamente con php en una base datos sql. El estudio de la permanencia de los datos osea la persistencia es en localStorage Archivos Json Tablas sql",
+    "firma": "JanVeraVidela",
+    "pie": "Desarrollo de un Portafolio de apps",
+    "linkCorreo": "jorgeveravidela@gmail.com",
+    "linkWeb": "https//elkizen.000webapp.com/menu",
+    "linkWssp": "56 935899417"
+  },
+  {
+    "id": "15112023165558",
+    "fecha": "15/11/2023",
+    "hora": "16:55:51",
+    "titulo": "Acerca de Esta Aplicacion en desarrollo",
+    "autor": "yonarev",
+    "parrafo": "Esta aplicación web Esta diseñada con Html, Css, Javascript, php. En el menu apps hay aplicaciones en python con flask y fastapi. Los datos se manejan localmente en Localstorage se graban y leen en archivos json. Las grabaciones en disco duro local son efectivas sin embargo en el servidor aun fallan. Para grabar también hay un modo encriptado. Proximente se grabara simultaneamente con php en una base datos sql. El estudio de la permanencia de los datos osea la persistencia es en localStorage Archivos Json Tablas sql",
+    "firma": "yonarev Okanara",
+    "pie": "Desarrollo de un Portafolio de apps",
+    "linkCorreo": "jorgeveravidela@gmail.com",
+    "linkWeb": "https//elkizen.000webapp.com/menu",
+    "linkWssp": "56 935899417"
+  },
+  {
+    "id": "25112023145352",
+    "fecha": "25/11/2023",
+    "hora": "14:53:52",
+    "titulo": "hola denuevo",
+    "autor": "hola",
+    "parrafo": "hola",
+    "firma": "hola",
+    "pie": "hola",
+    "linkCorreo": "hola",
+    "linkWeb": "hola",
+    "linkWssp": "hola"
+  },
+  {
+    "id": "25112023163845",
+    "fecha": "25/11/2023",
+    "hora": "16:38:45",
+    "titulo": "Gallito alonzo",
+    "autor": "Galdamez",
+    "parrafo": "Jugada magistral de lalo lalora Agrega audio escritura zen Incorpora audio play rec pausa Bton grab json publicacion Btn add lee json publicacion Btn graba publicaciones json Btn lee publicaciones json",
+    "firma": "Koma",
+    "pie": "Andante estiico",
+    "linkCorreo": "jorgeveravidela@gmail.com",
+    "linkWeb": "https//elkizen.000webapp.com/menu",
+    "linkWssp": "99999999"
+  }
+]
