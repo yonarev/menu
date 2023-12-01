@@ -47,7 +47,8 @@ Realizar Commits y Push desde VSCode:
 
     git init
   git add README.md
-  git commit -m "primer commit"
+  git add .
+  git commit -m "actualizando crud publicaciones"
   git branch -M main
   git remote add origin https://github.com/yonarev/menu.git
   git push -u origin main

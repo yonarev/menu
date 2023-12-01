@@ -1,40 +1,27 @@
 <?php
+include './conexion.php';
 
-require_once "./conexion.php";
-$response = array();
+// Recuperar datos JSON del cuerpo de la solicitud
+$json_data = file_get_contents("php://input");
 
-try {
-    // Verifica si se proporciona un ID válido
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
+// Decodificar los datos JSON
+$data = json_decode($json_data, true);
 
-        // Consulta para eliminar la publicación con el ID proporcionado
-        $sql = "DELETE FROM publicaciones WHERE id = :id";
-        $stmt = $conexion->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+// Verificar si se proporciona un ID para eliminar
+if (isset($data['eliminar']) && $data['eliminar'] === true) {
+    try {
+        $stmt = $conexion->prepare("DELETE FROM publicaciones WHERE id = :id");
+        $stmt->bindParam(':id', $data['id']);
         $stmt->execute();
 
-        // Verifica si se eliminó alguna fila
-        if ($stmt->rowCount() > 0) {
-            $response["success"] = true;
-        } else {
-            $response["success"] = false;
-            $response["message"] = "No se encontró la publicación con el ID proporcionado.";
-        }
-    } else {
+        $response["success"] = true;
+        echo json_encode($response);
+    } catch (PDOException $e) {
         $response["success"] = false;
-        $response["message"] = "No se proporcionó un ID válido.";
+        $response["message"] = "Error al eliminar el registro: " . $e->getMessage();
+        echo json_encode($response);
     }
-} catch (PDOException $e) {
-    $response["success"] = false;
-    $response["error"] = $e->getMessage();
 }
 
-// Devolver la respuesta como JSON
-header("Content-type: application/json");
-echo json_encode($response);
-
-// Cerrar la conexión a la base de datos
-$conexion = null;
-
+$conexion = null; // Cerrar la conexión
 ?>

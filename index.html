@@ -1055,7 +1055,7 @@
       </div>
       <div id="modFomPublicando" style="display: none"> 
         <div class="contenidoModulo">
-          <form id="formPublica" class="formPubCrud">
+          <form id="formPublica" class="formPubCrud" onsubmit="return validaInputsFormPubs()">
             <br>
             <div class="formIds">
               <input type="text" name="id" id="idPub" value="" placeholder="Id">
@@ -1064,39 +1064,66 @@
                 <input type="text" name="hora" id="horaPub" value="" placeholder="Hora">
               </div>
             </div>
-              <label for="titulo">Titulo</label>
-              <input type="text" name="titulo" id="tituloPub" value="" placeholder="Titulo">
-              <label for="Autor">Autor</label>
-              <input type="text" name="autor" id="autorPub" value="" placeholder="Autor">
-              <label for="parrafo">Contenido</label>
-              <div>
-                <textarea name="parrafo" id="parrafoPub" class="inputParrafo" placeholder="Parrafo"></textarea>
+                <div class="tituloAutor">
+                  <div class="columna"  >
+                    <label for="titulo">Titulo</label>
+                    <input type="text" name="titulo" id="tituloPub" maxlength="50" placeholder="Titulo">
+                    <span id="errorTitulo" class="error"></span>
+                  </div>
+                  <div class="columna">
+                    <label for="Autor">Autor</label>
+                    <input type="text" name="autor" id="autorPub" maxlength="30" placeholder="Autor">
+                    <span id="errorAutor" class="error"></span>
+                  </div>
+                </div>
+                <div class="columna">
+                  <label for="parrafo">Contenido</label>
+                  <textarea name="parrafo" id="parrafoPub" class="inputParrafo" maxlength="65535" placeholder="Parrafo"></textarea>
+                  <span id="errorParrafo" class="error"></span>
+                </div>
+                <div class="tituloAutor">
+                  <div class="columna">
+                    <label for="firma">Firma</label>
+                    <input type="text" name="firma" id="firmaPub" maxlength="20" placeholder="Firma">
+                    <span id="errorFirma" class="error"></span>
+                  </div>
+                  <div class="columna">
+                    <label for="Pie">Pie de contenido</label>
+                    <input type="text" name="pie" id="piePub" maxlength="50" placeholder="Pie">
+                    <span id="errorPie" class="error"></span>
+                  </div>
+                  <div class="columna">
+                    <label for="linkCorreo">Correo</label>
+                    <input type="text" name="linkCorreo" id="linkCorreoPub" maxlength="30" placeholder="Correo">
+                    <span id="errorCorreo" class="error"></span>
+                  </div>
+                  <div class="columna">
+                    <label for="linkWeb">Web</label>  
+                    <input type="text" name="linkWeb" id="linkWebPub" maxlength="100" placeholder="Web">
+                    <span id="errorWeb" class="error"></span>
+                  </div>
+                  <div class="columna">
+                    <label for="linkWssp">Whatsapp</label>
+                    <input type="text" name="linkWssp" id="linkWsspPub" maxlength="20" placeholder="Whatsapp">
+                    <span id="errorWssp" class="error"></span>
+                  </div>
+                </div>
+                <br>
+                <div>
+                <button class="btnNuevaPub" onclick="nuevoFormulario(event)">Nueva Publicacion</button>
+                <button type="submit" class="btnGrabaPub" onclick="grabaFormPub(event);">Grabar Publicacion</button>
               </div>
-              <br>
-              <label for="firma">Firma</label>
-              <input type="text" name="firma" id="firmaPub" value="" placeholder="Firma">
-              <label for="Pie">Pie de contenido</label>
-              <input type="text" name="pie" id="piePub" value="" placeholder="Pie">
-              <label for="linkCorreo">Correo</label>
-              <input type="text" name="linkCorreo" id="linkCorreoPub" value="" placeholder="Correo">
-              <label for="linkWeb">Web</label>  
-              <input type="text" name="linkWeb" id="linkWebPub" value="" placeholder="Web">
-              <label for="linkWssp">Whatsapp</label>
-              <input type="text" name="linkWssp" id="linkWsspPub" value="" placeholder="Whatsapp">
-              <div>
+          </form>
                 <!-- <button onclick="grabaLocalAsql(event)">graba local storage a tabla sql</button> -->
                 <!-- <button onclick="cargaTblJsonAlocal(event)">Cargar JSON a Local Storage</button> -->
                 <!-- <button class="btnRecTblJson" onclick="grabaTablaAjson()">Graba Tabla a Json</button> -->
-                <button class="btnNuevaPub" onclick="nuevoFormulario(event)">Nueva Publicacion</button>
-                <button class="btnGrabaPub" onclick="grabaFormPub(event);resetearFormulario(event)">Grabar Publicacion</button>
-              </div>
-              <!-- <button class="btnPub" onclick="grabaFormAarchivo(event)">Rec Form a archivo</button> -->
-              <!-- <button class="btnPub" onclick="archivoAlocalYform(event)">Json a Local&form</button> -->
-              <!-- <button class="btnPub" onclick="grabaJsonPhp(event)">Rec archivo Json</button> -->
-          </form>
+                <!-- <button class="btnPub" onclick="grabaFormAarchivo(event)">Rec Form a archivo</button> -->
+                <!-- <button class="btnPub" onclick="archivoAlocalYform(event)">Json a Local&form</button> -->
+                <!-- <button class="btnPub" onclick="grabaJsonPhp(event)">Rec archivo Json</button> -->
         </div>
       </div>
     </div>
+    <br>
     <!-- AQUI ABAJO LA TABLA DEL CRUD SE CREA DINAMICAMNTE -->
     <!-- <table border="1" id="tablaPublicaciones"><thead><tr><th>ID</th><th>FECHA</th><th>HORA</th><th>TITULO</th><th>AUTOR</th><th>PARRAFO</th><th>FIRMA</th><th>PIE</th><th>LINKCORREO</th><th>LINKWEB</th><th>LINKWSSP</th><th>Acciones</th></tr></thead><tbody id="tbodyPub"><tr id="fila-15112023165551"><td>15112023165551</td><td>15/11/2023</td><td>16:55:51</td><td>Acerca de Esta Aplicacion en desarrollo </td><td>Jorge Vera Videla</td><td>Esta aplicación web Esta diseñada  
 con Html, Css, Javascript,sql,php, python, flask y fastapi. 

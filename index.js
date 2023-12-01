@@ -4058,22 +4058,74 @@ function creaCierreTabla(event){
     document.body.appendChild(divCierre);
     //----------------------- FIN CIERRE TABLA
 }
-// Función para eliminar una publicación
+// async function eliminarPublicacion(id) {
+//     try {
+//         const response = await fetch('./elimina-reg-pub.php?id=' + id, {
+//             method: 'DELETE'
+//         });
+
+//         if (!response.ok) {
+//             throw new Error('Error en la solicitud: ' + response.statusText);
+//         }
+
+//         const data = await response.json();
+
+//         // Verifica si la eliminación fue exitosa antes de continuar
+//         if (data.success) {
+//             // Elimina la fila de la tabla
+//             // Puedes implementar la lógica específica aquí según tu estructura de la tabla HTML
+//             // Por ejemplo, si cada fila tiene un ID único, podrías hacer algo como esto:
+//             const filaAEliminar = document.getElementById('fila-' + id);
+//             if (filaAEliminar) {
+//                 filaAEliminar.remove();
+//             } else {
+//                 console.warn('La fila a eliminar no fue encontrada en la tabla.');
+//             }
+//         } else {
+//             console.error('Error al eliminar la publicación: ' + data.message);
+//         }
+//     } catch (error) {
+//         console.error('Error en la solicitud: ' + error.message);
+//     }
+// }
 async function eliminarPublicacion(id) {
     try {
-        const response = await fetch('./elimina-reg-pub.php?id=' + id, {
-            method: 'DELETE' // Puedes usar 'POST' o 'GET' según tu preferencia
+        const response = await fetch('./elimina-reg-pub.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id,
+                eliminar: true,
+            }),
         });
 
         if (!response.ok) {
             throw new Error('Error en la solicitud: ' + response.statusText);
         }
+
         const data = await response.json();
-        //ACA DEBE ELIMINAR LA FILA DE LA TABLA DONDE SE ELIMINO EL REGISTRO
+
+        // Verifica si la eliminación fue exitosa antes de continuar
+        if (data.success) {
+            // Elimina la fila de la tabla
+            // Ajusta esta lógica según la estructura de tu tabla
+            const filaAEliminar = document.getElementById('fila-' + id);
+            if (filaAEliminar) {
+                filaAEliminar.remove();
+            } else {
+                console.warn('La fila a eliminar no fue encontrada en la tabla.');
+            }
+        } else {
+            console.error('Error al eliminar la publicación: ' + data.message);
+        }
     } catch (error) {
-        console.error('Error al eliminar la publicación: ' + error.message);
+        console.error('Error en la solicitud: ' + error.message);
     }
 }
+
+
 function eliminarFila(id) {
     let filaRow = 'fila-' + id;
     const tr = document.getElementById(filaRow);
@@ -4252,6 +4304,12 @@ function nuevoFormulario(event) {
 }
 //GRABA EL REGISTRO EN TABLA SQL
 function grabaFormPub(event){
+    event.preventDefault();
+    //VALIDA INPUTS
+    let validaInputs=validaInputsFormPubs(event)
+    if(!validaInputs){
+        return
+    }
     //OBTENIEONDO LOS DATOS PARA ACTUALIZAR TABLA
     const inputs = document.querySelectorAll('.formPubCrud input, .formPubCrud textarea');
     const formData = {};
@@ -4280,7 +4338,7 @@ function grabaFormPub(event){
     if(!actualizo){
         agregarFilaATabla(nuevosDatos)
     }
-
+    resetearFormulario(event)
 }
 // Función para actualizar los datos de una fila en la tabla
 function actualizarFilaEnTabla(idFila, nuevosDatos) {
@@ -4857,7 +4915,81 @@ async function grabaDaseDatEnk(){
     } else {
         alert("cancelado")
     }    
-}     
+}  
+function validaInputsFormPubs(event) {
+    event.preventDefault();
+    // Restablecer mensajes de error
+    var errores = document.querySelectorAll('.error');
+    for (var i = 0; i < errores.length; i++) {
+      errores[i].innerText = '';
+    }
+  
+    // Validar cada campo
+    var titulo = document.getElementById('tituloPub').value;
+    if (titulo.trim() === '') {
+      document.getElementById('errorTitulo').innerText = 'El título es obligatorio.';
+      document.getElementById('tituloPub').focus()
+      return false;
+    } else {
+       if(titulo.trim()>50) {
+            document.getElementById('errorTitulo').innerText = 'maximo 50 caracteres';
+            document.getElementById('tituloPub').focus()
+            return false;
+       }
+    }
+  
+    var autor = document.getElementById('autorPub').value;
+    if (autor.trim() === '') {
+      document.getElementById('errorAutor').innerText = 'El autor es obligatorio.';
+      document.getElementById('autorPub').focus()
+      return false;
+    }
+  
+    var parrafo = document.getElementById('parrafoPub').value;
+    if (parrafo.trim() === '') {
+      document.getElementById('errorParrafo').innerText = 'El contenido es obligatorio.';
+      document.getElementById('parrafoPub').focus()
+      return false;
+    }
+  
+    var firma = document.getElementById('firmaPub').value;
+    if (firma.trim() === '') {
+      document.getElementById('errorFirma').innerText = 'La firma es obligatoria.';
+      document.getElementById('firmaPub').focus()
+      return false;
+    }
+  
+    var pie = document.getElementById('piePub').value;
+    if (pie.trim() === '') {
+      document.getElementById('errorPie').innerText = 'El pie de contenido es obligatorio.';
+      document.getElementById('piePub').focus()
+      return false;
+    }
+  
+    var correo = document.getElementById('linkCorreoPub').value;
+    if (correo.trim() === '') {
+      document.getElementById('errorCorreo').innerText = 'El correo es obligatorio.';
+      document.getElementById('linkCorreoPub').focus()
+      return false;
+    }
+  
+    var web = document.getElementById('linkWebPub').value;
+    if (web.trim() === '') {
+      document.getElementById('errorWeb').innerText = 'El enlace web es obligatorio.';
+      document.getElementById('linkWebPub').focus()
+      return false;
+    }
+  
+    var wssp = document.getElementById('linkWsspPub').value;
+    if (wssp.trim() === '') {
+      document.getElementById('errorWssp').innerText = 'El enlace de Whatsapp es obligatorio.';
+      document.getElementById('linkWsspPub').focus()
+      return false;
+    }
+  
+    // Si todo está bien, puedes enviar el formulario
+    return true;
+}
 // ----------------- MAIN ----------------
 window.onload = function() {
     let hayUsuarios=siKeyLocal('usuarios')

@@ -1,23 +1,39 @@
 <?php
-include 'conexion.php';
+require_once "./conexion.php";
+$response = array();
 
 try {
-    $table_name = 'publicaciones';
+    // Verifica si se proporciona un ID válido
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
 
-    // Verificar si la tabla existe antes de intentar eliminarla
-    $check_table_query = "SHOW TABLES LIKE '$table_name'";
-    $table_exists = $conexion->query($check_table_query)->rowCount() > 0;
+        // Consulta para eliminar la publicación con el ID proporcionado
+        $sql = "DELETE FROM publicaciones WHERE id = :id";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
 
-    if ($table_exists) {
-        $sql = "DROP TABLE $table_name";
-        $conexion->exec($sql);
-        echo "La tabla '$table_name' ha sido eliminada correctamente";
+        // Verifica si se eliminó alguna fila
+        if ($stmt->rowCount() > 0) {
+            $response["success"] = true;
+        } else {
+            $response["success"] = false;
+            $response["message"] = "No se encontró la publicación con el ID proporcionado.";
+        }
     } else {
-        echo "La tabla '$table_name' no existe";
+        $response["success"] = false;
+        $response["message"] = "No se proporcionó un ID válido.";
     }
 } catch (PDOException $e) {
-    echo "Error al eliminar la tabla: " . $e->getMessage();
+    $response["success"] = false;
+    $response["error"] = $e->getMessage();
 }
 
-$conexion = null; // Cerrar la conexión
+// Devolver la respuesta como JSON
+header("Content-type: application/json");
+echo json_encode($response);
+
+// Cerrar la conexión a la base de datos
+$conexion = null;
 ?>
+

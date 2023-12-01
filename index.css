@@ -14,8 +14,15 @@
  }
  .lineal{
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
   flex-wrap: wrap;
+  padding-top: 1vw;
+}
+.noLineal{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   padding-top: 1vw;
 }
 .ajustados{
@@ -33,6 +40,9 @@
   align-content: center;
   justify-items: center;
   align-items: center;
+  padding-left: 5px;
+  /* margin-left: 5px !important; */
+  /* margin-left: 5px !important; */
 }
 .moduloActivo{
   display: block;
@@ -400,8 +410,8 @@ input[type="password"]{
   width: 25vw;
   padding: 5px;
   margin-bottom: 1vw;
-  margin-right: 1vw;
-  margin-left: 1vw;
+  /* margin-right: 1vw; */
+  /* margin-left: 1vw; */
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -998,13 +1008,50 @@ body > div.formPub > form > button:hover {
   padding: 5px;
   background-color: rgb(119, 83, 83);
 }
+.formPubCrud label{
+  color: black;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+}
 .formIds #idPub,#fechaPub,#horaPub{
   width: 9em;
   text-align: center;
   pointer-events: none;
   opacity: 0.5;
 }
+#tituloPub {
+  max-width: 29em;
+  /* width: 5vw !important; */
+}
+#autorPub{
+  max-width: 18em;
+}
+#firmaPub{
+  max-width: 12em;
+}
+#piePub{
+  max-width: 29em;
+}
+#linkCorreoPub{
+  max-width: 17em;
+}
+#linkWebPub{
+  max-width: 50em;
 
+}
+#linkWsspPub{
+  max-width: 10em;
+}
+.error {
+  color: red;
+}
+.formPubCrud .tituloAutor{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 1vw;
+
+}
 /* ---------- TRANSACCION INVENTARIO -------- */
 /* @media (max-width: 460px) {
    body {
