@@ -1080,3 +1080,22 @@ a partir de un prompt para ingresar la clave
 necesito ahora un modal simple que solo 
 me pida una clave pasword
 -----------------
+codigo html en un solo archivo con js y css 
+para presentar en pantalla el contenido de una tabla sql 
+llamada 'publicaciones' con un archivo php 
+llamado 'publicaciones.php' con js con ftech 
+debe presentar la cada registro en secciones como tarjetas
+el archivo se conecta con pdo con un archivo llamado 'conexiones.php'  
+y la conexion se llama conexion y debe ser con json 
+pues la tabla tiene la siguiente estructura 
+                        'ID: ' + publicacion.id + '\n' +
+                        'Fecha: ' + publicacion.fecha + '\n' +
+                        'Hora: ' + publicacion.hora + '\n' +
+                        'Título: ' + publicacion.titulo + '\n' +
+                        'Autor: ' + publicacion.autor + '\n' +
+                        'Párrafo: ' + publicacion.parrafo + '\n' +
+                        'Firma: ' + publicacion.firma + '\n' +
+                        'Pie: ' + publicacion.pie + '\n' +
+                        'Link Correo: ' + publicacion.linkCorreo + '\n' +
+                        'Link Web: ' + publicacion.linkWeb + '\n' +
+                        'Link WhatsApp: ' + publicacion.linkWssp;

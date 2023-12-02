@@ -1052,6 +1052,35 @@ body > div.formPub > form > button:hover {
   padding-top: 1vw;
 
 }
+/* -------------- presenta publicaciones */
+.presentaPubs{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.cardPublicacion {
+  flex: 1 0 310px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 8px;
+  margin: 16px;
+  box-shadow: 8px 8px 8px rgba(10, 10, 10, 0.5);
+  background-color: rgb(152, 152, 151);
+  overflow: hidden;
+  max-width: 500px;
+  transition: opacity 0.5s ease-in-out;
+}
+.invisible {
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 /* ---------- TRANSACCION INVENTARIO -------- */
 /* @media (max-width: 460px) {
    body {

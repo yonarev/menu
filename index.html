@@ -289,6 +289,10 @@
           <button class="dropbtn">Pub.</button>
           <div class="dropdown-content">
             <div class="submenu">
+              <!-- presenta publicaciones -->
+              <div>
+                <a onclick="activaElemento('publicaciones-container')" href="#">publicaciones</a>
+              </div>
               <!-- crea la tabla sql publicaciones -->
               <div>
                 <a onclick="crearTablaSqlPub()" href="#">Crea publicaciones</a>
@@ -302,9 +306,8 @@
                 <a onclick="creaAcercaDe(event)" href="#">Edita Acerca De</a>
               </div>
               <!-- carga crud de publicaciones -->
-              <div>
-                <!-- <a onclick="cargarPublicaciones(event)" href="#">Crud Publicaciones</a> -->
-                <a onclick="activaElemento('modCrudPub');activaElemento('modFomPublicando');cargarPublicaciones(event);nuevoFormulario(event)" href="#">Crud Publicaciones</a>
+              <div>                <!-- <a onclick="cargarPublicaciones(event)" href="#">Crud Publicaciones</a> -->
+                <a onclick="desactivaElemento('publicaciones-container');activaElemento('modCrudPub');activaElemento('modFomPublicando');cargarPublicaciones(event);nuevoFormulario(event)" href="#">Crud Publicaciones</a>
               </div>
               <!-- graba tabla a archivo json -->
               <div>
@@ -384,7 +387,7 @@
         </div>
         <!-- acerca de -->
         <div class="dropdown">
-          <button onclick="cargarAcercaDe()" class="dropbtn">?</button>
+          <button onclick="cargarAcercaDe()" class="dropbtn">Acerca</button>
         </div>
         <a id="tao" onclick="cargarUsuarios(event)" href="">&#x262f</a>
     </div>
@@ -401,8 +404,8 @@
         <button onclick="encuentraPublicacionSql('15112023165551')">Presenta Acerca de </button>
         <button onclick="cargarPublicaciones(event)">Presenta Tabla Publicaciones sql </button>
     </div> -->
-    <!-- ---------------------------- para CFG CLAVE ENCRIPTADA --- -->
     
+    <!-- ---------------------------- para CFG CLAVE ENCRIPTADA --- -->
     <!---------------------------- modal ingreso palabra ------------------>
     <div id="modalPestillo" class="modal">
         <div class="modal-content">
@@ -1123,6 +1126,9 @@
         </div>
       </div>
     </div>
+    <br>
+    <!-- ------------------------------ para publicaciones -->
+    <div id="publicaciones-container" class="presentaPubs"></div>
     <br>
     <!-- AQUI ABAJO LA TABLA DEL CRUD SE CREA DINAMICAMNTE -->
     <!-- <table border="1" id="tablaPublicaciones"><thead><tr><th>ID</th><th>FECHA</th><th>HORA</th><th>TITULO</th><th>AUTOR</th><th>PARRAFO</th><th>FIRMA</th><th>PIE</th><th>LINKCORREO</th><th>LINKWEB</th><th>LINKWSSP</th><th>Acciones</th></tr></thead><tbody id="tbodyPub"><tr id="fila-15112023165551"><td>15112023165551</td><td>15/11/2023</td><td>16:55:51</td><td>Acerca de Esta Aplicacion en desarrollo </td><td>Jorge Vera Videla</td><td>Esta aplicación web Esta diseñada  

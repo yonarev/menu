@@ -3115,7 +3115,7 @@ function actualizaStock(){
             cantidad:cantidad,
             detalle:data.detalle
         }
-        debugger
+        // debugger
         if(ingOegr==='ingreso'){
             // valida si ya el articulo en stock
             // debugger
@@ -3142,7 +3142,7 @@ function actualizaStock(){
         
         }
         if(ingOegr==='egreso'){
-            debugger
+            // debugger
             alert("grabando egreso en stock")
             // const stockEgreso = JSON.parse(localStorage.getItem('stockIngreso'+idInv)) || [];
             //const stock=JSON.parse(localStorage.getItem('stock'+idInv)) || [];
@@ -3172,7 +3172,7 @@ function ingresoEgreso(idInv,idArt,cantidadFinal) {
     let ingreso=false
     let egreso=false    
     let cantidadInicial=cantidadArticuloInventario(idInv, idArt,cantidadFinal)
-    debugger
+    // debugger
     
     if (!cantidadInicial){
         mensajeAyuda('el articulo no tiene aun stock','alerta')
@@ -3210,7 +3210,7 @@ function cantidadArticuloInventario(idInventario, idArticulo) {
     const transaccionesInv = JSON.parse(localStorage.getItem('transaccionesInv')) || [];
     if(transaccionesInv.length>0){
         // Buscar la transacción correspondiente al idInventario y idArticulo
-        debugger
+        // debugger
         //cambiar a ciclo for
 
         const transaccion = transaccionesInv.find(
@@ -3939,7 +3939,6 @@ async function cargarPublicaciones(event) {
 function mostrarPublicaciones(data, event) {
     event.preventDefault();
     data = data.publicaciones;
-
     // Crear el contenedor de la tabla
     let tablaContainer = document.createElement("div");
     tablaContainer.id = "tablaContainer";
@@ -4058,37 +4057,11 @@ function creaCierreTabla(event){
     document.body.appendChild(divCierre);
     //----------------------- FIN CIERRE TABLA
 }
-// async function eliminarPublicacion(id) {
-//     try {
-//         const response = await fetch('./elimina-reg-pub.php?id=' + id, {
-//             method: 'DELETE'
-//         });
-
-//         if (!response.ok) {
-//             throw new Error('Error en la solicitud: ' + response.statusText);
-//         }
-
-//         const data = await response.json();
-
-//         // Verifica si la eliminación fue exitosa antes de continuar
-//         if (data.success) {
-//             // Elimina la fila de la tabla
-//             // Puedes implementar la lógica específica aquí según tu estructura de la tabla HTML
-//             // Por ejemplo, si cada fila tiene un ID único, podrías hacer algo como esto:
-//             const filaAEliminar = document.getElementById('fila-' + id);
-//             if (filaAEliminar) {
-//                 filaAEliminar.remove();
-//             } else {
-//                 console.warn('La fila a eliminar no fue encontrada en la tabla.');
-//             }
-//         } else {
-//             console.error('Error al eliminar la publicación: ' + data.message);
-//         }
-//     } catch (error) {
-//         console.error('Error en la solicitud: ' + error.message);
-//     }
-// }
 async function eliminarPublicacion(id) {
+    if (id==='15112023165551'){
+        alert("no puede eliminar esta publicacion")
+        return
+    }
     try {
         const response = await fetch('./elimina-reg-pub.php', {
             method: 'POST',
@@ -4124,9 +4097,11 @@ async function eliminarPublicacion(id) {
         console.error('Error en la solicitud: ' + error.message);
     }
 }
-
-
 function eliminarFila(id) {
+    // es el acerca de no lo puede eliminar
+    if (id==='15112023165551'){
+        return
+    }
     let filaRow = 'fila-' + id;
     const tr = document.getElementById(filaRow);
     const tbody = document.getElementById('tbodyPub')
@@ -4157,6 +4132,7 @@ function encuentraPublicacionSql(id) {
 }
 //presenta en formato simple 
 function mostrarPublicacionSql(publicacion) {
+    activaMod("modAcerca");
     // let contenedor=document.getElementById('modAcerca')
     // Crear elemento <p> dinámicamente
     // let parrafo = document.createElement('p');
@@ -4184,7 +4160,7 @@ function cargarAcercaDe() {
     encontrarPublicacionSql('15112023165551')
         .then(publicacion => {
             if (publicacion) {
-                activaMod("modAcerca");
+               
                 mostrarPublicacionSql(publicacion);
             } else {
                 alert('No existe esta publicacion o no hay acceso');
@@ -4365,7 +4341,7 @@ function actualizarFilaEnTabla(idFila, nuevosDatos) {
         return false
     }
 }
-function agregarFilaATabla(nuevosDatos) {
+function agregarFilaATabla(nuevosDatos,event) {
     // Obtener el valor del ID de nuevosDatos
     const nuevoID = nuevosDatos.id; // Asegúrate de que tengas una propiedad 'id' en nuevosDatos
 
@@ -4417,7 +4393,18 @@ function agregarFilaATabla(nuevosDatos) {
                     eliminarFila(nuevoID);
                 }
             };
-
+             //BOTON REC JSON btnRecJson
+            // -----------------
+            let btnRecJson = document.createElement("button");
+            btnRecJson.textContent = "RecJson";
+            btnRecJson.setAttribute('class','btnCrudJson')
+            // BOTON EDITAR
+            btnRecJson.onclick = function (event) {
+                let publicacion=obtenerDatosFila(nuevoID)
+                grabaJsonReg(event,publicacion)
+            };
+            // -------------------
+            celdaAcciones.appendChild(btnRecJson);    
             celdaAcciones.appendChild(btnEditar);
             celdaAcciones.appendChild(btnEliminar);
             nuevaFila.appendChild(celdaAcciones);
@@ -4454,6 +4441,7 @@ function grabaJsonReg(event,publicacion) {
       // Crear un enlace de descarga
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
+    //   debugger
       const archivo='publicacion-'+publicacion.id
       link.download = archivo; // Nombre del archivo
       // Simular clic en el enlace para descargar el archivo
@@ -4671,7 +4659,6 @@ function encriptaClave() {
     // Eliminar el enlace después de la descarga
     document.body.removeChild(enlaceDescarga);
 }
-
 function validacion(event) {
     event.preventDefault();
     // Llamar a la función para desencriptar la clave
@@ -4919,13 +4906,13 @@ async function grabaDaseDatEnk(){
 function validaInputsFormPubs(event) {
     event.preventDefault();
     // Restablecer mensajes de error
-    var errores = document.querySelectorAll('.error');
-    for (var i = 0; i < errores.length; i++) {
+    let errores = document.querySelectorAll('.error');
+    for (let i = 0; i < errores.length; i++) {
       errores[i].innerText = '';
     }
   
     // Validar cada campo
-    var titulo = document.getElementById('tituloPub').value;
+    let titulo = document.getElementById('tituloPub').value;
     if (titulo.trim() === '') {
       document.getElementById('errorTitulo').innerText = 'El título es obligatorio.';
       document.getElementById('tituloPub').focus()
@@ -4938,49 +4925,49 @@ function validaInputsFormPubs(event) {
        }
     }
   
-    var autor = document.getElementById('autorPub').value;
+    let autor = document.getElementById('autorPub').value;
     if (autor.trim() === '') {
       document.getElementById('errorAutor').innerText = 'El autor es obligatorio.';
       document.getElementById('autorPub').focus()
       return false;
     }
   
-    var parrafo = document.getElementById('parrafoPub').value;
+    let parrafo = document.getElementById('parrafoPub').value;
     if (parrafo.trim() === '') {
       document.getElementById('errorParrafo').innerText = 'El contenido es obligatorio.';
       document.getElementById('parrafoPub').focus()
       return false;
     }
   
-    var firma = document.getElementById('firmaPub').value;
+    let firma = document.getElementById('firmaPub').value;
     if (firma.trim() === '') {
       document.getElementById('errorFirma').innerText = 'La firma es obligatoria.';
       document.getElementById('firmaPub').focus()
       return false;
     }
   
-    var pie = document.getElementById('piePub').value;
+    let pie = document.getElementById('piePub').value;
     if (pie.trim() === '') {
       document.getElementById('errorPie').innerText = 'El pie de contenido es obligatorio.';
       document.getElementById('piePub').focus()
       return false;
     }
   
-    var correo = document.getElementById('linkCorreoPub').value;
+    let correo = document.getElementById('linkCorreoPub').value;
     if (correo.trim() === '') {
       document.getElementById('errorCorreo').innerText = 'El correo es obligatorio.';
       document.getElementById('linkCorreoPub').focus()
       return false;
     }
   
-    var web = document.getElementById('linkWebPub').value;
+    let web = document.getElementById('linkWebPub').value;
     if (web.trim() === '') {
       document.getElementById('errorWeb').innerText = 'El enlace web es obligatorio.';
       document.getElementById('linkWebPub').focus()
       return false;
     }
   
-    var wssp = document.getElementById('linkWsspPub').value;
+    let wssp = document.getElementById('linkWsspPub').value;
     if (wssp.trim() === '') {
       document.getElementById('errorWssp').innerText = 'El enlace de Whatsapp es obligatorio.';
       document.getElementById('linkWsspPub').focus()
@@ -4990,6 +4977,78 @@ function validaInputsFormPubs(event) {
     // Si todo está bien, puedes enviar el formulario
     return true;
 }
+// --------------------------------- para despliegue publicaciones -----------
+function obtenerPublicaciones() {
+    // Utiliza Fetch para obtener los datos desde el archivo PHP
+    fetch('publicaciones.php')
+        .then(response => response.json())
+        .then(data => presentaPublicaciones(data))
+        .catch(error => console.error('Error al obtener las publicaciones:', error));
+}
+function presentaPublicaciones(publicaciones) {
+    const container = document.getElementById('publicaciones-container');
+
+    // Itera sobre cada publicación y crea una tarjeta para cada una
+    publicaciones.forEach(publicacion => {
+        const card = document.createElement('div');
+        card.classList.add('cardPublicacion');
+
+        // Construye el contenido de la tarjeta con los datos de la publicación
+        card.innerHTML = `
+            <p>ID: ${publicacion.id}</p>
+            <p>Fecha: ${publicacion.fecha}</p>
+            <p>Hora: ${publicacion.hora}</p>
+            <p>Título: ${publicacion.titulo}</p>
+            <p>Autor: ${publicacion.autor}</p>
+            <p>Párrafo: ${publicacion.parrafo}</p>
+            <p>Firma: ${publicacion.firma}</p>
+            <p>Pie: ${publicacion.pie}</p>
+            <p>Link Correo: ${publicacion.linkCorreo}</p>
+            <p>Link Web: ${publicacion.linkWeb}</p>
+            <p>Link WhatsApp: ${publicacion.linkWssp}</p>
+        `;
+        card.addEventListener('dblclick', function() {
+            // Oculta gradualmente la tarjeta al hacer doble clic
+                card.style.opacity = 0;
+                // Elimina la tarjeta del DOM después de la transición
+                setTimeout(() => {
+                    container.removeChild(card);
+                }, 500); // El tiempo de la transición en milisegundos (0.5s)
+            // Muestra un alert con el ID al hacer doble clic
+            // alert('ID: ' + publicacion.id);
+        });    
+        // Agrega la tarjeta al contenedor
+        container.appendChild(card);
+    });
+}
+function obtenerDatosFila(idFila) {
+    // Obtener la fila
+    let idF="fila-"+idFila
+    let fila = document.getElementById(idF);
+    // Obtener todas las celdas de la fila
+    let celdas = fila.getElementsByTagName('td');
+
+    // Crear un objeto JSON para almacenar los datos
+    let datosJson = {};
+
+    // Iterar sobre las celdas y agregar los datos al objeto JSON
+    for (let i = 0; i < celdas.length - 1; i++) { // -1 para excluir el último botón de acciones
+      let nombreColumna = document.querySelector('th:nth-child(' + (i + 1) + ')').innerText;
+      nombreColumna=nombreColumna.toLowerCase()
+      let valorCelda = celdas[i].innerText;
+      datosJson[nombreColumna] = valorCelda;
+    }
+    // debugger
+    // Convertir el objeto JSON a una cadena para mostrar o enviar
+    let datosJsonString = JSON.stringify(datosJson);
+
+    // Mostrar los datos en la consola (puedes hacer lo que quieras con los datos aquí)
+    console.log(datosJsonString);
+    // alert(datosJsonString)
+    // return datosJsonString
+    return datosJson
+
+  }
 // ----------------- MAIN ----------------
 window.onload = function() {
     let hayUsuarios=siKeyLocal('usuarios')
@@ -4997,5 +5056,6 @@ window.onload = function() {
     desactivaUsuarios()
     activaMod('formularioLogin');
     document.getElementById('usuarioLogin').select()
+    obtenerPublicaciones();
     setInterval(mostrarFechaHoraActual, 1000);
 };

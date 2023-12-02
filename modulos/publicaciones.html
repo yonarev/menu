@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicaciones</title>
+    <style>
+        /* Estilos para las tarjetas */
+        .cardPublicacion {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px 8px;
+            margin: 16px;
+            box-shadow: 8px 8px 8px rgba(10, 10, 10, 0.5);
+            background-color: rgb(187, 187, 73);
+        }
+
+        /* Otros estilos según tus preferencias */
+    </style>
+</head>
+<body>
+
+<div id="publicaciones-container"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        obtenerPublicaciones();
+    });
+
+    function obtenerPublicaciones() {
+        // Utiliza Fetch para obtener los datos desde el archivo PHP
+        fetch('publicaciones.php')
+            .then(response => response.json())
+            .then(data => presentaPublicaciones(data))
+            .catch(error => console.error('Error al obtener las publicaciones:', error));
+    }
+
+    
+</script>
+</body>
+</html>
